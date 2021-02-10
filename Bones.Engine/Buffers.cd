@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="BuffersManager is responsible for creation and deletion of buffers.&#xD;&#xA;&#xD;&#xA;It never creates base buffer, it creates IndexBuffer, VertexBuffer or Interleaved buffer. Also can create classes that inherit from those.&#xD;&#xA;">
+    <Position X="6.625" Y="0.51" Height="1.76" Width="1.7" />
+  </Comment>
+  <Comment CommentText="Lots of different buffers can inherit from these. but those are responisble for providing layout location only ( ether string or id ) and creation of memory and should not override any of the methods of Core Buffers.&#xD;&#xA;">
+    <Position X="2.385" Y="5.594" Height="1.562" Width="1.971" />
+  </Comment>
+  <Class Name="Bones::Managers::BuffersManager">
+    <Position X="8.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAEAiAgAAAAAAAAwAAABBAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>BuffersManager.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Bones::Buffers::BaseBuffer">
+    <Position X="3.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAQEAAABAQAAABQAAAAAAABAAAAAAAAEAAQAAAA=</HashCode>
+      <FileName>BaseBuffer.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Bones::Buffers::IndexBuffer" Collapsed="true">
+    <Position X="1.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAggAAAAAAABQAAAKAAEAAAAAhAAAQAAAAEAAAAAAA=</HashCode>
+      <FileName>IndexBuffer.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Bones::Buffers::VertexBuffer" Collapsed="true">
+    <Position X="3.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAQCACIAAAAAAAABAAAAAAAAAAAIAEAA=</HashCode>
+      <FileName>VertexBuffer.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Bones::Buffers::InterleavedBuffer" Collapsed="true">
+    <Position X="5.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAQCAAKAEAAAAAABAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>InterleavedBuffer.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

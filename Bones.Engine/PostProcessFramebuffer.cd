@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="PostProcessFramebuffers inherit from Framebuffer. For creating simple post process effect without additional uniform PostProcessFramebuffer can be used &#xD;&#xA;">
+    <Position X="10.979" Y="0.5" Height="1.354" Width="1.7" />
+  </Comment>
+  <Comment CommentText="Lifecycle and creation and getting of Framebuffers is done via FramebufferManager&#xD;&#xA;">
+    <Position X="0.667" Y="3.906" Height="1.427" Width="1.7" />
+  </Comment>
+  <Comment CommentText="Specialized PostProcessFramebuffers can be created via inheriting from PostProcessFramebufer. For example NightVisionPostProcessFramebuffer&#xD;&#xA;">
+    <Position X="7.26" Y="3.5" Height="0.885" Width="2.554" />
+  </Comment>
+  <Comment CommentText="PostProcess has BasePostProcessShader as component. Responsible for graphics.">
+    <Position X="9.5" Y="5" Height="0.75" Width="1.7" />
+  </Comment>
+  <Comment CommentText="QuadScreenGeometry to draw to. Contains texture coordinates and vertices">
+    <Position X="10" Y="7.5" Height="0.75" Width="1.7" />
+  </Comment>
+  <Class Name="Bones::Managers::FramebufferManager">
+    <Position X="0.75" Y="1" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAABgAAAAAAhAQAgAAAAAAAAAgEAQCCAAAAAAAEAQAA=</HashCode>
+      <FileName>FramebufferManager.hpp</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_postProcessFramebuffers" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Bones::Framebuffers::BaseFramebuffer">
+    <Position X="9.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAEABQQAAAAAAAAAAAABAAAAAACAkAAAAAAA=</HashCode>
+      <FileName>BaseFramebuffer.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Bones::Framebuffers::PostProcess::PostProcessFramebuffer">
+    <Position X="5.5" Y="2" Width="1.5" />
+    <Members>
+      <Field Name="m_genId" Hidden="true" />
+      <Field Name="m_id" Hidden="true" />
+      <Field Name="m_renderBufferObject" Hidden="true" />
+      <Field Name="m_textureId" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAgAAIpAIAAwAAAAAAAAAAAARAAAwAAAAAgAAAAAA=</HashCode>
+      <FileName>PostProcessFramebuffer.hpp</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_postProcessShader" />
+      <Field Name="m_quadScreenGeometry" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Bones::Framebuffers::PostProcess::NightVisionPostProcessFramebuffer">
+    <Position X="3.25" Y="6" Width="1.5" />
+    <InheritanceLine Type="Bones::Framebuffers::PostProcess::PostProcessFramebuffer" ManuallyRouted="true" FixedFromPoint="true">
+      <Path>
+        <Point X="5.5" Y="4.1" />
+        <Point X="5.252" Y="4.1" />
+        <Point X="5.252" Y="5.722" />
+        <Point X="4.998" Y="5.722" />
+        <Point X="4.998" Y="8.108" />
+        <Point X="4.75" Y="8.108" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>IAAIigCAFACAACAIAAAAAAAEYAAAAEAAAQAAgAAICAw=</HashCode>
+      <FileName>BasePostProcessPipeline.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="std::vector&lt;_Ty, _Alloc&gt;" Collapsed="true">
+    <Position X="5.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AWAEk4EqCrBsCEBAAOMIIAAyAAUEQBIghQkwgkAFUko=</HashCode>
+      <FileName>C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\vector</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Bones::Shaders::PostProcess::BasePostProcessShader" Collapsed="true">
+    <Position X="7.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAAQgAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PostProcessFramebuffer.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Bones::Geometry::QuadScreenGeometry" Collapsed="true">
+    <Position X="9.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PostProcessFramebuffer.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
