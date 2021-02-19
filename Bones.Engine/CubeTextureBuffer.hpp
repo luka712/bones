@@ -42,7 +42,10 @@ namespace Bones
             };
 
         public:
-            CubeTextureBuffer() : VertexBuffer("a_texCoords",2, data, 64) {}
+            CubeTextureBuffer() : VertexBuffer("a_texCoords",2, data, 64) 
+            {
+                m_name = "Cube Texture Buffer";
+            }
         };
     }
 }

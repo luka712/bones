@@ -29,7 +29,7 @@ TextUIComponent::TextUIComponent(nk_context* ctx, BaseUIComponent* parent, strin
 void TextUIComponent::Update(Uint32 dt)
 {
 	/* fixed widget window ratio width */
-	nk_layout_row_dynamic(m_ctx, m_rowHeight * 1.5, 1);
+	nk_layout_row_dynamic(m_ctx, m_rowHeight * 1.5f, 1);
 
 	// Optionally draw label
 	if (m_labelName != "")

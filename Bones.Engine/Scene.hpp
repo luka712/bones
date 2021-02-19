@@ -65,7 +65,7 @@ namespace Bones
 
 		State m_state = State::New;
 		string m_name;
-		Skybox* m_skybox;
+		Skybox* m_skybox = nullptr;
 		AmbientLight* m_ambientLight;
 
 		BasePostProcessPipeline* m_postProcessPipeline = nullptr;

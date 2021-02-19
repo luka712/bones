@@ -5,6 +5,7 @@
 #define COMPONENT_MENU_H
 
 #include "Constants.hpp"
+#include "core_types.h"
 #include "BaseToolUIComponent.hpp"
 
 namespace Bones

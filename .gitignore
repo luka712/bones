@@ -7,15 +7,18 @@
 /*.data
 /**.*.data
 /*.wasm
-/**.*.wasm
 /*.js
 /**.*.data
 /**.*.wasm
-/**-*.js
+/**.*.js
 /.vs
 /Tests/debug
 /Tests/x64
 *.dll
 **.*.dll
 /vendor
+/packages
+/Bones.Engine/glm
+*.wasm
+*.data
 

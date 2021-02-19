@@ -19,7 +19,10 @@ namespace Bones
             };
 
         public:
-            CubeIndexBuffer() : IndexBuffer(data, 36) {};
+            CubeIndexBuffer() : IndexBuffer(data, 36) 
+            {
+                m_name = "Cube Index Buffer";
+            };
         };
     }
 }

@@ -15,36 +15,35 @@ namespace Bones
 	struct TimeData
 	{
 		// since start of program.
-		Uint32 m_elapsedTime = 0;
+		U32 m_elapsedTime = 0;
 
 		// Elapsed time since start of frame, until the end of frame.
-		Uint32 m_deltaTime = 0;
+		U32 m_deltaTime = 0;
 	};
 
 	/// <summary>
 	/// The engine.
 	/// </summary>
-	class Engine final 
+	class Engine final
 	{
 	private:
-		BaseRenderer* m_renderer = nullptr;
+		// used for SDL GetTicks(). Used only in desktop mode.
+		U32 m_FPS = 60;
 		bool m_running;
 		TimeData m_timeData;
 
-#if EMSCRIPTEN_RUNTIME == false
-		// used for SDL GetTicks(). Used only in desktop mode.
-		int m_FPS = 60;
-#endif 
+		BaseRenderer* m_renderer = nullptr;
+	
 
-		void BeforeUpdate()  ;
+		void BeforeUpdate();
 		void Update();
-		void AfterUpdate()  ;
+		void AfterUpdate();
 		void Draw()  const;
 	public:
 		State m_state = State::New;
 		std::function<void(SDL_Window*)> m_initializedEvent = [](SDL_Window* win) ->void {};
 		std::function<void(SDL_Event&)> m_pollEvents = [](SDL_Event& event) -> void {};
-		std::function<void(Uint32 dt)> m_updateEvent = [](Uint32 dt) -> void{};
+		std::function<void(Uint32 dt)> m_updateEvent = [](Uint32 dt) -> void {};
 		std::function<void()> m_drawEvent = []() -> void {};
 		std::function<void()> m_destroyEvent = []() -> void {};
 

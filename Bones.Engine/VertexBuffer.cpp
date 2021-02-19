@@ -3,34 +3,35 @@
 
 using namespace Bones::Buffers;
 
-VertexBuffer::VertexBuffer(const string& layoutName, const int size, const float* data, const size_t count)
+VertexBuffer::VertexBuffer(const std::string& layoutName, const I32 size, const F32* data, const U64 count)
 	: m_layoutName(layoutName), m_size(size), m_data(data)
 {
 	LOG_CONSTRUCTOR();
+	m_name = "Vertex Buffer";
 	m_count = count;
 }
 
-VertexBuffer::VertexBuffer(const int attributeLocation, const int size, const float * data, const size_t count)
+VertexBuffer::VertexBuffer(const I32 attributeLocation, const I32 size, const F32* data, const U64 count)
 	:m_attributeLocation(attributeLocation), m_size(size), m_data(data)
 {
 	LOG_CONSTRUCTOR();
+	m_name = "Vertex Buffer";
 	m_count = count;
 }
 
 
 void VertexBuffer::Initialize()
 {
-	if (m_initialized)
+	if (m_state >= Bones::State::Initialized) 
 	{
-		LOG_WARN_FORMAT("Vertex buffer already initialized %d.",m_attributeLocation );
+		LOG_FORMAT("Vertex buffer already initialized %d.", m_attributeLocation);
 		return;
 	}
-	m_initialized = true;
 
 	glGenBuffers(1, &m_buffer);
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * m_count, m_data, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(F32) * m_count, m_data, GL_STATIC_DRAW);
 
 	// if not debug, clear data from memory.
 #if DEBUG == 0
@@ -39,12 +40,14 @@ void VertexBuffer::Initialize()
 
 	m_state = State::Initialized;
 
+	m_onInitializedEventHandler.Invoke({ m_initializeEventName, EventCategory::AttributeBufferEvent, CreateEventData() });
+
 	Bind();
 }
 
-void VertexBuffer::Initialize(const unsigned int program)
+void VertexBuffer::Initialize(const U32 program)
 {
-	if (m_initialized)
+	if (m_state >= State::Initialized)
 	{
 		LOG_WARN_FORMAT("Vertex buffer already initialized %s.", m_layoutName.c_str());
 		return;
@@ -60,12 +63,13 @@ void VertexBuffer::Initialize(const unsigned int program)
 	{
 		if (m_layoutName.size() > 0)
 		{
-			cout << "Cannot find attribute: " << m_layoutName << endl;
-			// throw VertexBufferBindingError("Canot find layout: " + m_layoutName);
+			std::cerr << "Cannot find attribute: " << m_layoutName << ". Vertex buffer id: " << m_id.m_value << std::endl;
+			return;
 		}
 		else
 		{
-			throw VertexBufferBindingError("Cannot resolve layout.");
+			std::cerr << "Cannot resolve layout. Vertex buffer id: " << m_id.m_value << std::endl;
+			return;
 		}
 	}
 
@@ -85,4 +89,6 @@ void VertexBuffer::Destroy()
 	delete[] m_data;
 	DeleteBuffer();
 	m_state = Bones::State::Destroyed;
+
+	m_onDestroyEventHandler.Invoke({ m_destroyEventName, EventCategory::AttributeBufferEvent, CreateEventData() });
 }

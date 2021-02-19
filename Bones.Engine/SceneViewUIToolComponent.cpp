@@ -8,6 +8,7 @@
 #include "BuffersManager.hpp"
 #include "SceneObjectSceneViewComponent.hpp"
 #include "IndexBufferSceneViewComponent.hpp"
+#include "VertexBufferSceneViewComponent.hpp"
 #include "BaseSceneViewEntryComponent.hpp"
 #include "IndexBuffer.hpp"
 #include "Constants.hpp"
@@ -59,26 +60,47 @@ void SceneViewUIToolComponent::HandleBuffers()
 		UIManager::DestroyComponent(m_buffersTree);
 	}
 
+	// Create tree component.
 	m_buffersTree = UIManager::CreateTreeComponent(m_window, "Buffer Attributes");
 	m_window->AddComponent(m_buffersTree);
-	BuffersManager::OnIndexBufferCreated([&](const Bones::Event<IndexBuffer*>& evt) -> void
-	{
-		// Index buffer scene view component.
-		auto cmp = new IndexBufferSceneViewComponent(evt.m_callee, this);
-		cmp->Initialize();
 
-		// events.
-
-		m_viewEntryComponents.push_back(cmp);
-	});
+	// Bind create events.
+	BuffersManager::m_onIndexBufferCreated += std::bind(&SceneViewUIToolComponent::OnIndexBufferCreate, this, std::placeholders::_1);
+	BuffersManager::m_onVertexBufferCreated += std::bind(&SceneViewUIToolComponent::OnVertexBufferCreate, this, std::placeholders::_1);
 
 	//for (std::unique_ptr<IndexBuffer>& uPtr : BuffersManager::m_indexBufferCache)
 	//{
 		// Index buffer scene view component.
 		//auto cmp = new IndexBufferSceneViewComponent(&*uPtr, this);
 		//cmp->Initialize();
-		
+
 	//}
+}
+
+void SceneViewUIToolComponent::OnIndexBufferCreate(const Bones::IEvent& evt)
+{
+	IndexBuffer* iBuffer = static_cast<IndexBuffer*>(evt.m_arguments.at("index_buffer").m_asPointer);
+	IndexBufferSceneViewComponent* cmp = new IndexBufferSceneViewComponent(iBuffer, this);
+	cmp->Initialize();
+
+	// events.
+
+	m_viewEntryComponents.push_back(cmp);
+}
+
+void SceneViewUIToolComponent::OnVertexBufferCreate(const Bones::IEvent& evt)
+{
+	VertexBuffer* vBuffer = static_cast<VertexBuffer*>(evt.m_arguments.at("vertex_buffer").m_asPointer);
+	VertexBufferSceneViewComponent* cmp = new VertexBufferSceneViewComponent(vBuffer, this);
+	cmp->Initialize();
+
+	// events.
+
+	m_viewEntryComponents.push_back(cmp);
+}
+
+void SceneViewUIToolComponent::OnInterleavedBufferCreate(const Bones::IEvent& evt)
+{
 }
 
 void SceneViewUIToolComponent::Initialize()

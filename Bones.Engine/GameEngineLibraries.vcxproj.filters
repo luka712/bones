@@ -325,6 +325,27 @@
     <Filter Include="Source Files\UI\Tools\SceneView">
       <UniqueIdentifier>{87f89328-f864-45f8-bcce-acbaf252c861}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Macros">
+      <UniqueIdentifier>{5fc31012-ff49-4a16-b02e-9e4a53490d1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Events">
+      <UniqueIdentifier>{0ee8eefb-91ff-4865-a1dd-770cc6fd74d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Events">
+      <UniqueIdentifier>{9b9bccab-ae90-4b57-8390-5dbd955e1c2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\UI\Tools\SceneView\Buffers">
+      <UniqueIdentifier>{5ab8008a-d926-4e75-a903-011874bcf889}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI\Tools\SceneView\Buffers">
+      <UniqueIdentifier>{7e42c483-afc4-468e-8927-f425a3bc5a51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utils">
+      <UniqueIdentifier>{c0594ae9-cd77-4101-a42d-aca45de75bee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utils">
+      <UniqueIdentifier>{0abeb485-20e4-46ed-9150-4e099a50994d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FileLoader.cpp">
@@ -582,8 +603,17 @@
     <ClCompile Include="TextUIComponent.cpp">
       <Filter>Source Files\UI\Core\Components</Filter>
     </ClCompile>
+    <ClCompile Include="core_types.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EventHandler.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
     <ClCompile Include="IndexBufferSceneViewComponent.cpp">
-      <Filter>Source Files\UI\Tools\SceneView</Filter>
+      <Filter>Source Files\UI\Tools\SceneView\Buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexBufferSceneViewComponent.cpp">
+      <Filter>Source Files\UI\Tools\SceneView\Buffers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -929,8 +959,32 @@
     <ClInclude Include="UIToolsEventManager.hpp">
       <Filter>Header Files\UI\Tools</Filter>
     </ClInclude>
+    <ClInclude Include="APP_MACROS.h">
+      <Filter>Header Files\Macros</Filter>
+    </ClInclude>
+    <ClInclude Include="PRINT_LOG_MACROS.h">
+      <Filter>Header Files\Macros</Filter>
+    </ClInclude>
+    <ClInclude Include="core_types.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="IEntity.hpp">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="IEvent.hpp">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EventHandler.hpp">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
     <ClInclude Include="IndexBufferSceneViewComponent.hpp">
-      <Filter>Header Files\UI\Tools\SceneView</Filter>
+      <Filter>Header Files\UI\Tools\SceneView\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexBufferSceneViewComponent.hpp">
+      <Filter>Header Files\UI\Tools\SceneView\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="utils.h">
+      <Filter>Header Files\Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

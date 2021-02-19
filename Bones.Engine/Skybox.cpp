@@ -15,6 +15,7 @@ using Bones::Camera::BaseCamera;
 
 Skybox::Skybox(const string& right, const string& left, const string& top, const string& bottom, const string& front, const string& back)
 {
+	LOG_CONSTRUCTOR();
 	str[0] = right;
 	str[1] = left;
 	str[2] = top;
@@ -25,12 +26,14 @@ Skybox::Skybox(const string& right, const string& left, const string& top, const
 
 void Skybox::Load()
 {
+	LOG_LOAD();
 	m_state = State::Loaded;
 	m_texture = TextureManager::GetOrCreateCubeTexture(str[0], str[1], str[2], str[3], str[4], str[5]);
 }
 
 void Skybox::Initialize()
 {
+	LOG_INITIALIZE();
 	m_state = State::Initialized;
 	m_geometry = GeometryManager::GetOrCreateEnvironmentMapGeometry();
 	m_shader = ShaderManager::GetOrCreateSkyboxShader();
@@ -51,6 +54,7 @@ void Skybox::Draw(const BaseCamera& camera)
 
 Skybox::~Skybox()
 {
+	LOG_DESTRUCTOR();
 	m_state = State::Destroyed;
 	TextureManager::DeleteCubeTexture(m_texture);
 	m_texture = nullptr;

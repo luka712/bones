@@ -6,6 +6,7 @@
 
 #include <vector>
 #include "Constants.hpp"
+#include "core_types.h"
 
 struct nk_context;
 

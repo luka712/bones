@@ -6,6 +6,7 @@
 
 #include "Constants.hpp"
 #include <vector>
+#include "core_types.h"
 
 using Bones::State;
 using std::vector;

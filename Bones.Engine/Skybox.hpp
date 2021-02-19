@@ -6,6 +6,7 @@
 
 #include <string>
 #include "Constants.hpp"
+#include "core_types.h"
 
 using std::string;
 

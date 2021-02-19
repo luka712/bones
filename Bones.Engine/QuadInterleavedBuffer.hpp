@@ -12,7 +12,7 @@ namespace Bones
 		class QuadInterleavedBuffer final : public InterleavedBuffer
 		{
 		private:
-			const GLfloat data[32] = {
+			const F32 data[32] = {
 				// x  y    z     t     s 
 				-0.5, 0.0, -0.5, 1.0f, 1.0f, 0.0, 1.0, 0.0,
 				 0.5, 0.0, -0.5, 0.0f, 1.0f, 0.0, 1.0, 0.0,
@@ -23,11 +23,15 @@ namespace Bones
 		public:
 			QuadInterleavedBuffer() : InterleavedBuffer( data, 32, vector<BufferAttribute> 
 				{
-					{ 0, "a_position", 3, 0 },
-					{ 1, "a_texCoord", 2, 3 },
-					{ 2, "a_normal", 3, 5 },
+				  // layout attrib location, size, offset, layout name ( if attrib location not specified ) 
+					{ 0, 3, 0, "a_position", },
+					{ 1, 2, 3, "a_texCoord", },
+					{ 2, 3, 5, "a_normal", },
 				}
-			) {};
+			)
+			{
+				m_name = "Quad Interleaved Buffer";
+			};
 		};
 	}
 }

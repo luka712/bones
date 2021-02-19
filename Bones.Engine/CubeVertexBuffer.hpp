@@ -48,7 +48,10 @@ namespace Bones
             };
 
         public:
-            CubeVertexBuffer() : VertexBuffer("a_position", 3, data, 72) {};
+            CubeVertexBuffer() : VertexBuffer("a_position", 3, data, 72) 
+            {
+                m_name = "Cube Vertex Buffer";
+            };
         };
     }
 }

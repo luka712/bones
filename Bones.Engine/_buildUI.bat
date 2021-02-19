@@ -1,7 +1,11 @@
 em++^
- ../BonesUI/main.cpp^
- ../BonesUI/UIManager.cpp^
- ../BonesUI/BaseUIComponent.cpp ../BonesUI/ColorPickerUIComponent.cpp ../BonesUI/WindowUIComponent.cpp ../BonesUI/CheckboxUIComponent.cpp^ 
+ main.cpp^
+ UIManager.cpp^
+ BaseUIComponent.cpp CheckboxUIComponent.cpp ColorPickerUIComponent.cpp GroupUIComponent.cpp SelectableLabelUIComponent.cpp TextUIComponent.cpp TreeUIComponent.cpp WindowUIComponent.cpp^
+ SceneObjectInspectorComponent.cpp^
+ InspectorUIToolComponent.cpp SceneViewUIToolComponent.cpp^
+ IndexBufferSceneViewComponent.cpp SceneObjectSceneViewComponent.cpp^
+ UIToolsEventManager.cpp UIToolsManager.cpp^
  Common.cpp^
  BaseBuffer.cpp VertexBuffer.cpp IndexBuffer.cpp InterleavedBuffer.cpp^
  BaseCamera.cpp FreeCamera.cpp OrbitCamera.cpp^

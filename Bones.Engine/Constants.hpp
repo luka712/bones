@@ -7,6 +7,7 @@
 #define TARGET_WEBGL_2_0 (EMSCRIPTEN_RUNTIME && TARGET_OPENGL_ES_3_0) // use in only very specific cases where EMSCRIPTEN_RUNTIME or TARGET_OPENGL_ES_3_0 are not sufficient. 
 
 #define DEBUG 1
+#define UNIT_TEST 0
 
 #if TARGET_OPENGL_4_6
 #define SHADER_SUFFIX "_v460.shader"
@@ -45,12 +46,9 @@
 #define LOG_COPY_CONSTRUCTOR() LOG("Copy constructor called.\n")
 #define LOG_COPY_OPERATOR() LOG("Copy operator called.\n")
 #define LOG_DESTRUCTOR() LOG("Destructor called.\n")
-#define ASSERT(EXPR) \
-if(EXPR) {} \
-else {\
-LOG_FORMAT("Assert failed: %s", #EXPR); \
-__debugbreak(); \
-}
+#define LOG_INITIALIZE() LOG("Initialize called.\n")
+#define LOG_LOAD() LOG("Initialize called.\n")
+#define LOG_DESTROY() LOG("Initialize called.\n")
 #else
 #define LOG_ERROR(FORMAT, ...) ((void)0)
 #define LOG_FORMAT(FORMAT, ...) ((void)0)
@@ -59,8 +57,21 @@ __debugbreak(); \
 #define LOG_COPY_CONSTRUCTOR() 
 #define LOG_COPY_OPERATOR() 
 #define LOG_DESTRUCTOR() ((void)0)
-#define ASSERT(expr)
+#define LOG_INITIALIZE() 
+#define LOG_LOAD() 
+#define LOG_DESTROY() 
 #endif
+
+#if DEBUG && EMSCRIPTEN_RUNTIME == false 
+	#define ASSERT(EXPR) \
+	if(EXPR) {} \
+	else {\
+	LOG_FORMAT("Assert failed: %s", #EXPR); \
+	__debugbreak(); \
+	}
+#else 
+	#define ASSERT(expr)
+#endif 
 
 // For warnings, this should be always printed out.
 #define LOG_WARN_FORMAT(FORMAT, ...) fprintf(stdout, "%s. Warning: " FORMAT "\n", __func__, __VA_ARGS__)
@@ -117,16 +128,7 @@ __debugbreak(); \
 
 namespace Bones
 {
-	/// <summary>
-	/// State of various resources
-	/// </summary>
-	enum class State
-	{
-		New = 0,
-		Loaded = 1,
-		Initialized = 2,
-		Destroyed = 3,
-	};
+	
 
 	/// <summary>
 	/// Sets draw mode with or without indices.

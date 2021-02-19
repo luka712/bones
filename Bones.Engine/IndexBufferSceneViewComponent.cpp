@@ -16,7 +16,7 @@ void IndexBufferSceneViewComponent::Initialize()
 
 	m_state = Bones::State::Initialized;
 
-	m_label = UIManager::CreateSelectableLabelComponent(m_viewParentPtr->m_buffersTree, string("Index Buffer " + std::to_string(m_indexBuffer->m_id)));
+	m_label = UIManager::CreateSelectableLabelComponent(m_viewParentPtr->m_buffersTree, m_indexBuffer->m_name);
 	m_label->m_onSelected = [&](Bones::Event<SelectableLabelUIComponent&> cmp) -> void
 	{
 		//m_onSelected({ *this });

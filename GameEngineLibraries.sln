@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.30128.74
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Bones.Runner", "Bones.Runner\Bones.Runner.vcxproj", "{0EE8A871-CC51-41C8-B1DE-57ACECC3B45C}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameEngineLibraries", "Bones.Engine\GameEngineLibraries.vcxproj", "{25B59E38-D45C-42DF-BFF9-AE003B20BC68}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Bones.Engine", "Bones.Engine\GameEngineLibraries.vcxproj", "{25B59E38-D45C-42DF-BFF9-AE003B20BC68}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Bones.Tests", "Bones.Tests\Bones.Tests.vcxproj", "{C1ACEDA6-16A3-4051-B4AD-423450B07955}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +33,14 @@ Global
 		{25B59E38-D45C-42DF-BFF9-AE003B20BC68}.Release|x64.Build.0 = Release|x64
 		{25B59E38-D45C-42DF-BFF9-AE003B20BC68}.Release|x86.ActiveCfg = Release|Win32
 		{25B59E38-D45C-42DF-BFF9-AE003B20BC68}.Release|x86.Build.0 = Release|Win32
+		{C1ACEDA6-16A3-4051-B4AD-423450B07955}.Debug|x64.ActiveCfg = Debug|x64
+		{C1ACEDA6-16A3-4051-B4AD-423450B07955}.Debug|x64.Build.0 = Debug|x64
+		{C1ACEDA6-16A3-4051-B4AD-423450B07955}.Debug|x86.ActiveCfg = Debug|Win32
+		{C1ACEDA6-16A3-4051-B4AD-423450B07955}.Debug|x86.Build.0 = Debug|Win32
+		{C1ACEDA6-16A3-4051-B4AD-423450B07955}.Release|x64.ActiveCfg = Release|x64
+		{C1ACEDA6-16A3-4051-B4AD-423450B07955}.Release|x64.Build.0 = Release|x64
+		{C1ACEDA6-16A3-4051-B4AD-423450B07955}.Release|x86.ActiveCfg = Release|Win32
+		{C1ACEDA6-16A3-4051-B4AD-423450B07955}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -5,11 +5,11 @@
 #define MESH_MANAGER_H
 
 #include "Constants.hpp"
+#include "core_types.h"
 #include <vector>
 
 using std::vector;
 using std::find;
-using Bones::State;
 
 namespace Bones
 {
@@ -27,6 +27,7 @@ namespace Bones
 	}
 }
 
+using Bones::State;
 using Bones::Mesh::StandardMaterialMesh;
 using Bones::Geometry::BaseGeometry;
 using Bones::Materials::StandardMaterial;

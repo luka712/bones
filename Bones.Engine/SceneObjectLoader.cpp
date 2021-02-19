@@ -112,7 +112,7 @@ vector<SceneObject*> SceneObjectLoader::LoadFromGltfFile(Scene& scene, const str
 	string filepath = string(path).substr(0, idx + 1);
 	string filename = string(path).substr(idx + 1);
 
-	for (int i = 0; i < modelData.materials.size(); i++)
+	for (size_t i = 0; i < modelData.materials.size(); i++)
 	{
 		StandardMaterialOptions opts{};
 		MaterialData& materialData = modelData.materials[i];
@@ -146,36 +146,37 @@ vector<SceneObject*> SceneObjectLoader::LoadFromGltfFile(Scene& scene, const str
 	std::vector<IndexBuffer*> indexBuffers;
 	for (auto& iData : modelData.indicesBuffersData)
 	{
-		indexBuffers.push_back(  BuffersManager::CreateIndexBuffer(iData.indices.data(), static_cast<int>(iData.indices.size()), iData.indicesByteSize));
+		indexBuffers.push_back(  BuffersManager::CreateIndexBuffer(iData.indices.data(), static_cast<I32>(iData.indices.size()), iData.indicesByteSize));
 	}
 
 	// TODO: insert to various vertices
 
-	for (int i = 0; i < modelData.meshes.size(); i++)
+	for (size_t i = 0; i < modelData.meshes.size(); i++)
 	{
 		MeshData& aMesh = modelData.meshes[i];
 		BaseGeometry* geometry = nullptr;
 		if (aMesh.drawMode == DrawMode::ARRAYS)
 		{
 			// TODO: through geometry manager.
-			geometry = new BaseGeometry(new VertexBuffer(0, 3, aMesh.vertices.data(), aMesh.vertices.size()), 
-				aMesh.vertices.size() / 3, aMesh.drawType);
+			VertexBuffer* posVBuffer = BuffersManager::CreateVertexBuffer(0, 3, aMesh.vertices.data(), aMesh.vertices.size());
+			geometry = new BaseGeometry(posVBuffer, aMesh.vertices.size() / 3, aMesh.drawType);
 		}
 		else
 		{
 			if (aMesh.texCoords.size() == 0 && aMesh.normals.size() == 0)
 			{
 				// TODO: through geometry manager.
-				geometry = new BaseGeometry(new VertexBuffer(0, 3, aMesh.vertices.data(), aMesh.vertices.size()),
-					indexBuffers[aMesh.indicesIndex], aMesh.drawType);
+				VertexBuffer* posVBuffer = BuffersManager::CreateVertexBuffer(0, 3, aMesh.vertices.data(), aMesh.vertices.size());
+				geometry = new BaseGeometry(posVBuffer,indexBuffers[aMesh.indicesIndex], aMesh.drawType);
 			}
 			else
 			{
 				// TODO: through geometry manager.
-				geometry = new BaseGeometry(new VertexBuffer(0, 3, aMesh.vertices.data(), aMesh.vertices.size()),
-					new VertexBuffer(1, 2, aMesh.texCoords.data(), aMesh.texCoords.size()),
-					new VertexBuffer(2, 3, aMesh.normals.data(), aMesh.normals.size()),
-					indexBuffers[aMesh.indicesIndex]);
+				VertexBuffer* posVBuffer = BuffersManager::CreateVertexBuffer(0, 3, aMesh.vertices.data(), aMesh.vertices.size());
+				VertexBuffer* texCoordVBuffer = BuffersManager::CreateVertexBuffer(1, 2, aMesh.texCoords.data(), aMesh.texCoords.size());
+				VertexBuffer* normalsVBuffer = BuffersManager::CreateVertexBuffer(2, 3, aMesh.normals.data(), aMesh.normals.size());
+
+				geometry = new BaseGeometry(posVBuffer, texCoordVBuffer, normalsVBuffer,indexBuffers[aMesh.indicesIndex]);
 			}
 		}
 

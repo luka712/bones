@@ -9,10 +9,13 @@
 #include <vector>
 #include <memory>
 #include <functional>
+#include "BaseBuffer.hpp"
 #include "IndexBuffer.hpp"
 #include "VertexBuffer.hpp"
 #include "InterleavedBuffer.hpp"
 #include "Constants.hpp"
+#include "EventHandler.hpp"
+#include "utils.h"
 
 namespace Bones
 {
@@ -26,6 +29,7 @@ namespace Bones
 using std::type_info;
 using std::vector;
 using std::string;
+using Bones::Buffers::BaseBuffer;
 using Bones::Buffers::IndexBuffer;
 using Bones::Buffers::VertexBuffer;
 using Bones::Buffers::InterleavedBuffer;
@@ -42,6 +46,118 @@ namespace Bones
 		/// </summary>
 		class BuffersManager final
 		{
+		public:
+
+			static EventHandler<> m_onIndexBufferCreated;
+			static EventHandler<> m_onVertexBufferCreated;
+			static EventHandler<> m_onInterleavedBufferCreated;
+
+			/// <summary>
+			/// Creates the index buffer.
+			/// </summary>
+			/// <param name="data">The data.</param>
+			/// <param name="length">The idex buffer length.</param>
+			/// <returns>The index buffer pointer.</returns>
+			static IndexBuffer* CreateIndexBuffer(const U32* data, const I32 length);
+
+			/// <summary>
+			/// Creates the index buffer.
+			/// </summary>
+			/// <param name="data">Of unsigned bytes or chars.</param>
+			/// <param name="length">Length of buffer.</param>
+			/// <param name="byteSize">Byte size to use.</param>
+			static IndexBuffer* CreateIndexBuffer(const U8* data, const I32 length, const Bones::IndicesByteSize byteSize);
+
+			/// <summary>
+			/// Gets or creates a new instance of index buffer.
+			/// If it's instance of IndexBuffer, new instance if always created.
+			/// If it's derived class , instance is cached.
+			/// </summary>
+			/// <typeparam name="T">IndexBuffer or derived class.</typeparam>
+			/// <returns>IndexBuffer ptr or derived class ptr</returns>
+			template<typename T = IndexBuffer>
+			static T* GetOrCreateIndexBuffer()
+			{
+				T* buffer = GetOrCreate<T, IndexBuffer>(m_indexBufferCache);
+
+				Bones::Utils::GenerateName<IndexBuffer>(buffer->m_name, m_indexBufferCache, *buffer);
+				SendIndexBufferCreatedEvent(static_cast<IndexBuffer*>(buffer));
+
+				return buffer;
+			}
+
+			/// <summary>
+			/// Creates the vertex buffer.
+			/// </summary>
+			/// <typeparam name="T">The type of vertex buffer.</typeparam>
+			/// <returns>The vertex buffer.</returns>
+			template<typename T = VertexBuffer>
+			static T* GetOrCreateVertexBuffer()
+			{
+				T* buffer = GetOrCreate<T, VertexBuffer>(m_vertexBufferCache);
+
+				Bones::Utils::GenerateName<VertexBuffer>(buffer->m_name, m_vertexBufferCache, *buffer);
+				SendVertexBufferCreatedEvent(static_cast<VertexBuffer*>(buffer));
+
+				return buffer;
+			}
+
+			/// <summary>
+			/// Creates vertex buffer.
+			/// </summary>
+			/// <param name="attributeLocation">Layout attribute location. Corresponds to glsl (layout = {attributeLocation})</param>
+			/// <param name="size">Size of vertex. For example for glsl vec3 this should be 3</param>
+			/// <param name="data">The data</param>
+			/// <param name="length">The length of data.</param>
+			/// <returns>VertexBuffer ptr.</returns>
+			static VertexBuffer* CreateVertexBuffer(const I32 attributeLocation, const I32 size, const F32* data, const U64 length);
+
+			/// <summary>
+			/// Creates vertex buffer.
+			/// </summary>
+			/// <param name="layoutName">Layout attribute name. Corresponds to glsl attribute. For example attribute vec3 a_position.</param>
+			/// <param name="size">Size of vertex. For example for glsl vec3 this should be 3</param>
+			/// <param name="data">The data</param>
+			/// <param name="length">The length of data.</param>
+			/// <returns>VertexBuffer ptr or derived class ptr.</returns>
+			static VertexBuffer* CreateVertexBuffer(const string& layoutName, const I32 size, const F32* data, const U64 length);
+
+			/// <summary>
+			/// Gets or creates interleaved buffer from cache.
+			/// </summary>
+			/// <typeparam name="T">The type of interleaved buffer to create.</typeparam>
+			/// <returns>The interleaved buffer.</returns>
+			template<typename T = InterleavedBuffer>
+			static T* GetOrCreateInterleavedBuffer()
+			{
+				T* buffer = GetOrCreate<T, InterleavedBuffer>(m_interleavedBufferCache);
+
+			 // 	Bones::Utils::GenerateName<InterleavedBuffer>("Interleaved Buffer ", m_interleavedBufferCache, *buffer);
+				SendInterleavedBufferCreatedEvent(static_cast<InterleavedBuffer*>(buffer));
+
+				return buffer;
+			}
+
+			/// <summary>
+			/// Destroys all the allocated buffers and clears all the data.
+			/// </summary>
+			static void Destroy();
+		private:
+
+
+			// the index buffers cache.
+			static std::vector<std::unique_ptr<IndexBuffer>> m_indexBufferCache;
+
+			// the vertex buffer cache.
+			static std::vector<std::unique_ptr<VertexBuffer>> m_vertexBufferCache;
+
+			// the interleaved buffers cache.
+			static std::vector<std::unique_ptr<InterleavedBuffer>> m_interleavedBufferCache;
+
+			static void SendIndexBufferCreatedEvent(IndexBuffer* ptr);
+			static void SendVertexBufferCreatedEvent(VertexBuffer* ptr);
+			static void SendInterleavedBufferCreatedEvent(InterleavedBuffer* ptr);
+
 			/// <summary>
 			/// Generic. Used only for other templates.
 			/// </summary>
@@ -69,113 +185,8 @@ namespace Bones
 				return static_cast<T*>(entry);
 			}
 
-			// the index buffers cache.
-			static vector<std::unique_ptr<IndexBuffer>> m_indexBufferCache;
-
-			// the vertex buffer cache.
-			static vector<std::unique_ptr<VertexBuffer>> m_vertexBufferCache;
-
-			// the interleaved buffers cache.
-			static vector<std::unique_ptr<InterleavedBuffer>> m_interleavedBufferCache;
-
-#pragma region Events
-			static std::vector < std::function<void(const Bones::Event<IndexBuffer*>)>> m_onIndexBufferCreated;
-#pragma endregion
-
-
-
-		public:
-
-
-			/// <summary>
-			/// Creates the index buffer.
-			/// </summary>
-			/// <param name="data">The data.</param>
-			/// <param name="length">The idex buffer length.</param>
-			/// <returns>The index buffer pointer.</returns>
-			static IndexBuffer* CreateIndexBuffer(const unsigned int* data, const int length);
-
-			/// <summary>
-			/// Creates the index buffer.
-			/// </summary>
-			/// <param name="data">Of unsigned bytes or chars.</param>
-			/// <param name="length">Length of buffer.</param>
-			/// <param name="byteSize">Byte size to use.</param>
-			static IndexBuffer* CreateIndexBuffer(const unsigned char* data, const int length, const Bones::IndicesByteSize byteSize);
-
-			/// <summary>
-			/// Gets or creates a new instance of index buffer.
-			/// If it's instance of IndexBuffer, new instance if always created.
-			/// If it's derived class , instance is cached.
-			/// </summary>
-			/// <typeparam name="T">IndexBuffer or derived class.</typeparam>
-			/// <returns>IndexBuffer ptr or derived class ptr</returns>
-			template<typename T = IndexBuffer>
-			static T* GetOrCreateIndexBuffer()
-			{
-				T* buffer = GetOrCreate<T, IndexBuffer>(m_indexBufferCache);
-				Bones::Event<IndexBuffer*> evt = { static_cast<IndexBuffer*>(buffer) };
-				for (auto& cb : m_onIndexBufferCreated)
-				{
-					cb(evt);
-				}
-				return buffer;
-			}
-
-			/// <summary>
-			/// OnIndexBufferCreated event. Fired whenever index buffer is created.
-			/// </summary>
-			/// <param name="callback">Callback</param>
-			static void OnIndexBufferCreated(std::function<void(const Bones::Event<IndexBuffer*>)> callback);
-
-			/// <summary>
-			/// Creates the vertex buffer.
-			/// </summary>
-			/// <typeparam name="T">The type of vertex buffer.</typeparam>
-			/// <returns>The vertex buffer.</returns>
-			template<typename T = VertexBuffer>
-			static T* GetOrCreateVertexBuffer()
-			{
-				return GetOrCreate<T, VertexBuffer>(m_vertexBufferCache);
-			}
-
-			/// <summary>
-			/// Creates vertex buffer.
-			/// </summary>
-			/// <param name="attributeLocation">Layout attribute location. Corresponds to glsl (layout = {attributeLocation})</param>
-			/// <param name="size">Size of vertex. For example for glsl vec3 this should be 3</param>
-			/// <param name="data">The data</param>
-			/// <param name="length">The length of data.</param>
-			/// <returns>VertexBuffer ptr.</returns>
-			static VertexBuffer* CreateVertexBuffer(const int attributeLocation, const int size, const float* data, const size_t length);
-
-			/// <summary>
-			/// Creates vertex buffer.
-			/// </summary>
-			/// <param name="layoutName">Layout attribute name. Corresponds to glsl attribute. For example attribute vec3 a_position.</param>
-			/// <param name="size">Size of vertex. For example for glsl vec3 this should be 3</param>
-			/// <param name="data">The data</param>
-			/// <param name="length">The length of data.</param>
-			/// <returns>VertexBuffer ptr or derived class ptr.</returns>
-			static VertexBuffer* CreateVertexBuffer(const string& layoutName, const int size, const float* data, const size_t length);
-
-			/// <summary>
-			/// Gets or creates interleaved buffer from cache.
-			/// </summary>
-			/// <typeparam name="T">The type of interleaved buffer to create.</typeparam>
-			/// <returns>The interleaved buffer.</returns>
-			template<typename T = InterleavedBuffer>
-			static T* GetOrCreateInterleavedBuffer()
-			{
-				return GetOrCreate<T, InterleavedBuffer>(m_interleavedBufferCache);
-			}
-
-			/// <summary>
-			/// Destroys all the allocated buffers and clears all the data.
-			/// </summary>
-			static void Destroy();
+			
 		};
-
 	}
 }
 

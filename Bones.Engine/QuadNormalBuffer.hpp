@@ -17,7 +17,10 @@ namespace Bones
 			};
 
 		public:
-			QuadNormalBuffer() : VertexBuffer("a_normal", 3, data, 12) {};
+			QuadNormalBuffer() : VertexBuffer("a_normal", 3, data, 12) 
+			{
+				m_name = "Quad Normal Buffer";
+			};
 		};
 	}
 }

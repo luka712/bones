@@ -1,5 +1,7 @@
 #include "Constants.hpp"
 
+#if EMSCRIPTEN_RUNTIME 
+
 #include <string>
 #include <iostream>
 #include <filesystem>
@@ -109,7 +111,7 @@ int main(int argc, char* argv[])
 	scene->UseDefaultSkybox();
 
 
-	StandardMaterialOptions opts;
+	/*StandardMaterialOptions opts;
 	opts.useDiffuseMap = true;
 	opts.useSpecularMap = true;
 
@@ -122,25 +124,25 @@ int main(int argc, char* argv[])
 	texturelessBoxMaterial->SetDiffuseColor(vec4(0.4, 0.4, 0.4, 1.0));
 	StandardMaterial* floorMaterial = MaterialManager::CreateStandardMaterial("floorMaterial", opts);
 	floorMaterial->SetDiffuseTexture("resources/textures/Stone_Floor.png");
-	opts.useDiffuseMap = true;
+	opts.useDiffuseMap = true;*/
 
 
 	// add floor 
-	QuadGeometry* quadGeometry = GeometryManager::GetOrCreateQuadGeometry();
+	// QuadGeometry* quadGeometry = GeometryManager::GetOrCreateQuadGeometry();
 	//SceneObject* floor = new SceneObject(scene, MeshManager::CreateStandardMaterialMesh(quadGeometry, floorMaterial), "floor");
 	//floor->GetTransform().SetPosition(vec3(0, -1, 0));
 	//floor->GetTransform().SetScale(vec3(50, 1, 50));
 	//scene->AddSceneObject(floor);
 
-	opts.useSpecularMap = true;
-	StandardMaterial* boxWithSpecularMat = MaterialManager::CreateStandardMaterial("boxWithSpec", opts);
-	boxWithSpecularMat->SetDiffuseTexture("resources/textures/container2.png");
-	boxWithSpecularMat->SetSpecularTexture("resources/textures/container2_specular.png");
-	boxWithSpecularMat->m_specularIntensity = 30;
-	boxWithSpecularMat->m_specularShininess = 16;
+	//opts.useSpecularMap = true;
+	//StandardMaterial* boxWithSpecularMat = MaterialManager::CreateStandardMaterial("boxWithSpec", opts);
+	//boxWithSpecularMat->SetDiffuseTexture("resources/textures/container2.png");
+	//boxWithSpecularMat->SetSpecularTexture("resources/textures/container2_specular.png");
+	//boxWithSpecularMat->m_specularIntensity = 30;
+	//boxWithSpecularMat->m_specularShininess = 16;
 
-	scene->AddPointLight(new PointLight(vec3(3.0f, 1.f, -3.f), vec3(1, 0, 0)));
-	scene->AddPointLight(new PointLight(vec3(-4.0f, 3.f, -4.f), vec3(0, 0, 1)));
+	//scene->AddPointLight(new PointLight(vec3(3.0f, 1.f, -3.f), vec3(1, 0, 0)));
+	//scene->AddPointLight(new PointLight(vec3(-4.0f, 3.f, -4.f), vec3(0, 0, 1)));
 	//scene->AddPointLight(new PointLight(vec3(-3.0f, 1.f, 5.f), vec3(0, 1, 0)));
 	//scene->AddPointLight(new PointLight(vec3(5.0f, 3.f, 6.f)));
 	//scene->AddSpotLight(new SpotLight());
@@ -238,38 +240,32 @@ int main(int argc, char* argv[])
 	//scene->AddSceneObject(window1);
 	//scene->AddSceneObject(window2);
 
-	SceneObjectLoader scnObjLoader;
-	auto sceneObjs = scnObjLoader.LoadFromGltfFile(*scene, "resources/models/non-working.gltf");
-	sceneObjs[0]->GetTransform().SetScale(0.2f, 0.2f, 0.2f);
-	auto sceneObjs2 = scnObjLoader.LoadFromGltfFile(*scene, "resources/models/working.gltf");
-	sceneObjs2[0]->GetTransform().SetScale(0.2f, 0.2f, 0.2f);
+	//SceneObjectLoader scnObjLoader;
+	//auto sceneObjs = scnObjLoader.LoadFromGltfFile(*scene, "resources/models/non-working.gltf");
+	//sceneObjs[0]->GetTransform().SetScale(0.2f, 0.2f, 0.2f);
+	//auto sceneObjs2 = scnObjLoader.LoadFromGltfFile(*scene, "resources/models/working.gltf");
+	//sceneObjs2[0]->GetTransform().SetScale(0.2f, 0.2f, 0.2f);
 	//auto rayman = scnObjLoader.LoadFromObjFile(*scene, "resources/models/rayman/rayman_3.obj");
 	//rayman[0]->GetTransform().SetScale(0.1, 0.1, 0.1);
 
 
-	AddDebugLightsToScene();
+	/*AddDebugLightsToScene();
 
-	scene->m_postProcessPipeline->AddSharpenEffect();
+	scene->m_postProcessPipeline->AddSharpenEffect();*/
 	//scene->m_postProcessPipeline->AddGrayScaleOrderedDitheringEffect();
 	// scene->m_postProcessPipeline->AddDetectEdgeEffect();
 	// scene->m_postProcessPipeline->AddNightVisionEffect()->LightNoisePreset();
 
 
-#if EMSCRIPTEN_RUNTIME 
 	// 1 stands for EM_TIMING_RAF  1: 60fps, 2: 30fps
 	emscripten_set_main_loop(Render, 0, 1);
 	emscripten_set_main_loop_timing(1, 1);
-#else 
-	engine->Run();
-	delete engine;
-#endif 
+
 
 	return 1;
 }
 
-#if EMSCRIPTEN_RUNTIME 
 
-using namespace emscripten;
 
 const Engine& GetEngine()
 {
@@ -316,7 +312,7 @@ void LightNoiseNoVignettePresetEffect()
 
 EMSCRIPTEN_BINDINGS(Main)
 {
-	emscripten::function("GetEngine", &GetEngine, allow_raw_pointers());
+	emscripten::function("GetEngine", &GetEngine, emscripten::allow_raw_pointers());
 	emscripten::function("GetEngine", &GetEngine);
 
 	emscripten::function("LightNoisePresetEffect", &LightNoisePresetEffect);

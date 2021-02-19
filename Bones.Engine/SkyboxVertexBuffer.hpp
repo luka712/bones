@@ -13,7 +13,7 @@ namespace Bones
     {
         class SkyboxVertexBuffer final : public VertexBuffer
         {
-            const float data[108] = {
+            const F32 data[108] = {
                 // positions          
                  -1.0f,  1.0f, -1.0f,
                  -1.0f, -1.0f, -1.0f,
@@ -59,7 +59,10 @@ namespace Bones
             };
 
         public:
-            SkyboxVertexBuffer() : VertexBuffer(0, 3, data, 108) {};
+            SkyboxVertexBuffer() : VertexBuffer(0, 3, data, 108) 
+            {
+                m_name = "Skybox Vertex Buffer";
+            };
         };
     }
 }

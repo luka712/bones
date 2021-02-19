@@ -7,6 +7,8 @@
 #include <functional>
 #include <vector>
 #include "Constants.hpp"
+#include "core_types.h"
+#include "IEvent.hpp"
 #include "BaseToolUIComponent.hpp"
 
 namespace Bones
@@ -48,21 +50,9 @@ namespace Bones
 			/// </summary>
 			class SceneViewUIToolComponent final : public BaseToolUIComponent
 			{
-			private:
-				// handles for various engine components.
-				void HandleScene();
-				void HandleBuffers();
-
-			protected:
-				// The wrapper around nuklear window.
-				WindowUIComponent* m_window = nullptr;
-				// Every component that's tool component and is child. In short, every which is created
-				// by calling new in this class.
-				std::vector< BaseSceneViewEntryComponent*> m_viewEntryComponents;
-
 			public:
 				// scene trees as list of various items. For example scene object such that scene -> object 1, object 2 etc... 
-				TreeUIComponent* m_sceneTree = nullptr, *m_buffersTree = nullptr;
+				TreeUIComponent* m_sceneTree = nullptr, * m_buffersTree = nullptr;
 
 				// current state
 				State m_state = State::New;
@@ -83,6 +73,20 @@ namespace Bones
 				void Destroy();
 
 				~SceneViewUIToolComponent();
+			protected:
+				// The wrapper around nuklear window.
+				WindowUIComponent* m_window = nullptr;
+				// Every component that's tool component and is child. In short, every which is created
+				// by calling new in this class.
+				std::vector< BaseSceneViewEntryComponent*> m_viewEntryComponents;
+			private:
+				// handles for various engine components.
+				void HandleScene();
+				void HandleBuffers();
+
+				void OnIndexBufferCreate(const Bones::IEvent& evt);
+				void OnVertexBufferCreate(const Bones::IEvent& evt);
+				void OnInterleavedBufferCreate(const Bones::IEvent& evt);
 			};
 		}
 	}

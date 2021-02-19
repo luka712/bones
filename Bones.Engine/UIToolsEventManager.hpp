@@ -5,6 +5,7 @@
 #define UI_TOOLS_EVENT_MANAGER_H
 
 #include "Constants.hpp"
+#include "core_types.h"
 #include <functional>
 #include <vector>
 

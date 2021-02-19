@@ -9,7 +9,7 @@
 #include <iostream>
 #include <vector>
 #include "Constants.hpp"
-#include "GeometryStructs.hpp"
+#include "core_types.h"
 
 using namespace std;
 
@@ -19,7 +19,7 @@ namespace Bones
 	{
 		struct Indices
 		{
-			vector<unsigned char> indices;
+			vector<U8> indices;
 			IndicesByteSize indicesByteSize = IndicesByteSize::NONE;
 		};
 
@@ -27,15 +27,15 @@ namespace Bones
 		{
 			DrawMode drawMode = DrawMode::ARRAYS;
 			DrawType drawType = DrawType::TRIANGLES;
-			vector<float> vertices;
-			vector<float> texCoords;
-			vector<float> normals;
-			vector<unsigned int> indices;
+			vector<F32> vertices;
+			vector<F32> texCoords;
+			vector<F32> normals;
+			vector<U32> indices;
 
 			// if -1 indices are not created. Else it's ref to indicesBufferData of ModelData.
-			int indicesIndex = -1;
+			I32 indicesIndex = -1;
 
-			size_t materialIndex = -1;
+			I64 materialIndex = -1;
 		};
 
 		struct ModelTextureData

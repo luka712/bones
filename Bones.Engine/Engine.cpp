@@ -67,14 +67,14 @@ void Engine::Run()
 		// End core calls
 
 		m_timeData.m_deltaTime = SDL_GetTicks() - m_timeData.m_elapsedTime;
-		Uint32 frameInMs = 1000 / m_FPS;
+		U32 frameInMs = 1000U / m_FPS;
+#if EMSCRIPTEN_RUNTIME == false // delay does not work in wasm ctx
 		if (frameInMs > m_timeData.m_deltaTime)
 		{
-#if EMSCRIPTEN_RUNTIME == false // delay does not work in wasm ctx
 			SDL_Delay(frameInMs - (m_timeData.m_deltaTime));
-#endif
 		}
 	}
+#endif
 }
 
 void Engine::Destroy()

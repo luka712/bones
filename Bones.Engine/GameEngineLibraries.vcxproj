@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -164,6 +164,8 @@
     <ClCompile Include="BaseCamera.cpp" />
     <ClCompile Include="BuffersManager.cpp" />
     <ClCompile Include="CheckboxUIComponent.cpp" />
+    <ClCompile Include="core_types.cpp" />
+    <ClCompile Include="EventHandler.cpp" />
     <ClCompile Include="IndexBufferSceneViewComponent.cpp" />
     <ClCompile Include="SelectableLabelUIComponent.cpp" />
     <ClCompile Include="ColorPickerUIComponent.cpp" />
@@ -237,9 +239,11 @@
     <ClCompile Include="BaseRenderer.cpp" />
     <ClCompile Include="BaseShader.cpp" />
     <ClCompile Include="ShaderParser.cpp" />
+    <ClCompile Include="VertexBufferSceneViewComponent.cpp" />
     <ClCompile Include="WindowUIComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="APP_MACROS.h" />
     <ClInclude Include="BaseBuffer.hpp" />
     <ClInclude Include="BaseDrawComponent.hpp" />
     <ClInclude Include="BaseMaterial.hpp" />
@@ -255,7 +259,12 @@
     <ClInclude Include="BaseShaderStructs.hpp" />
     <ClInclude Include="BuffersManager.hpp" />
     <ClInclude Include="CheckboxUIComponent.hpp" />
+    <ClInclude Include="core_types.h" />
+    <ClInclude Include="EventHandler.hpp" />
+    <ClInclude Include="IEntity.hpp" />
+    <ClInclude Include="IEvent.hpp" />
     <ClInclude Include="IndexBufferSceneViewComponent.hpp" />
+    <ClInclude Include="PRINT_LOG_MACROS.h" />
     <ClInclude Include="SelectableLabelUIComponent.hpp" />
     <ClInclude Include="ColorPickerUIComponent.hpp" />
     <ClInclude Include="InspectorUIToolComponent.hpp" />
@@ -347,6 +356,7 @@
     <ClInclude Include="UIToolsEventManager.hpp" />
     <ClInclude Include="UIToolsManager.hpp" />
     <ClInclude Include="unistd.h" />
+    <ClInclude Include="utils.h" />
     <ClInclude Include="VertexBuffer.hpp" />
     <ClInclude Include="Constants.hpp" />
     <ClInclude Include="FileLoader.hpp" />
@@ -354,6 +364,7 @@
     <ClInclude Include="BaseRenderer.hpp" />
     <ClInclude Include="BaseShader.hpp" />
     <ClInclude Include="ShaderParser.hpp" />
+    <ClInclude Include="VertexBufferSceneViewComponent.hpp" />
     <ClInclude Include="WindowUIComponent.hpp" />
   </ItemGroup>
   <ItemGroup>

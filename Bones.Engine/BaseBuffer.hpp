@@ -4,7 +4,7 @@
 
 #define BASE_BUFFER_H
 
-#include "Constants.hpp"
+#include "IEntity.hpp"
 
 namespace Bones
 {
@@ -14,19 +14,9 @@ namespace Bones
 		/// Base abstract representation of buffer, from which all others inherit from.
 		/// IndexBuffer, InterleavedBuffer and VertexBuffer inherit from BaseBuffer.
 		/// </summary>
-		class BaseBuffer
+		class BaseBuffer : public IEntity
 		{
-		protected:
-			// The address of buffer in GPU.
-			unsigned int m_buffer = 0;
-
-			// Is buffer already initialized ? 
-			bool m_initialized = false;
-		
 		public:
-			// The state of buffer.
-			Bones::State m_state = Bones::State::New;
-
 			/// <summary>
 			/// Constructor.
 			/// </summary>
@@ -34,17 +24,17 @@ namespace Bones
 
 			// count of elements in array. To not be confused with length.
 			// For example length might be 8 for indices of unsigned shorts ( 2 bytes per elemt ). Therefore count is 4.
-			int m_count = 0;
+			I32 m_count = 0;
 
 			/// <summary>
-			/// The initialize method, which creates buffer instance loads data to memory 
+			/// The load. In case of buffer attributes, actually does nothing.
 			/// </summary>
-			virtual void Initialize() = 0;
+			void Load() override;
 
 			/// <summary>
 			/// The initialize method, which creates buffer instance loads data to memory for specific program.
 			/// </summary>
-			virtual void Initialize(const unsigned int program) = 0;
+			virtual void Initialize(const U32 program) = 0;
 
 			/// <summary>
 			/// Binds the buffer to be used by GPU.
@@ -61,10 +51,14 @@ namespace Bones
 			/// </summary>
 			virtual void DeleteBuffer();
 
+		protected:
+			// The address of buffer in GPU.
+			U32 m_buffer = 0;
+
 			/// <summary>
-			/// Destroy the buffer, alongside it's memory.
+			/// Creates base data representation for events.
 			/// </summary>
-			virtual void Destroy() = 0;
+			virtual const std::unordered_map<std::string, Bones::Variant> CreateEventData();
 		};
 	}
 }

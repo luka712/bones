@@ -5,6 +5,7 @@
 
 #include "BaseToolUIComponent.hpp"
 #include "Constants.hpp"
+#include "core_types.h"
 
 class SceneObject;
 

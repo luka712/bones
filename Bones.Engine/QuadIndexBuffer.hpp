@@ -15,7 +15,10 @@ namespace Bones
 			};
 
 		public:
-			QuadIndexBuffer() : IndexBuffer(data, 6) {}
+			QuadIndexBuffer() : IndexBuffer(data, 6) 
+			{
+				m_name = "Quad Index Buffer";
+			}
 		};
 	}
 }

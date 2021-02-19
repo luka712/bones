@@ -239,8 +239,8 @@ int main(int argc, char* argv[])
 	SceneObjectLoader scnObjLoader;
 	auto sceneObjs = scnObjLoader.LoadFromGltfFile(*scene, "resources/models/non-working.gltf");
 	sceneObjs[0]->GetTransform().SetScale(0.2f, 0.2f, 0.2f);
-	auto sceneObjs2 = scnObjLoader.LoadFromGltfFile(*scene, "resources/models/working.gltf");
-	sceneObjs2[0]->GetTransform().SetScale(0.2f, 0.2f, 0.2f);
+	//auto sceneObjs2 = scnObjLoader.LoadFromGltfFile(*scene, "resources/models/working.gltf");
+	//sceneObjs2[0]->GetTransform().SetScale(0.2f, 0.2f, 0.2f);
 	//auto rayman = scnObjLoader.LoadFromObjFile(*scene, "resources/models/rayman/rayman_3.obj");
 	//rayman[0]->GetTransform().SetScale(0.1, 0.1, 0.1);
 

@@ -5,6 +5,7 @@
 #define SCENE_OBJECT_UI_TOOL_COMPONENT_H
 
 #include "Constants.hpp"
+#include "core_types.h"
 #include "BaseToolUIComponent.hpp"
 
 namespace Bones
