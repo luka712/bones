@@ -1,5 +1,6 @@
 #include "BaseBuffer.hpp"
-#include "Constants.hpp"
+#include "core_types.h"
+#include "sdl_include.h"
 
 using namespace Bones::Buffers;
 
@@ -28,11 +29,13 @@ void BaseBuffer::DeleteBuffer()
 	glDeleteBuffers(1, &m_buffer);
 }
 
-const std::unordered_map<std::string, Bones::Variant> BaseBuffer::CreateEventData()
+std::unordered_map<std::string, Bones::Variant> BaseBuffer::CreateEventData()
 {
-	std::unordered_map<std::string, Bones::Variant> map;
-	map.emplace("source", this);
-	map.emplace("source_id", m_id.m_value);
+	std::unordered_map<std::string, Bones::Variant> data =
+	{
+		{ "source", Bones::Variant(this) },
+		{ "source_id", Bones::Variant(m_id.m_value) }
+	};
 
-	return map;
+	return data;
 }

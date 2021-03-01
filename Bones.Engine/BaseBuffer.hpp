@@ -58,7 +58,7 @@ namespace Bones
 			/// <summary>
 			/// Creates base data representation for events.
 			/// </summary>
-			virtual const std::unordered_map<std::string, Bones::Variant> CreateEventData();
+			virtual std::unordered_map<std::string, Bones::Variant> CreateEventData();
 		};
 	}
 }

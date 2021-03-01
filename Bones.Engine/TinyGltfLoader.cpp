@@ -7,8 +7,9 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 // #define TINYGLTF_NOEXCEPTION // optional. disable exception handling.
 #include <string>
-#include "Constants.hpp"
+#include "core_types.h"
 #include "TinyGltfLoader.hpp"
+#include "ASSERT_MACROS.h"
 
 
 using std::string;

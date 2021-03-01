@@ -1,7 +1,8 @@
 #include "BuffersManager.hpp"
-#include "Constants.hpp"
+#include "core_types.h"
 #include "CubeVertexBuffer.hpp"
 #include "SkyboxVertexBuffer.hpp"
+#include "ASSERT_MACROS.h"
 
 using Bones::Managers::BuffersManager;
 
@@ -31,7 +32,7 @@ IndexBuffer* BuffersManager::CreateIndexBuffer(const U32* data, const I32  lengt
 	IndexBuffer* iBuffer = &*m_indexBufferCache.back();
 
 	// send event
-	Bones::Utils::GenerateName<IndexBuffer>(iBuffer->m_name, m_indexBufferCache, *iBuffer);
+	GenerateIndexBufferName(iBuffer);
 	SendIndexBufferCreatedEvent(iBuffer);
 	
 
@@ -54,7 +55,7 @@ IndexBuffer* BuffersManager::CreateIndexBuffer(const U8* data, const I32  length
 	IndexBuffer* iBuffer = &*m_indexBufferCache.back();
 
 	// send event
-	Bones::Utils::GenerateName<IndexBuffer>(iBuffer->m_name, m_indexBufferCache, *iBuffer);
+	GenerateIndexBufferName(iBuffer);
 	SendIndexBufferCreatedEvent(iBuffer);
 
 	return iBuffer;
@@ -82,7 +83,7 @@ VertexBuffer* BuffersManager::CreateVertexBuffer(const I32  attributeLocation, c
 	m_vertexBufferCache.emplace_back(new VertexBuffer(attributeLocation, size, data, length));
 	VertexBuffer* vBuffer = &*m_vertexBufferCache.back();
 
-	Bones::Utils::GenerateName<VertexBuffer>(vBuffer->m_name, m_vertexBufferCache, *vBuffer);
+	GenerateVertexBufferName(vBuffer);
 	SendVertexBufferCreatedEvent(vBuffer);
 
 	return vBuffer;
@@ -111,7 +112,7 @@ VertexBuffer* BuffersManager::CreateVertexBuffer(const string& layoutName, const
 		m_vertexBufferCache.emplace_back(new VertexBuffer(layoutName, size, data, length));
 		VertexBuffer* vBuffer = &*m_vertexBufferCache.back();
 
-		Bones::Utils::GenerateName<VertexBuffer>(vBuffer->m_name, m_vertexBufferCache, *vBuffer);
+		GenerateVertexBufferName(vBuffer);
 		SendVertexBufferCreatedEvent(vBuffer);
 
 		return vBuffer;
@@ -148,23 +149,44 @@ void BuffersManager::Destroy()
 	// DELETE_VECTOR(m_interleavedBufferCache);
 }
 
+void Bones::Managers::BuffersManager::GenerateIndexBufferName(IndexBuffer* ptr)
+{
+	Bones::Utils::GenerateName<IndexBuffer>(ptr->m_name, m_indexBufferCache, *ptr);
+}
+
+void Bones::Managers::BuffersManager::GenerateVertexBufferName(VertexBuffer* ptr)
+{
+	Bones::Utils::GenerateName<VertexBuffer>(ptr->m_name, m_vertexBufferCache, *ptr);
+}
+
+void Bones::Managers::BuffersManager::GenerateInterleavedBufferName(InterleavedBuffer* ptr)
+{
+	Bones::Utils::GenerateName<InterleavedBuffer>(ptr->m_name, m_interleavedBufferCache, *ptr);
+}
+
 void Bones::Managers::BuffersManager::SendIndexBufferCreatedEvent(IndexBuffer* ptr)
 {
-	std::unordered_map<std::string, Bones::Variant> eventData;
-	eventData.emplace("index_buffer", Variant(ptr));
-	m_onIndexBufferCreated.Invoke({ "buffers_manager.index_buffer_created", EventCategory::AttributeBufferEvent, eventData });
+	std::unordered_map<std::string, Bones::Variant> eventData = 
+	{
+		{ "index_buffer", Variant(ptr) }
+	};
+	m_onIndexBufferCreated.Invoke(IEvent("buffers_manager.index_buffer_created", EventCategory::AttributeBufferEvent, eventData ));
 }
 
 void Bones::Managers::BuffersManager::SendVertexBufferCreatedEvent(VertexBuffer* ptr)
 {
-	std::unordered_map<std::string, Bones::Variant> eventData;
-	eventData.emplace("vertex_buffer", Variant(ptr));
-	m_onVertexBufferCreated.Invoke({ "buffers_manager.vertex_buffer_created", EventCategory::AttributeBufferEvent, eventData });
+	std::unordered_map<std::string, Bones::Variant> eventData = 
+	{
+		{ "vertex_buffer", Variant(ptr) }
+	};
+	m_onVertexBufferCreated.Invoke(IEvent( "buffers_manager.vertex_buffer_created", EventCategory::AttributeBufferEvent, eventData ));
 }
 
 void Bones::Managers::BuffersManager::SendInterleavedBufferCreatedEvent(InterleavedBuffer* ptr)
 {
-	std::unordered_map<std::string, Bones::Variant> eventData;
-	eventData.emplace("interleaved_buffer", Variant(ptr));
-	m_onInterleavedBufferCreated.Invoke({ "buffers_manager.interleaved_buffer_created", EventCategory::AttributeBufferEvent, eventData });
+	std::unordered_map<std::string, Bones::Variant> eventData = 
+	{
+		{ "interleaved_buffer", Variant(ptr) }
+	};
+	m_onInterleavedBufferCreated.Invoke(IEvent("buffers_manager.interleaved_buffer_created", EventCategory::AttributeBufferEvent, eventData ));
 }

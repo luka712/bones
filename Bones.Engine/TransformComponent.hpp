@@ -5,6 +5,7 @@
 #include "glm/ext/matrix_transform.hpp"
 #include "glm/ext.hpp"
 #include "BaseComponent.hpp"
+#include "sdl_include.h"
 
 using glm::vec3;
 using glm::vec4;

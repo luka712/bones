@@ -5,7 +5,7 @@
 #include "MaterialManager.hpp"
 #include "StandardMaterial.hpp"
 #include "BaseGeometry.hpp"
-#include "Constants.hpp"
+#include "core_types.h"
 
 using Bones::Mesh::StandardMaterialMesh;
 using Bones::Shaders::Material::MaterialLocations;

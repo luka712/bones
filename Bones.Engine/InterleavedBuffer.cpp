@@ -1,5 +1,6 @@
 #include "InterleavedBuffer.hpp"
-#include "Constants.hpp"
+#include "core_types.h"
+#include "sdl_include.h"
 
 using namespace Bones::Buffers;
 
@@ -13,6 +14,7 @@ InterleavedBuffer::InterleavedBuffer(const F32* data, const I32 count, vector<Bu
 
 void InterleavedBuffer::Initialize()
 {
+	LOG_INITIALIZE();
 	glGenBuffers(1, &m_buffer);
 	glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(F32) * m_count, m_data, GL_STATIC_DRAW);
@@ -24,7 +26,7 @@ void InterleavedBuffer::Initialize()
 
 	m_state = State::Initialized;
 
-	m_onInitializedEventHandler.Invoke({ m_initializeEventName, EventCategory::AttributeBufferEvent, CreateEventData() });
+	m_onInitializedEventHandler.Invoke(IEvent( m_initializeEventName, EventCategory::AttributeBufferEvent, CreateEventData() ));
 
 	Bind();
 }
@@ -84,5 +86,5 @@ void InterleavedBuffer::Destroy()
 	DeleteBuffer();
 	m_state = Bones::State::Destroyed;
 
-	m_onDestroyEventHandler.Invoke({ m_destroyEventName, EventCategory::AttributeBufferEvent, CreateEventData() });
+	m_onDestroyEventHandler.Invoke(IEvent(m_destroyEventName, EventCategory::AttributeBufferEvent, CreateEventData() ));
 }

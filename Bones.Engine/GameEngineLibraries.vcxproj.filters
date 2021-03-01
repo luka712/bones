@@ -256,9 +256,6 @@
     <Filter Include="Source Files\Vendor\UI">
       <UniqueIdentifier>{4a27b2b0-0e76-4cbb-9cbc-cfe13e4e3524}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Vendor\UI\Nuklear">
-      <UniqueIdentifier>{cb869771-45d6-4e52-b06f-193d182507eb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Vendor\Loaders\Model\Tiny">
       <UniqueIdentifier>{81993ed3-5835-488b-a744-0fca31c6fa00}</UniqueIdentifier>
     </Filter>
@@ -277,53 +274,11 @@
     <Filter Include="Header Files\Vendor\UI">
       <UniqueIdentifier>{d5137dab-5407-45ff-bec5-e98cbe01fd5b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\UI">
-      <UniqueIdentifier>{d22f5f43-f94d-485f-8775-09b8ffbd217c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\UI">
-      <UniqueIdentifier>{8714909c-bdbf-457b-b3bd-ba4c575005d6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\UI\Core">
-      <UniqueIdentifier>{5e6f1bb1-ce30-4a27-9a38-55fbe4297946}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\UI\Core\Components">
-      <UniqueIdentifier>{da98e869-c0fe-49f2-8a9b-559b0415f15d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\UI\Core">
-      <UniqueIdentifier>{42010037-df36-42d9-9f2e-2774992e8654}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\UI\Core\Components">
-      <UniqueIdentifier>{5c59d3ac-bf13-450a-87dc-f56ef9a05ab0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\UI\Tools">
-      <UniqueIdentifier>{f2176159-de33-436c-ac4e-305faedd98eb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\UI\Tools\Menus">
-      <UniqueIdentifier>{21af19e1-ab84-4602-933a-5c6a18c263c6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\UI\Tools">
-      <UniqueIdentifier>{5aa389c6-6f16-429b-888a-81e51cf8e253}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\UI\Tools\Menus">
-      <UniqueIdentifier>{482de382-1be4-46bb-933f-7f208e2f102a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Vendor\Unix">
       <UniqueIdentifier>{4b5c5029-86d4-49f4-988f-238217e26da2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\UI\Tools\SceneView">
-      <UniqueIdentifier>{7603026f-7e03-4804-9cb2-9e6f734e24bc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\UI\Tools\Inspector">
-      <UniqueIdentifier>{d15c620c-44f1-4c34-b4d9-7ad2a2f03fbf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\UI\Tools\Inspector">
-      <UniqueIdentifier>{c87b2b07-96f0-45ba-b78c-b6844976159b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Diagrams">
       <UniqueIdentifier>{28a1a166-8350-49f8-9402-4c7e1863b05e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\UI\Tools\SceneView">
-      <UniqueIdentifier>{87f89328-f864-45f8-bcce-acbaf252c861}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Macros">
       <UniqueIdentifier>{5fc31012-ff49-4a16-b02e-9e4a53490d1c}</UniqueIdentifier>
@@ -334,17 +289,23 @@
     <Filter Include="Source Files\Events">
       <UniqueIdentifier>{9b9bccab-ae90-4b57-8390-5dbd955e1c2f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\UI\Tools\SceneView\Buffers">
-      <UniqueIdentifier>{5ab8008a-d926-4e75-a903-011874bcf889}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\UI\Tools\SceneView\Buffers">
-      <UniqueIdentifier>{7e42c483-afc4-468e-8927-f425a3bc5a51}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Utils">
       <UniqueIdentifier>{c0594ae9-cd77-4101-a42d-aca45de75bee}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Utils">
       <UniqueIdentifier>{0abeb485-20e4-46ed-9150-4e099a50994d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Include">
+      <UniqueIdentifier>{9a71c332-0be2-4e2e-97f3-334a7781bfa6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Vendor\UI\ImGui">
+      <UniqueIdentifier>{90d313ca-e0e2-4ab3-bbe6-8a7731b1e5a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Vendor\UI\ImGui">
+      <UniqueIdentifier>{afff6410-85fb-4f37-86ab-29f740b1858d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\UI">
+      <UniqueIdentifier>{4cbd2b64-d33c-48a9-ad5d-17f47559772b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -555,53 +516,8 @@
     <ClCompile Include="BlyObjLoader.cpp">
       <Filter>Source Files\Vendor\Loaders\Model\Bly</Filter>
     </ClCompile>
-    <ClCompile Include="BaseUIComponent.cpp">
-      <Filter>Source Files\UI\Core\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="ColorPickerUIComponent.cpp">
-      <Filter>Source Files\UI\Core\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="WindowUIComponent.cpp">
-      <Filter>Source Files\UI\Core\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="CheckboxUIComponent.cpp">
-      <Filter>Source Files\UI\Core\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="UIManager.cpp">
-      <Filter>Source Files\UI\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="UIToolsManager.cpp">
-      <Filter>Source Files\UI\Tools</Filter>
-    </ClCompile>
-    <ClCompile Include="GroupUIComponent.cpp">
-      <Filter>Source Files\UI\Core\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="TreeUIComponent.cpp">
-      <Filter>Source Files\UI\Core\Components</Filter>
-    </ClCompile>
     <ClCompile Include="MeshManager.cpp">
       <Filter>Source Files\Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="InspectorUIToolComponent.cpp">
-      <Filter>Source Files\UI\Tools\Menus</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneViewUIToolComponent.cpp">
-      <Filter>Source Files\UI\Tools\Menus</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneObjectSceneViewComponent.cpp">
-      <Filter>Source Files\UI\Tools\SceneView</Filter>
-    </ClCompile>
-    <ClCompile Include="SelectableLabelUIComponent.cpp">
-      <Filter>Source Files\UI\Core\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneObjectInspectorComponent.cpp">
-      <Filter>Source Files\UI\Tools\Inspector</Filter>
-    </ClCompile>
-    <ClCompile Include="UIToolsEventManager.cpp">
-      <Filter>Source Files\UI\Tools</Filter>
-    </ClCompile>
-    <ClCompile Include="TextUIComponent.cpp">
-      <Filter>Source Files\UI\Core\Components</Filter>
     </ClCompile>
     <ClCompile Include="core_types.cpp">
       <Filter>Source Files\Core</Filter>
@@ -609,11 +525,29 @@
     <ClCompile Include="EventHandler.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="IndexBufferSceneViewComponent.cpp">
-      <Filter>Source Files\UI\Tools\SceneView\Buffers</Filter>
+    <ClCompile Include="EventQueue.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="VertexBufferSceneViewComponent.cpp">
-      <Filter>Source Files\UI\Tools\SceneView\Buffers</Filter>
+    <ClCompile Include="imgui.cpp">
+      <Filter>Source Files\Vendor\UI\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_draw.cpp">
+      <Filter>Source Files\Vendor\UI\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_opengl3.cpp">
+      <Filter>Source Files\Vendor\UI\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_sdl.cpp">
+      <Filter>Source Files\Vendor\UI\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_tables.cpp">
+      <Filter>Source Files\Vendor\UI\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_widgets.cpp">
+      <Filter>Source Files\Vendor\UI\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="UIManager.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -622,9 +556,6 @@
     </ClInclude>
     <ClInclude Include="ShaderParser.hpp">
       <Filter>Header Files\Loaders</Filter>
-    </ClInclude>
-    <ClInclude Include="Constants.hpp">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="VertexBuffer.hpp">
       <Filter>Header Files\Buffers</Filter>
@@ -887,77 +818,14 @@
     <ClInclude Include="json.hpp">
       <Filter>Header Files\Vendor\Json\Nlohmann</Filter>
     </ClInclude>
-    <ClInclude Include="nuklear.h">
-      <Filter>Header Files\Vendor\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="nuklear_sdl_gl3.h">
-      <Filter>Header Files\Vendor\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="nuklear_sdl_gles2.h">
-      <Filter>Header Files\Vendor\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="BaseUIComponent.hpp">
-      <Filter>Header Files\UI\Core\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="CheckboxUIComponent.hpp">
-      <Filter>Header Files\UI\Core\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="ColorPickerUIComponent.hpp">
-      <Filter>Header Files\UI\Core\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="WindowUIComponent.hpp">
-      <Filter>Header Files\UI\Core\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="UIStructs.hpp">
-      <Filter>Header Files\UI\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="UIManager.hpp">
-      <Filter>Header Files\UI\Core</Filter>
-    </ClInclude>
     <ClInclude Include="unistd.h">
       <Filter>Header Files\Vendor\Unix</Filter>
     </ClInclude>
     <ClInclude Include="dirent.h">
       <Filter>Header Files\Vendor\Unix</Filter>
     </ClInclude>
-    <ClInclude Include="UIToolsManager.hpp">
-      <Filter>Header Files\UI\Tools</Filter>
-    </ClInclude>
-    <ClInclude Include="GroupUIComponent.hpp">
-      <Filter>Header Files\UI\Core\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="TreeUIComponent.hpp">
-      <Filter>Header Files\UI\Core\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="BaseToolUIComponent.hpp">
-      <Filter>Header Files\UI\Tools</Filter>
-    </ClInclude>
-    <ClInclude Include="InspectorUIToolComponent.hpp">
-      <Filter>Header Files\UI\Tools\Menus</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneViewUIToolComponent.hpp">
-      <Filter>Header Files\UI\Tools\Menus</Filter>
-    </ClInclude>
     <ClInclude Include="StandardMaterialMesh.hpp">
       <Filter>Header Files\Mesh</Filter>
-    </ClInclude>
-    <ClInclude Include="TextUIComponent.hpp">
-      <Filter>Header Files\UI\Core\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="BaseSceneViewEntryComponent.hpp">
-      <Filter>Header Files\UI\Tools\SceneView</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneObjectSceneViewComponent.hpp">
-      <Filter>Header Files\UI\Tools\SceneView</Filter>
-    </ClInclude>
-    <ClInclude Include="SelectableLabelUIComponent.hpp">
-      <Filter>Header Files\UI\Core\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneObjectInspectorComponent.hpp">
-      <Filter>Header Files\UI\Tools\Inspector</Filter>
-    </ClInclude>
-    <ClInclude Include="UIToolsEventManager.hpp">
-      <Filter>Header Files\UI\Tools</Filter>
     </ClInclude>
     <ClInclude Include="APP_MACROS.h">
       <Filter>Header Files\Macros</Filter>
@@ -971,20 +839,68 @@
     <ClInclude Include="IEntity.hpp">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="IEvent.hpp">
-      <Filter>Header Files\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="EventHandler.hpp">
-      <Filter>Header Files\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="IndexBufferSceneViewComponent.hpp">
-      <Filter>Header Files\UI\Tools\SceneView\Buffers</Filter>
-    </ClInclude>
-    <ClInclude Include="VertexBufferSceneViewComponent.hpp">
-      <Filter>Header Files\UI\Tools\SceneView\Buffers</Filter>
-    </ClInclude>
     <ClInclude Include="utils.h">
       <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="EventQueue.hpp">
+      <Filter>Header Files\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="sdl_include.h">
+      <Filter>Header Files\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="emscripten_include.h">
+      <Filter>Header Files\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Constants.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ASSERT_MACROS.h">
+      <Filter>Header Files\Macros</Filter>
+    </ClInclude>
+    <ClInclude Include="CONFIG_MACROS.h">
+      <Filter>Header Files\Macros</Filter>
+    </ClInclude>
+    <ClInclude Include="DELETE_MACROS.h">
+      <Filter>Header Files\Macros</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui.h">
+      <Filter>Header Files\Vendor\UI\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_opengl3.h">
+      <Filter>Header Files\Vendor\UI\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_sdl.h">
+      <Filter>Header Files\Vendor\UI\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_internal.h">
+      <Filter>Header Files\Vendor\UI\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_rectpack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_textedit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_truetype.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="imconfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UIManager.hpp">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="EventHandler.hpp">
+      <Filter>Header Files\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="IEvent.hpp">
+      <Filter>Header Files\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="IEngineEvents.hpp">
+      <Filter>Header Files\Events</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1091,6 +1007,9 @@
       <Filter>Diagrams</Filter>
     </None>
     <None Include="PostProcessFramebuffer.cd">
+      <Filter>Diagrams</Filter>
+    </None>
+    <None Include="EventHandler.cd">
       <Filter>Diagrams</Filter>
     </None>
   </ItemGroup>

@@ -4,12 +4,13 @@
 
 #define CORE_TYPES_H
 
+#include "APP_MACROS.h"
+#include "PRINT_LOG_MACROS.h"
 #include <cstdint>
 #include <string>
 #include <ostream>
 #include <sstream>
 #include <random>
-#include "PRINT_LOG_MACROS.h"
 
 namespace Bones
 {
@@ -161,6 +162,155 @@ namespace Bones
 	private:
 		U32 RandomChar();
 		std::string GenerateHex(const U32 len);
+	};
+
+
+	/// <summary>
+	/// Sets draw mode with or without indices.
+	/// Such as glDrawArrays or glDrawElements
+	/// </summary>
+	enum class DrawMode
+	{
+		ARRAYS, ELEMENTS
+	};
+
+	/// <summary>
+	/// Byte size of different types of indices that go to indices buffer.
+	/// </summary>
+	enum class IndicesByteSize
+	{
+		// NONE no indices present.
+		NONE = 0,
+		UNSIGNED_BYTE = 1,
+		UNSIGNED_SHORT = 2,
+		UNSIGNED_INT = 4
+	};
+
+	/// <summary>
+	/// Sets types of drawing when calling stuff as glDrawArrays or glDrawElements
+	/// for example GL_TRIANGLES, GL_LINES etc... 
+	/// </summary>
+	enum class DrawType
+	{
+		POINTS = 0x0000,
+		LINES = 0x0001,
+		LINE_LOOP = 0x0002,
+		LINE_STRIP = 0x0003,
+		TRIANGLES = 0x0004,
+		TRIANGLE_STRIP = 0x0005,
+		TRIANGLE_FAN = 0x0006
+	};
+
+	template<typename T>
+	struct Event
+	{
+		T m_callee;
+	};
+
+	template <typename T, typename TValue = void*>
+	struct ChangeEvent
+	{
+		T m_callee;
+		TValue m_value;
+	};
+
+
+	/// <summary>
+	/// The static lifecycle class.
+	/// Every instance goes throught it's lifecycle
+	/// which consists of 
+	/// -- Load          -- called right after resource creation, before Initalize is called
+	/// -- Initialize    -- called right after load method, but before update
+	/// -- Update		 -- update, called every frame
+	/// -- Destroy		 -- self explanatory
+	/// interface methods. 
+	/// </summary>
+	/// <typeparam name=""></typeparam>
+	template<typename T>
+	class IStaticLifeCycle
+	{
+	public:
+		static Bones::State m_state;
+		static void Load()
+		{
+			LOG_LOAD();
+			T::Load_impl();
+			m_state = State::Initialized;
+		}
+
+		static void Initialize()
+		{
+			LOG_INITIALIZE();
+			T::Initialize_impl();
+			m_state = State::Loaded;
+		}
+
+
+		static void Update(F32 dt)
+		{
+			T::Update_impl(dt);
+		}
+
+		static void Render()
+		{
+			T::Render_impl();
+		}
+
+		static void Destroy()
+		{
+			LOG_DESTROY();
+			T::Destroy();
+			m_state = State::Destroyed;
+		}
+	};
+
+	/// <summary>
+	/// The lifecycle class.
+	/// Every instance goes throught it's lifecycle
+	/// which consists of 
+	/// -- Load          -- called right after resource creation, before Initalize is called
+	/// -- Initialize    -- called right after load method, but before update
+	/// -- Update		 -- update, called every frame
+	/// -- Destroy		 -- self explanatory
+	/// interface methods. 
+	/// </summary>
+	/// <typeparam name=""></typeparam>
+	template<typename T>
+	class ILifeCycle
+	{
+	public:
+		Bones::State m_state;
+		void Load()
+		{
+			LOG_LOAD();
+			static_cast<T*>(this)->Load_impl();
+			m_state = State::Initialized;
+		}
+
+		void Initialize()
+		{
+			LOG_INITIALIZE();
+			static_cast<T*>(this)->Initialize_impl();
+			m_state = State::Loaded;
+		}
+
+
+		void Update(F32 dt)
+		{
+			static_cast<T*>(this)->Update_impl(dt);
+		}
+
+		void Render()
+		{
+			static_cast<T*>(this)->Render_impl();
+		}
+
+		void Destroy()
+		{
+			LOG_DESTROY();
+			static_cast<T*>(this)->Destroy_impl();
+			m_state = State::Destroyed;
+		}
 	};
 }
 

@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Constants.hpp"
+#include "core_types.h"
+#include "sdl_include.h"
 
 namespace Bones
 {

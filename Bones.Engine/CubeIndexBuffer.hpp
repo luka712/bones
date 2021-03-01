@@ -7,6 +7,9 @@ namespace Bones
 {
     namespace Buffers
     {
+        /// <summary>
+        /// The cube index buffer.
+        /// </summary>
         class CubeIndexBuffer final : public IndexBuffer
         {
             const unsigned int data[36] = {

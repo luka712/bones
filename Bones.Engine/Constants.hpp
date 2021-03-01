@@ -62,20 +62,8 @@
 #define LOG_DESTROY() 
 #endif
 
-#if DEBUG && EMSCRIPTEN_RUNTIME == false 
-	#define ASSERT(EXPR) \
-	if(EXPR) {} \
-	else {\
-	LOG_FORMAT("Assert failed: %s", #EXPR); \
-	__debugbreak(); \
-	}
-#else 
-	#define ASSERT(expr)
-#endif 
 
-// For warnings, this should be always printed out.
-#define LOG_WARN_FORMAT(FORMAT, ...) fprintf(stdout, "%s. Warning: " FORMAT "\n", __func__, __VA_ARGS__)
-#define LOG_WARN(MSG) LOG_FORMAT("%s\n", MSG)
+
 
 // removing of instances.
 // Delete ptr
@@ -130,54 +118,6 @@ namespace Bones
 {
 	
 
-	/// <summary>
-	/// Sets draw mode with or without indices.
-	/// Such as glDrawArrays or glDrawElements
-	/// </summary>
-	enum class DrawMode
-	{
-		ARRAYS, ELEMENTS
-	};
-
-	/// <summary>
-	/// Byte size of different types of indices that go to indices buffer.
-	/// </summary>
-	enum class IndicesByteSize
-	{
-		// NONE no indices present.
-		NONE = 0,
-		UNSIGNED_BYTE = 1,
-		UNSIGNED_SHORT = 2,
-		UNSIGNED_INT = 4
-	};
-
-	/// <summary>
-	/// Sets types of drawing when calling stuff as glDrawArrays or glDrawElements
-	/// for example GL_TRIANGLES, GL_LINES etc... 
-	/// </summary>
-	enum class DrawType
-	{
-		POINTS = 0x0000,
-		LINES = 0x0001,
-		LINE_LOOP = 0x0002,
-		LINE_STRIP = 0x0003,
-		TRIANGLES = 0x0004,
-		TRIANGLE_STRIP = 0x0005,
-		TRIANGLE_FAN = 0x0006
-	};
-
-	template<typename T>
-	struct Event
-	{
-		T m_callee;
-	};
-
-	template <typename T, typename TValue = void*>
-	struct ChangeEvent
-	{
-		T m_callee;
-		TValue m_value;
-	};
 }
 
 #endif // !STATE_H

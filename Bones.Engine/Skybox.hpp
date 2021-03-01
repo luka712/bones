@@ -5,7 +5,7 @@
 #define SKYBOX_H
 
 #include <string>
-#include "Constants.hpp"
+#include "core_types.h"
 #include "core_types.h"
 
 using std::string;

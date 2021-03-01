@@ -1,8 +1,9 @@
 #include "BaseGeometry.hpp"
-#include "Constants.hpp"
+#include "core_types.h"
 #include "VertexBuffer.hpp"
 #include "IndexBuffer.hpp"
 #include "InterleavedBuffer.hpp"
+#include "sdl_include.h"
 
 using Bones::Geometry::BaseGeometry;
 using Bones::Buffers::VertexBuffer;

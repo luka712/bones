@@ -2,7 +2,7 @@
 #include "TextureManager.hpp"
 #include "Texture2D.hpp"
 #include "NightVisionShader.hpp"
-#include "Constants.hpp"
+#include "core_types.h"
 
 using Bones::Framebuffers::PostProcess::NightVisionPostProcessFramebuffer;
 using Bones::Managers::TextureManager;

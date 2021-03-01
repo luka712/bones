@@ -3,6 +3,7 @@
 #include "StandardMaterial.hpp"
 #include "MaterialStructs.hpp"
 #include "MaterialShaderStructs.hpp"
+#include "DELETE_MACROS.h"
 
 using Bones::Managers::MaterialManager;
 

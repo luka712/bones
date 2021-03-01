@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Constants.hpp"
+#include "core_types.h"
+#include "vendor.h"
 #include "glm/vec3.hpp"
 #include "glm/ext.hpp"
 

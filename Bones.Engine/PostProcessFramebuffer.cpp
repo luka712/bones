@@ -2,7 +2,7 @@
 #include "BasePostProcessShader.hpp"
 #include "GeometryManager.hpp"
 #include "QuadScreenGeometry.hpp"
-#include "Constants.hpp"
+#include "core_types.h"
 #include <iostream>
 
 using Bones::Framebuffers::PostProcess::PostProcessFramebuffer;

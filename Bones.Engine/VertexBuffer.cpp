@@ -1,5 +1,7 @@
 #include "VertexBuffer.hpp"
-#include "Constants.hpp"
+#include "core_types.h"
+#include "sdl_include.h"
+#include "PRINT_LOG_MACROS.h"
 
 using namespace Bones::Buffers;
 
@@ -40,7 +42,7 @@ void VertexBuffer::Initialize()
 
 	m_state = State::Initialized;
 
-	m_onInitializedEventHandler.Invoke({ m_initializeEventName, EventCategory::AttributeBufferEvent, CreateEventData() });
+	m_onInitializedEventHandler.Invoke(IEvent{ m_initializeEventName, EventCategory::AttributeBufferEvent, CreateEventData() });
 
 	Bind();
 }

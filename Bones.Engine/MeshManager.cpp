@@ -2,6 +2,7 @@
 #include "StandardMaterial.hpp"
 #include "BaseGeometry.hpp"
 #include "StandardMaterialMesh.hpp"
+#include "DELETE_MACROS.h"
 
 using Bones::Managers::MeshManager;
 

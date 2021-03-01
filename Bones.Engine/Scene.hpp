@@ -13,7 +13,7 @@
 #include "FreeCamera.hpp"
 #include "SpotLight.hpp"
 #include "BaseMaterial.hpp"
-#include "Constants.hpp"
+#include "core_types.h"
 
 
 namespace Bones

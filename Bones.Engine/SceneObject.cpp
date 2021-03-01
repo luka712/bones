@@ -2,6 +2,7 @@
 #include "StandardMaterialMesh.hpp"
 #include "Scene.hpp"
 #include <vector>
+#include "DELETE_MACROS.h"
 
 using std::vector;
 using Bones::Scene;

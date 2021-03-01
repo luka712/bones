@@ -5,7 +5,7 @@
 #define BASE_GEOMETRY_H
 
 #include "glm/ext.hpp"
-#include "Constants.hpp"
+#include "core_types.h"
 #include <vector>
 
 using namespace glm;

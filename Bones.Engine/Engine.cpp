@@ -7,6 +7,7 @@
 #include "MaterialManager.hpp"
 #include "MeshManager.hpp"
 #include "SceneManager.hpp"
+#include "EventQueue.hpp"
 
 using namespace Bones;
 
@@ -33,20 +34,26 @@ void Engine::Load(LoadCallback)
 {
 	if (SceneManager::m_currentScene)
 		SceneManager::m_currentScene->Load();
-	
+
 	m_state = State::Loaded;
 }
 
 
-void Engine::Initialize(InitializeCallback)
+void Engine::Initialize()
 {
 	m_renderer->Initialize();
-	if (SceneManager::m_currentScene) 
+	if (SceneManager::m_currentScene)
 		SceneManager::m_currentScene->Initialize();
-	m_initializedEvent(m_renderer->m_window);
+
+
+	m_onInitializedEvent.Invoke(IEvent("engine.initialized", Bones::EventCategory::EngineEvent,
+		{
+			{ "window", Bones::Variant(m_renderer->m_window) },
+			{ "rendering_context", Bones::Variant(m_renderer->m_glContext) }
+		}));
 }
 
-void Engine::Run()  
+void Engine::Run()
 {
 #if EMSCRIPTEN_RUNTIME == false
 	while (m_running)
@@ -96,7 +103,12 @@ void Engine::Destroy()
 	m_destroyEvent();
 }
 
-void Engine::BeforeUpdate()  
+void Bones::Engine::AddSDLEventListener(Bones::IOnSDLEvent* listener)
+{
+	m_onSDLEvents.emplace_back(listener);
+}
+
+void Engine::BeforeUpdate()
 {
 	auto controlComp = SceneManager::m_currentScene->GetActiveCamera().GetControlComponent();
 	if (controlComp != nullptr)
@@ -107,11 +119,16 @@ void Engine::BeforeUpdate()
 
 void Engine::Update()
 {
+	Bones::Events::EventQueue::Update();
+
 	Scene& scene = *SceneManager::m_currentScene;
 	SDL_Event event;
 	while (SDL_PollEvent(&event)) {
 
 		// notify outside clients with poll events.
+		for (auto& entry : m_onSDLEvents)
+			entry->OnSDLEvent(event);
+
 		m_pollEvents(event);
 
 		// engine components
@@ -158,7 +175,7 @@ void Engine::Update()
 	m_updateEvent(m_timeData.m_deltaTime);
 }
 
-void Engine::AfterUpdate() 
+void Engine::AfterUpdate()
 {
 	auto controlComp = SceneManager::m_currentScene->GetActiveCamera().GetControlComponent();
 	if (controlComp != nullptr)
@@ -167,7 +184,7 @@ void Engine::AfterUpdate()
 	}
 }
 
-void Engine::Draw() const 
+void Engine::Draw() const
 {
 	m_renderer->Render(*SceneManager::m_currentScene);
 	m_drawEvent();

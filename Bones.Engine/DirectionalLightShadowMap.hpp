@@ -3,7 +3,7 @@
 //#include <iostream>
 //#include <string>
 //#include "BaseTexture.hpp"
-//#include "Constants.hpp"
+//#include "core_types.h"
 //#include "DirectionalShadowShader.hpp"
 //
 //using namespace std;

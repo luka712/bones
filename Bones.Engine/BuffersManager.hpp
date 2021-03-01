@@ -13,7 +13,7 @@
 #include "IndexBuffer.hpp"
 #include "VertexBuffer.hpp"
 #include "InterleavedBuffer.hpp"
-#include "Constants.hpp"
+#include "core_types.h"
 #include "EventHandler.hpp"
 #include "utils.h"
 
@@ -80,7 +80,7 @@ namespace Bones
 			{
 				T* buffer = GetOrCreate<T, IndexBuffer>(m_indexBufferCache);
 
-				Bones::Utils::GenerateName<IndexBuffer>(buffer->m_name, m_indexBufferCache, *buffer);
+				GenerateIndexBufferName(buffer);
 				SendIndexBufferCreatedEvent(static_cast<IndexBuffer*>(buffer));
 
 				return buffer;
@@ -96,7 +96,7 @@ namespace Bones
 			{
 				T* buffer = GetOrCreate<T, VertexBuffer>(m_vertexBufferCache);
 
-				Bones::Utils::GenerateName<VertexBuffer>(buffer->m_name, m_vertexBufferCache, *buffer);
+				GenerateVertexBufferName(buffer);
 				SendVertexBufferCreatedEvent(static_cast<VertexBuffer*>(buffer));
 
 				return buffer;
@@ -132,7 +132,7 @@ namespace Bones
 			{
 				T* buffer = GetOrCreate<T, InterleavedBuffer>(m_interleavedBufferCache);
 
-			 // 	Bones::Utils::GenerateName<InterleavedBuffer>("Interleaved Buffer ", m_interleavedBufferCache, *buffer);
+				GenerateInterleavedBufferName(buffer);
 				SendInterleavedBufferCreatedEvent(static_cast<InterleavedBuffer*>(buffer));
 
 				return buffer;
@@ -154,6 +154,10 @@ namespace Bones
 			// the interleaved buffers cache.
 			static std::vector<std::unique_ptr<InterleavedBuffer>> m_interleavedBufferCache;
 
+			static void GenerateIndexBufferName(IndexBuffer* ptr);
+			static void GenerateVertexBufferName(VertexBuffer* ptr);
+			static void GenerateInterleavedBufferName(InterleavedBuffer* ptr);
+
 			static void SendIndexBufferCreatedEvent(IndexBuffer* ptr);
 			static void SendVertexBufferCreatedEvent(VertexBuffer* ptr);
 			static void SendInterleavedBufferCreatedEvent(InterleavedBuffer* ptr);
@@ -166,8 +170,8 @@ namespace Bones
 			/// <param name="vectorCache"></param>
 			/// <returns></returns> 
 			// TODO: arguments
-			template<typename T, typename TBase>
-			static T* GetOrCreate(vector<std::unique_ptr<TBase>>& vectorCache)
+			template<typename T, typename TBase, typename ... TArgs>
+			static T* GetOrCreate(vector<std::unique_ptr<TBase>>& vectorCache, TArgs&& ... args)
 			{
 				size_t size = vectorCache.size();
 				for (size_t i = 0; i < size; i++)
@@ -179,7 +183,7 @@ namespace Bones
 					}
 				}
 
-				vectorCache.emplace_back(new T());
+				vectorCache.emplace_back(new T(std::forward<TArgs>(args)...));
 				std::unique_ptr<TBase>& uniquePtr = vectorCache.back();
 				TBase* entry = &*uniquePtr;
 				return static_cast<T*>(entry);

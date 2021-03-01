@@ -9,7 +9,7 @@ namespace Bones
 		class QuadIndexBuffer final : public IndexBuffer
 		{
 		private:
-			const GLuint data[6] = {
+			const U32 data[6] = {
 				0, 2, 1,
 				1, 2, 3
 			};

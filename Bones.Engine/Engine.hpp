@@ -2,13 +2,14 @@
 
 #include "OpenGL_ES_3_0_Renderer.hpp"
 #include "OpenGL_4_6_Renderer.hpp"
-#include "Constants.hpp"
+#include "core_types.h"
+#include "EventHandler.hpp"
+#include "IEngineEvents.hpp"
 
 using namespace Bones::Renderer;
 
 namespace Bones
 {
-	typedef void(*InitializeCallback)();
 	typedef void(*LoadCallback)();
 
 	// values from SDL_GetTicks()
@@ -27,21 +28,24 @@ namespace Bones
 	class Engine final
 	{
 	private:
+		std::vector<Bones::IOnSDLEvent*> m_onSDLEvents;
+
 		// used for SDL GetTicks(). Used only in desktop mode.
 		U32 m_FPS = 60;
 		bool m_running;
 		TimeData m_timeData;
-
-		BaseRenderer* m_renderer = nullptr;
 	
-
 		void BeforeUpdate();
 		void Update();
 		void AfterUpdate();
 		void Draw()  const;
 	public:
+		
+
+		BaseRenderer* m_renderer = nullptr;
 		State m_state = State::New;
-		std::function<void(SDL_Window*)> m_initializedEvent = [](SDL_Window* win) ->void {};
+		
+		Bones::EventHandler<> m_onInitializedEvent;
 		std::function<void(SDL_Event&)> m_pollEvents = [](SDL_Event& event) -> void {};
 		std::function<void(Uint32 dt)> m_updateEvent = [](Uint32 dt) -> void {};
 		std::function<void()> m_drawEvent = []() -> void {};
@@ -63,10 +67,12 @@ namespace Bones
 #pragma endregion
 
 #pragma region Framework Methods
-		void Initialize(InitializeCallback = nullptr);
+		void Initialize();
 		void Load(LoadCallback = nullptr);
 		void Run();
 		void Destroy();
 #pragma endregion
+
+		void AddSDLEventListener(Bones::IOnSDLEvent* listener);
 	};
 }

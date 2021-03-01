@@ -1,4 +1,4 @@
-#include "Constants.hpp"
+#include "core_types.h"
 #include "ShaderManager.hpp"
 #include "GrayScaleShader.hpp"
 #include "SharpenShader.hpp"
@@ -10,6 +10,7 @@
 #include "NightVisionShader.hpp"
 #include "MaterialShader.hpp"
 #include "SkyboxShader.hpp"
+#include "DELETE_MACROS.h"
 
 using Bones::Managers::ShaderManager;
 

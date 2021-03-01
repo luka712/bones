@@ -6,7 +6,7 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-#include "Constants.hpp"
+#include "core_types.h"
 #include "BuffersManager.hpp"
 #include "IndexBuffer.hpp"
 

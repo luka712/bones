@@ -1,8 +1,9 @@
 #pragma once
 
 #include "BaseBuffer.hpp"
-#include "Constants.hpp"
+#include "core_types.h"
 #include <vector>
+#include "sdl_include.h"
 
 using namespace std;
 
@@ -40,6 +41,8 @@ namespace Bones
 			inline const std::string Type() const noexcept { return "index_buffer"; }
 
 			void Destroy();
+
+			void GetDataAsU16(std::vector<U16>& ref);
 
 			~IndexBuffer();
 		protected:

@@ -1,5 +1,6 @@
 #include "OpenGL_ES_3_0_Renderer.hpp"
-#include "Constants.hpp"
+#include "APP_MACROS.h"
+#include "core_types.h"
 #include <string>
 
 using Bones::Renderer::OpenGL_ES_3_0_Renderer;
@@ -20,11 +21,6 @@ EM_JS(int, jsGetCanvasHeight, (const char* str, int length), {
 void OpenGL_ES_3_0_Renderer::CreateWindowAndRenderer()
 {
 #if EMSCRIPTEN_RUNTIME
-	const std::string canvasName = CANVAS_NAME;
-
-	int width = jsGetCanvasWidth(canvasName.c_str(), canvasName.length());
-	int height = jsGetCanvasHeight(canvasName.c_str(), canvasName.length());
-
 	if (SDL_CreateWindowAndRenderer(DEFAULT_WIDTH, DEFAULT_HEIGHT, SDL_WINDOW_OPENGL, &m_window, &m_renderer) < 0)
 	{
 		throw new runtime_error(SDL_GetError());

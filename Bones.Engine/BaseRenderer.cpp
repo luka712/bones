@@ -9,6 +9,8 @@
 #include "MaterialShaderStructs.hpp"
 #include "Skybox.hpp"
 #include "BaseGeometry.hpp"
+#include "imgui.h"
+#include "imgui_impl_opengl3.h"
 
 
 using Bones::Shaders::Material::MaterialShader;
@@ -299,6 +301,8 @@ void BaseRenderer::StencilPass()
 
 void BaseRenderer::Render(Scene& scene)
 {
+	ImGui::Render();
+
 	// start of frame. Prepare arrays
 	m_opaqueRenderPassObjects.clear();
 	m_transparentRenderPassObjects.clear();
@@ -365,7 +369,7 @@ void BaseRenderer::Render(Scene& scene)
 	scene.m_postProcessPipeline->Draw();
 
 	// disabled cached shader check 
-
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
 void BaseRenderer::SwapWindow()

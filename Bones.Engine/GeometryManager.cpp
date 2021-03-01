@@ -3,7 +3,8 @@
 #include "EnvironmentMapGeometry.hpp"
 #include "BoxGeometry.hpp"
 #include "QuadGeometry.hpp"
-#include "Constants.hpp"
+#include "core_types.h"
+#include "DELETE_MACROS.h"
 
 using Bones::Managers::GeometryManager;
 

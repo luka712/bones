@@ -7,7 +7,7 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-#include "Constants.hpp"
+#include "core_types.h"
 #include "IEvent.hpp"
 #include <EventHandler.hpp>
 

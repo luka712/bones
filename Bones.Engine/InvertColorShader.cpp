@@ -1,5 +1,5 @@
 #include "InvertColorShader.hpp"
-#include "Constants.hpp"
+#include "core_types.h"
 #include "ShaderParser.hpp"
 
 using Bones::Shaders::PostProcess::InvertColorShader;

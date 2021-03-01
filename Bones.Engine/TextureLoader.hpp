@@ -3,10 +3,8 @@
 #include <exception>
 #include <string>
 #include <iostream>
-#include "Constants.hpp"
+#include "core_types.h"
 #include <SDL_image.h>
-
-using namespace std;
 
 namespace Bones
 {
@@ -26,11 +24,11 @@ namespace Bones
 	namespace Loaders
 	{
 
-		struct TextureLoaderInvalidPathError : public exception
+		struct TextureLoaderInvalidPathError : public std::exception
 		{
-			string m_error;
+			std::string m_error;
 
-			TextureLoaderInvalidPathError(const string& filepath)
+			TextureLoaderInvalidPathError(const std::string& filepath)
 			{
 				m_error = "Unable to resolve path or file: " + filepath;
 			}
@@ -41,11 +39,15 @@ namespace Bones
 			}
 		};
 
+		/// <summary>
+		/// The texture loader.
+		/// </summary>
 		class TextureLoader final
 		{
 		public:
-			TextureData* LoadFromFile(const string& filepath);
-			CubeMapTextureData* LoadFromFile(const string& right, const string& left, const string& top, const string& bottom, const string& front, const string& back);
+			TextureData* LoadFromFile(const std::string& filepath);
+			CubeMapTextureData* LoadFromFile(const std::string& right, const std::string& left, const std::string& top, const std::string& bottom, const std::string& front, const std::string& back);
+			CubeMapTextureData* LoadFromFileAsync(const std::string& right, const std::string& left, const std::string& top, const std::string& bottom, const std::string& front, const std::string& back);
 		};
 
 

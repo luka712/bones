@@ -8,8 +8,8 @@
 #include <string>
 #include <iostream>
 #include <vector>
-#include "Constants.hpp"
 #include "core_types.h"
+#include "sdl_include.h"
 
 using namespace std;
 

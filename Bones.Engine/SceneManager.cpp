@@ -1,6 +1,7 @@
 #include "SceneManager.hpp"
 #include "Scene.hpp"
-#include "Constants.hpp"
+#include "core_types.h"
+#include "PRINT_LOG_MACROS.h"
 
 using Bones::Managers::SceneManager;
 

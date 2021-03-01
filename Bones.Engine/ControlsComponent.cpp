@@ -1,4 +1,5 @@
 #include "ControlsComponent.hpp"
+#include "sdl_include.h"
 
 using namespace Bones::Component;
 

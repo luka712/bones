@@ -21,11 +21,7 @@
 #include "TextureManager.hpp"
 #include "NightVisionPostProcessFramebuffer.hpp"
 #include "UIManager.hpp"
-#include "UIToolsManager.hpp";
 
-using namespace Bones::UI;
-using namespace Bones::UI::Core;
-using namespace Bones::UI::Tools;
 using Bones::Engine;
 using Bones::Scene;
 using Bones::Materials::StandardMaterial;
@@ -43,6 +39,7 @@ using Bones::Shaders::PostProcess::BasePostProcessShader;
 
 Engine* engine;
 Scene* scene;
+Bones::UI::UIManager* uiManager;
 Uint32 start;
 const int FPS = 60;
 
@@ -76,26 +73,32 @@ void AddDebugLightsToScene()
 
 //SceneObject* box1, * box2, * box3, * box4, * box5;
 
+void OnEngineInitialized(const IEvent& evt)
+{
+	uiManager = new Bones::UI::UIManager(*engine);
+	uiManager->Load();
+	uiManager->Initialize();
+	engine->AddSDLEventListener(uiManager);
+}
+
 int main(int argc, char* argv[])
 {
 	engine = new Engine();
+	engine->m_onInitializedEvent += &OnEngineInitialized;
 
-	engine->m_initializedEvent = [](SDL_Window* win)
-	{
-		UIManager::Initialize(win);
-		UIToolsManager::Initialize();
-	};
+
 	Uint32 testTime = 0;
-	engine->m_pollEvents = [&](SDL_Event evt) { UIManager::PollEvents(evt); };
+	engine->m_pollEvents = [&](SDL_Event evt) 
+	{
+		
+	};
 	engine->m_updateEvent = [](Uint32 dt)
 	{
-		UIManager::Update(dt);
+		uiManager->Update(static_cast<F32>(dt));
 	};
-	engine->m_drawEvent = []() { UIManager::Draw(); };
+	engine->m_drawEvent = []() {};
 	engine->m_destroyEvent = []()
 	{
-		UIManager::Destroy();
-		UIToolsManager::Destroy();
 	};
 
 	engine->Load();
@@ -104,7 +107,7 @@ int main(int argc, char* argv[])
 
 	scene = SceneManager::CreateScene("main_scene");
 
-	scene->UseDefaultSkybox();
+	//scene->UseDefaultSkybox();
 
 
 	StandardMaterialOptions opts;
@@ -259,6 +262,7 @@ int main(int argc, char* argv[])
 	emscripten_set_main_loop_timing(1, 1);
 #else 
 	engine->Run();
+	delete uiManager;
 	delete engine;
 #endif 
 

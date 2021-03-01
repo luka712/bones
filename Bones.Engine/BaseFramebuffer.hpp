@@ -4,7 +4,7 @@
 
 #define BASEFRAMEBUFFER_H
 
-#include "Constants.hpp"
+#include "core_types.h"
 #include "core_types.h"
 
 namespace Bones

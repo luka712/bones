@@ -10,6 +10,7 @@
 	3. Initialize
 */
 
+#include "APP_MACROS.h"
 #include "BaseShader.hpp"
 #include "BaseShaderStructs.hpp"
 #include "MaterialShaderStructs.hpp"

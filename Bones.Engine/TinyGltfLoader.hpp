@@ -7853,7 +7853,7 @@ namespace tinygltf {
 #define TINY_GLTF_LOADER 
 
 #include "BaseModelLoader.hpp"
-#include "Constants.hpp"
+#include "core_types.h"
 #include <vector>
 
 using namespace Bones::Loaders;

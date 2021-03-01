@@ -19,6 +19,8 @@ namespace Bones
 	{
 		None = 0UL,
 		AttributeBufferEvent = 1UL << 0, // comes from attribute buffers
+		EngineEvent = 1UL << 1,
+		UIEvent = 1UL << 2 // for ui events
 	};
 
 	// Use macros to easily implement interface
@@ -42,17 +44,64 @@ namespace Bones
 		/// <param name="">Arguments as key value pairs</param>
 		IEvent(const std::string& name, EventCategory categoryFlag, std::unordered_map<std::string, Bones::Variant> args)
 			: m_name(name), m_categoryFlag(categoryFlag), m_arguments(args)
-		{}
+		{
+			LOG_CONSTRUCTOR();
+			LOG_FORMAT("Event: %s", name.c_str());
+		}
+
+		/// <summary>
+		/// Creates the event 
+		/// </summary>
+		/// <param name="name">The name of event.</param>
+		/// <param name="">Arguments as key value pairs</param>
+		IEvent(const std::string& name, std::unordered_map<std::string, Bones::Variant> args)
+			:m_name(name), m_arguments(args)
+		{
+			LOG_CONSTRUCTOR();
+			LOG_FORMAT("Event: %s", name.c_str());
+			m_categoryFlag = EventCategory::None;
+		}
+
+		IEvent(const std::string& name)
+			: m_name(name)
+		{
+			LOG_CONSTRUCTOR();
+			LOG_FORMAT("Event: %s", name.c_str());
+			m_categoryFlag = EventCategory::None;
+		}
+
+		IEvent()
+			: m_name("")
+		{
+			LOG_CONSTRUCTOR();
+			m_categoryFlag = EventCategory::None;
+		}
+
+	/*	IEvent(const IEvent& other)
+		{
+			LOG_COPY_CONSTRUCTOR();
+			m_name = other.m_name;
+			m_categoryFlag = other.m_categoryFlag;
+			m_arguments = other.m_arguments;
+		}*/
+
+		/*IEvent(IEvent&& other)
+		{
+			LOG_MOVE_OWNERSHIP_CONSTRUCTOR();
+			m_categoryFlag = other.m_categoryFlag;
+			m_name = other.m_name;
+			m_arguments = other.m_arguments;
+		}*/
 
 		// -- Fields
 		// all the arguments of event.
 		std::unordered_map<std::string, Bones::Variant> m_arguments;
 
 		// the event name 
-		const std::string m_name;
+		std::string m_name;
 
 		// the event category
-		const EventCategory m_categoryFlag;
+		EventCategory m_categoryFlag;
 
 		/// <summary>
 		/// Check if event is in certain category.

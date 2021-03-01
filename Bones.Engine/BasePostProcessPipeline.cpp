@@ -1,7 +1,7 @@
 #include "BasePostProcessPipeline.hpp"
 #include "PostProcessFramebuffer.hpp"
 #include "FramebufferManager.hpp"
-#include "Constants.hpp"
+#include "core_types.h"
 
 using Bones::PostProcessPipeline::BasePostProcessPipeline;
 using Bones::Managers::FramebufferManager;

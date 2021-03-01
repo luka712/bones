@@ -1,5 +1,6 @@
 #include "IndexBuffer.hpp"
-#include "Constants.hpp"
+#include "core_types.h"
+#include "sdl_include.h"
 
 using namespace Bones::Buffers;
 
@@ -19,7 +20,6 @@ IndexBuffer::IndexBuffer(const U32* data, const I32 count)
 	{
 		unsigned char ucBuffer[4];
 		memcpy(&ucBuffer, (U8*)&data[i / 4], sizeof(U32));
-		// TODO: simply copy the data with description to index buffer.
 		m_data.push_back(ucBuffer[0]);
 		m_data.push_back(ucBuffer[1]);
 		m_data.push_back(ucBuffer[2]);
@@ -79,9 +79,7 @@ void IndexBuffer::Initialize()
 
 	m_state = State::Initialized;
 
-	IEvent evt = IEvent(m_initializeEventName, Bones::EventCategory::AttributeBufferEvent,CreateEventData());
-
-	m_onInitializedEventHandler.Invoke(evt);
+	m_onInitializedEventHandler.Invoke(IEvent(m_initializeEventName, Bones::EventCategory::AttributeBufferEvent, CreateEventData()));
 }
 
 void IndexBuffer::Initialize(const U32 program)
@@ -126,6 +124,20 @@ void IndexBuffer::Destroy()
 IndexBuffer::~IndexBuffer()
 {
 	LOG_DESTRUCTOR();
+}
+
+void IndexBuffer::GetDataAsU16(std::vector<U16>& ref)
+{
+	// convert unsigned integers to byte data.
+	for (size_t i = 0; i < m_length; i += 4)
+	{
+		unsigned char ucBuffer[4];
+		memcpy(&ucBuffer, (U8*)&m_data[i / 4], sizeof(U32));
+		m_data.push_back(ucBuffer[0]);
+		m_data.push_back(ucBuffer[1]);
+		m_data.push_back(ucBuffer[2]);
+		m_data.push_back(ucBuffer[3]);
+	}
 }
 
 

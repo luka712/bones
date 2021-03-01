@@ -4,6 +4,7 @@
 
 #define STENCILOUTLINESHADER_H
 
+#include "vendor.h"
 #include "BaseShader.hpp"
 
 using Bones::Shaders::BaseShader;

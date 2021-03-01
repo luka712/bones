@@ -25,7 +25,7 @@ namespace Bones
 		
 
 		/// <summary>
-		/// Add event. Returns true if added.
+		/// Adds event where event is of type IEvent or class that inherits IEvent. Returns true if added.
 		/// </summary>
 		bool AddEvent(std::function<void(const TEvent&)>* fn)
 		{
@@ -48,7 +48,7 @@ namespace Bones
 		}
 
 		/// <summary>
-		/// Add event. Returns true if added.
+		/// Add IEvent or derived type. Returns true if added.
 		/// CAUTION: this operator copies function.
 		/// </summary>
 		bool operator+=(std::function<void(const TEvent&)> fn)
@@ -60,7 +60,7 @@ namespace Bones
 		}
 
 		/// <summary>
-		/// Add event. Returns true if added.
+		/// Add IEvent or derived type. Returns true if added.
 		/// Note when passed by reference, who ever is responsible for passing function needs 
 		/// to make sure that it's not deleted before it is called. This class takes no responsibility 
 		/// of lifecylce of passed function.

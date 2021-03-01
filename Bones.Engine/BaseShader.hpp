@@ -4,8 +4,9 @@
 #include <string>
 #include <map>
 #include "glm/gtc/type_ptr.hpp"
-#include "Constants.hpp"
+#include "core_types.h"
 #include "ShaderParser.hpp"
+#include "sdl_include.h"
 
 using namespace std;
 using namespace Bones::Loaders;

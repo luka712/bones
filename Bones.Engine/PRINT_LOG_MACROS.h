@@ -19,6 +19,7 @@
 
 // constructor, destructor, copy calls
 #define LOG_CONSTRUCTOR() LOG("Constructor called.\n")
+#define LOG_MOVE_OWNERSHIP_CONSTRUCTOR() LOG("Move ownership construtor called.\n");
 #define LOG_COPY_CONSTRUCTOR() LOG("Copy constructor called.\n")
 #define LOG_COPY_OPERATOR() LOG("Copy operator called.\n")
 #define LOG_DESTRUCTOR() LOG("Destructor called.\n")
@@ -34,10 +35,15 @@
 #define LOG_CONSTRUCTOR() ((void)0)
 #define LOG_COPY_CONSTRUCTOR() 
 #define LOG_COPY_OPERATOR() 
+#define LOG_MOVE_OWNERSHIP_CONSTRUCTOR() 
 #define LOG_DESTRUCTOR() ((void)0)
 #define LOG_INITIALIZE() 
 #define LOG_LOAD() 
 #define LOG_DESTROY() 
 #endif
+
+// For warnings, this should be always printed out.
+#define LOG_WARN_FORMAT(FORMAT, ...) fprintf(stdout, "%s. Warning: " FORMAT "\n", __func__, __VA_ARGS__)
+#define LOG_WARN(MSG) LOG_FORMAT("%s\n", MSG)
 
 #endif // !PRINT_LOG_MACROS_H

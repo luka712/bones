@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="EventHandler is used similar to C# events. Ideally it should be created as stack allocated property on Class that using it.&#xD;&#xA;&#xD;&#xA;Events can be added via AddEvent or += operator&#xD;&#xA;depending on type passed it can be either passed by reference or copy.&#xD;&#xA;&#xD;&#xA;Use -= or RemoveEvent to remove event.&#xD;&#xA;&#xD;&#xA;Event are wrapped in Callback class which holds reference to std::function.">
+    <Position X="2.729" Y="1.271" Height="3.885" Width="1.867" />
+  </Comment>
+  <Comment CommentText="IEvent is base event class and can be considered as instantiable interface.&#xD;&#xA;&#xD;&#xA;Argument are type of type map, type agnostic and are using Variant as value. &#xD;&#xA;&#xD;&#xA;">
+    <Position X="8.542" Y="0.521" Height="1.635" Width="1.773" />
+  </Comment>
+  <Comment CommentText="EventCategory is used for quick checking of events.&#xD;&#xA;&#xD;&#xA;Can be used as EventCategory | AttributeBufferEvent ( or any other ) &#xD;&#xA;to be sure that event is to be handled &#xD;&#xA;">
+    <Position X="8.146" Y="5.021" Height="1.854" Width="1.835" />
+  </Comment>
+  <Class Name="Bones::EventHandler&lt;TEvent&gt;">
+    <Position X="1" Y="0.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Class Name="Bones::EventHandler&lt;TEvent&gt;::Callback">
+        <TypeIdentifier>
+          <NewMemberFileName>EventHandler.hpp</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAgBAAAAAAQAAAgAAAAAAAAAAAABAAAQ=</HashCode>
+      <FileName>EventHandler.hpp</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_events" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="std::vector&lt;_Ty, _Alloc&gt;" Collapsed="true">
+    <Position X="4.5" Y="0.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AWAEk4EqCrBsCEBAAOMIIAAyAAUEQBIghQkwgkAFUko=</HashCode>
+      <FileName>C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\vector</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="std::unordered_map&lt;_Kty, _Ty, _Hasher, _Keyeq, _Alloc&gt;">
+    <Position X="11" Y="1.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>BABAAAAAAABAAACQAAAAAAAAAAEABAAAgQAgAAAEAAA=</HashCode>
+      <FileName>C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\unordered_map</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="Bones::IEvent">
+    <Position X="6.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EIAAAAAAAABIAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IEvent.hpp</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_categoryFlag" />
+      <Field Name="m_arguments" />
+    </ShowAsAssociation>
+  </Struct>
+  <Enum Name="Bones::EventCategory">
+    <Position X="8.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAUAAAA=</HashCode>
+      <FileName>IEvent.hpp</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
