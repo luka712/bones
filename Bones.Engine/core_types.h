@@ -129,7 +129,7 @@ namespace Bones
 				m_asString = other.m_asString;
 				break;
 			default:
-				LOG_FORMAT("Cannot copy Variant with type: %u", other.m_type);
+				LOG_FORMAT("Cannot copy Variant with type: %hhu", other.m_type);
 				break;
 			}
 		}
@@ -153,7 +153,7 @@ namespace Bones
 
 		friend std::ostream& operator<<(std::ostream& stream, const Guid& v)
 		{
-			stream << v.m_value << std::endl;
+			return stream << v.m_value;
 		}
 
 		const bool operator==(const Guid& other)
@@ -244,14 +244,12 @@ namespace Bones
 		static Bones::State m_state;
 		static void Load()
 		{
-			LOG_LOAD();
 			T::Load_impl();
 			m_state = State::Initialized;
 		}
 
 		static void Initialize()
 		{
-			LOG_INITIALIZE();
 			T::Initialize_impl();
 			m_state = State::Loaded;
 		}
@@ -269,7 +267,6 @@ namespace Bones
 
 		static void Destroy()
 		{
-			LOG_DESTROY();
 			T::Destroy();
 			m_state = State::Destroyed;
 		}
@@ -294,14 +291,12 @@ namespace Bones
 		bool m_active = true;
 		void Load()
 		{
-			LOG_LOAD();
 			static_cast<T*>(this)->Load_impl();
 			m_state = State::Initialized;
 		}
 
 		void Initialize()
 		{
-			LOG_INITIALIZE();
 			static_cast<T*>(this)->Initialize_impl();
 			m_state = State::Loaded;
 		}
@@ -318,7 +313,6 @@ namespace Bones
 
 		void Destroy()
 		{
-			LOG_DESTROY();
 			static_cast<T*>(this)->Destroy_impl();
 			m_state = State::Destroyed;
 		}

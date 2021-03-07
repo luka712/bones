@@ -1,4 +1,5 @@
 #include "FileLoader.hpp"
+#include "emscripten_include.h"
 
 string FileLoader::ReadFileToString(const string& filePath)
 {

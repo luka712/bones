@@ -8,7 +8,7 @@
 
 #define PRINT_LOG_MACROS_H
 
-#include "APP_MACROS.H"
+#include "APP_MACROS.h"
 
 #if DEBUG
 #include <stdio.h>

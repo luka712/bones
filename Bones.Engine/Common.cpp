@@ -1,3 +1,4 @@
+#include "emscripten_include.h"
 #include "core_types.h"
 #include "glm/vec3.hpp"
 #include "glm/vec4.hpp"

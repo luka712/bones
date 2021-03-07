@@ -26,6 +26,7 @@ Bones::UI::UIManager::~UIManager()
 
 void Bones::UI::UIManager::Load_impl()
 {
+	LOG_LOAD();
 	IMGUI_CHECKVERSION();
 
 	m_hierarchyWindow->Load();
@@ -34,9 +35,16 @@ void Bones::UI::UIManager::Load_impl()
 
 void Bones::UI::UIManager::Initialize_impl()
 {
+	LOG_INITIALIZE();
 	ImGui::CreateContext();
 	ImGui_ImplSDL2_InitForOpenGL(m_engine.m_renderer->m_window, m_engine.m_renderer->m_glContext);
+#if EMSCRIPTEN_RUNTIME
+	// no files for emscripten
+	ImGui::GetIO().IniFilename = NULL;
+	ImGui_ImplOpenGL3_Init("#version 300 es");
+#else 
 	ImGui_ImplOpenGL3_Init("#version 130");
+#endif 
 	ImGui::StyleColorsDark();
 
 	m_hierarchyWindow->Initialize();
@@ -84,6 +92,7 @@ void Bones::UI::UIManager::Render_impl()
 
 void Bones::UI::UIManager::Destroy_impl()
 {
+	LOG_DESTROY();
 	m_hierarchyWindow->Destroy();
 	delete m_hierarchyWindow;
 

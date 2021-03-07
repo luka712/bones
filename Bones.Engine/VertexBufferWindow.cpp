@@ -147,7 +147,7 @@ void Bones::UI::Windows::VertexBufferWindow::ShowVerticesTableSection()
 		{
 			ImGui::TableNextRow();
 			ImGui::TableNextColumn();
-			ImGui::Text("%d.", index++);
+			ImGui::Text("%llu.", index++);
 
 			// V1... columns
 			for (U64 c = 0; c < structSize; c++)

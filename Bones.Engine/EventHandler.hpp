@@ -109,7 +109,14 @@ namespace Bones
 			return RemoveEvent(fn);
 		}
 
-		void Invoke(const IEvent& event);
+		void Invoke(const IEvent& event)
+		{
+			for (size_t i = 0; i < m_events.size(); i++)
+			{
+				auto& fn = m_events.at(i).GetMember();
+				fn(event);
+			}
+		}
 
 		/// <summary>
 		/// Gets the events count.
@@ -120,7 +127,10 @@ namespace Bones
 		/// <summary>
 		/// Clear the handler of all events.
 		/// </summary>
-		void Clear();
+		void Clear()
+		{
+			m_events.clear();
+		}
 
 	private:
 		/// <summary>

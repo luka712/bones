@@ -2,8 +2,6 @@
 
 #if EMSCRIPTEN_RUNTIME 
 
-#include "nuklear_include.h"
-
 #include <string>
 #include <iostream>
 #include <filesystem>
@@ -27,11 +25,7 @@
 #include "TextureManager.hpp"
 #include "NightVisionPostProcessFramebuffer.hpp"
 #include "UIManager.hpp"
-#include "UIToolsManager.hpp"
 
-using namespace Bones::UI;
-using namespace Bones::UI::Core;
-using namespace Bones::UI::Tools;
 using Bones::Engine;
 using Bones::Scene;
 using Bones::Materials::StandardMaterial;
@@ -51,8 +45,6 @@ Engine* engine;
 Scene* scene;
 Uint32 start;
 const int FPS = 60;
-
-NightVisionPostProcessFramebuffer* nightVisionPostProcessBuffer = nullptr;
 
 #if EMSCRIPTEN_RUNTIME 
 void Render()
@@ -80,28 +72,32 @@ void AddDebugLightsToScene()
 	}
 }
 
+void OnEngineInitialized(const IEvent& evt)
+{
+
+}
+
 //SceneObject* box1, * box2, * box3, * box4, * box5;
 
 int main(int argc, char* argv[])
 {
 	engine = new Engine();
+	engine->UseUserInterface();
+	engine->m_onInitializedEvent += &OnEngineInitialized;
 
-	engine->m_initializedEvent = [](SDL_Window* win) 
-	{ 
-		UIManager::Initialize(win); 
-		UIToolsManager::Initialize();
-	};
+
 	Uint32 testTime = 0;
-	engine->m_pollEvents = [&](SDL_Event evt) { UIManager::PollEvents(evt);};
-	engine->m_updateEvent = [](Uint32 dt) 
-	{ 
-		UIManager::Update(dt); 
+	engine->m_pollEvents = [&](SDL_Event evt)
+	{
+
 	};
-	engine->m_drawEvent = []() { UIManager::Draw(); };
+	engine->m_updateEvent = [](Uint32 dt)
+	{
+
+	};
+	engine->m_drawEvent = []() {};
 	engine->m_destroyEvent = []()
 	{
-		UIManager::Destroy();
-		UIToolsManager::Destroy();
 	};
 
 	engine->Load();
@@ -113,7 +109,7 @@ int main(int argc, char* argv[])
 	scene->UseDefaultSkybox();
 
 
-	/*StandardMaterialOptions opts;
+	StandardMaterialOptions opts;
 	opts.useDiffuseMap = true;
 	opts.useSpecularMap = true;
 
@@ -126,50 +122,49 @@ int main(int argc, char* argv[])
 	texturelessBoxMaterial->SetDiffuseColor(vec4(0.4, 0.4, 0.4, 1.0));
 	StandardMaterial* floorMaterial = MaterialManager::CreateStandardMaterial("floorMaterial", opts);
 	floorMaterial->SetDiffuseTexture("resources/textures/Stone_Floor.png");
-	opts.useDiffuseMap = true;*/
-
+	opts.useDiffuseMap = true;
 
 	// add floor 
-	// QuadGeometry* quadGeometry = GeometryManager::GetOrCreateQuadGeometry();
-	//SceneObject* floor = new SceneObject(scene, MeshManager::CreateStandardMaterialMesh(quadGeometry, floorMaterial), "floor");
-	//floor->GetTransform().SetPosition(vec3(0, -1, 0));
-	//floor->GetTransform().SetScale(vec3(50, 1, 50));
-	//scene->AddSceneObject(floor);
+	QuadGeometry* quadGeometry = GeometryManager::GetOrCreateQuadGeometry();
+	SceneObject* floor = new SceneObject(scene, MeshManager::CreateStandardMaterialMesh(quadGeometry, floorMaterial), "floor");
+	floor->GetTransform().SetPosition(vec3(0, -1, 0));
+	floor->GetTransform().SetScale(vec3(50, 1, 50));
+	scene->AddSceneObject(floor);
 
-	//opts.useSpecularMap = true;
-	//StandardMaterial* boxWithSpecularMat = MaterialManager::CreateStandardMaterial("boxWithSpec", opts);
-	//boxWithSpecularMat->SetDiffuseTexture("resources/textures/container2.png");
-	//boxWithSpecularMat->SetSpecularTexture("resources/textures/container2_specular.png");
-	//boxWithSpecularMat->m_specularIntensity = 30;
-	//boxWithSpecularMat->m_specularShininess = 16;
+	opts.useSpecularMap = true;
+	StandardMaterial* boxWithSpecularMat = MaterialManager::CreateStandardMaterial("boxWithSpec", opts);
+	boxWithSpecularMat->SetDiffuseTexture("resources/textures/container2.png");
+	boxWithSpecularMat->SetSpecularTexture("resources/textures/container2_specular.png");
+	boxWithSpecularMat->m_specularIntensity = 30;
+	boxWithSpecularMat->m_specularShininess = 16;
 
-	//scene->AddPointLight(new PointLight(vec3(3.0f, 1.f, -3.f), vec3(1, 0, 0)));
-	//scene->AddPointLight(new PointLight(vec3(-4.0f, 3.f, -4.f), vec3(0, 0, 1)));
+	scene->AddPointLight(new PointLight(vec3(3.0f, 1.f, -3.f), vec3(1, 0, 0)));
+	scene->AddPointLight(new PointLight(vec3(-4.0f, 3.f, -4.f), vec3(0, 0, 1)));
 	//scene->AddPointLight(new PointLight(vec3(-3.0f, 1.f, 5.f), vec3(0, 1, 0)));
 	//scene->AddPointLight(new PointLight(vec3(5.0f, 3.f, 6.f)));
 	//scene->AddSpotLight(new SpotLight());
 
 	//// add boxes 
-	//boxMaterial->SetRenderWireframe(true);
-	//BoxGeometry* boxGeometry = GeometryManager::GetOrCreateBoxGeometry();
-	//auto box1 = new SceneObject(scene, MeshManager::CreateStandardMaterialMesh(boxGeometry, boxMaterial));
-	//box1->m_name = "box 1";
-	//box1->UseDrawOutline(true);
-	//auto box2 = new SceneObject(scene, MeshManager::CreateStandardMaterialMesh(boxGeometry, boxMaterial));
-	//box2->UseDrawOutline(true, glm::vec4(1, 0.3, 0.3, 0.8));
-	//box2->m_name = "box 2";
-	//auto box3 = new SceneObject(scene, MeshManager::CreateStandardMaterialMesh(boxGeometry, texturelessBoxMaterial));
-	//box3->UseDrawOutline(true); 
-	//box3->m_name = "box 3";
-	//auto box4 = new SceneObject(scene, MeshManager::CreateStandardMaterialMesh(boxGeometry, boxWithSpecularMat));
-	//box4->m_name = "box 4";
-	//auto box5 = new SceneObject(scene, MeshManager::CreateStandardMaterialMesh(boxGeometry, boxWithSpecularMat));
-	//box5->m_name = "box 5";
-	//scene->AddSceneObject(box1);
-	//scene->AddSceneObject(box2);
-	//scene->AddSceneObject(box3);
-	//scene->AddSceneObject(box4);
-	//scene->AddSceneObject(box5);
+	boxMaterial->SetRenderWireframe(true);
+	BoxGeometry* boxGeometry = GeometryManager::GetOrCreateBoxGeometry();
+	auto box1 = new SceneObject(scene, MeshManager::CreateStandardMaterialMesh(boxGeometry, boxMaterial));
+	box1->m_name = "box 1";
+	box1->UseDrawOutline(true);
+	auto box2 = new SceneObject(scene, MeshManager::CreateStandardMaterialMesh(boxGeometry, boxMaterial));
+	box2->UseDrawOutline(true, glm::vec4(1, 0.3, 0.3, 0.8));
+	box2->m_name = "box 2";
+	auto box3 = new SceneObject(scene, MeshManager::CreateStandardMaterialMesh(boxGeometry, texturelessBoxMaterial));
+	box3->UseDrawOutline(true); 
+	box3->m_name = "box 3";
+	auto box4 = new SceneObject(scene, MeshManager::CreateStandardMaterialMesh(boxGeometry, boxWithSpecularMat));
+	box4->m_name = "box 4";
+	auto box5 = new SceneObject(scene, MeshManager::CreateStandardMaterialMesh(boxGeometry, boxWithSpecularMat));
+	box5->m_name = "box 5";
+	scene->AddSceneObject(box1);
+	scene->AddSceneObject(box2);
+	scene->AddSceneObject(box3);
+	scene->AddSceneObject(box4);
+	scene->AddSceneObject(box5);
 	//box1->GetTransform().SetPosition(vec3(4, 3, 2));
 	//box2->GetTransform().SetPosition(vec3(-4, 0, 3));
 	//box3->GetTransform().SetPosition(vec3(-3, 4, 3));
@@ -275,52 +270,11 @@ const Engine& GetEngine()
 }
 
 
-void LightNoisePresetEffect()
-{
-	if (nightVisionPostProcessBuffer == nullptr)
-	{
-		nightVisionPostProcessBuffer = scene->m_postProcessPipeline->AddNightVisionEffect();
-	}
-
-	nightVisionPostProcessBuffer->LightNoisePreset();
-}
-
-void NoisePresetEffect()
-{
-	if (nightVisionPostProcessBuffer == nullptr)
-	{
-		nightVisionPostProcessBuffer = scene->m_postProcessPipeline->AddNightVisionEffect();
-	}
-	nightVisionPostProcessBuffer->NoisyPreset();
-}
-
-void NoVignetteNoisePresetEffect()
-{
-	if (nightVisionPostProcessBuffer == nullptr)
-	{
-		nightVisionPostProcessBuffer = scene->m_postProcessPipeline->AddNightVisionEffect();
-	}
-	nightVisionPostProcessBuffer->NoiseNoVignettePreset();
-}
-
-void LightNoiseNoVignettePresetEffect()
-{
-	if (nightVisionPostProcessBuffer == nullptr)
-	{
-		nightVisionPostProcessBuffer = scene->m_postProcessPipeline->AddNightVisionEffect();
-	}
-	nightVisionPostProcessBuffer->LightNoVignettePreset();
-}
 
 EMSCRIPTEN_BINDINGS(Main)
 {
 	emscripten::function("GetEngine", &GetEngine, emscripten::allow_raw_pointers());
 	emscripten::function("GetEngine", &GetEngine);
-
-	emscripten::function("LightNoisePresetEffect", &LightNoisePresetEffect);
-	emscripten::function("NoisePresetEffect", &NoisePresetEffect);
-	emscripten::function("NoVignetteNoisePresetEffect", &NoVignetteNoisePresetEffect);
-	emscripten::function("LightNoiseNoVignettePresetEffect", &LightNoiseNoVignettePresetEffect);
 }
 
 #endif 

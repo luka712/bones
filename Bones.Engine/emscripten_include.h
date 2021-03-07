@@ -1,5 +1,7 @@
 #pragma once
 
+#include "APP_MACROS.h"
+
 #ifndef EMSCRIPTEN_INCLUDE_H
 
 #define EMSCRIPTEN_INCLUDE_H

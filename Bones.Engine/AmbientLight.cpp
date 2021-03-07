@@ -1,5 +1,6 @@
 #include "AmbientLight.hpp"
 #include "MaterialShader.hpp"
+#include "APP_MACROS.h"
 
 using Bones::Lights::AmbientLight;
 

@@ -8,6 +8,7 @@
 #include <vector>
 #include <memory>
 #include <algorithm>
+#include <exception>
 #include <assert.h>
 #include "IEntity.hpp"
 #include "core_types.h"
@@ -187,7 +188,9 @@ namespace Bones
 					}
 					else
 					{
+#if EMSCRIPTEN_RUNTIME == 0
 						throw std::exception("not implemented");
+#endif 
 					}
 				}
 			}
@@ -213,7 +216,9 @@ namespace Bones
 					}
 					else
 					{
+#if EMSCRIPTEN_RUNTIME == 0
 						throw std::exception("not implemented");
+#endif 
 					}
 
 					destination.push_back(val);
@@ -289,7 +294,9 @@ namespace Bones
 					}
 					else
 					{
+#if EMSCRIPTEN_RUNTIME == 0
 						throw std::exception("not implemented");
+#endif 
 					}
 				}
 			}
@@ -315,7 +322,9 @@ namespace Bones
 					}
 					else
 					{
+#if EMSCRIPTEN_RUNTIME == 0
 						throw std::exception("not implemented");
+#endif 
 					}
 
 					destination.push_back(F32_U32(val).m_asF32);
@@ -383,7 +392,9 @@ namespace Bones
 					}
 					else 
 					{
+#if EMSCRIPTEN_RUNTIME == 0
 						throw std::exception("not implemented");
+#endif 
 					}
 				}
 			}
@@ -409,7 +420,9 @@ namespace Bones
 					}
 					else
 					{
+#if EMSCRIPTEN_RUNTIME == 0
 						throw std::exception("not implemented");
+#endif 
 					}
 
 					destination.push_back(val);

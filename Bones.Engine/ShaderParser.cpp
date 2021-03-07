@@ -1,4 +1,5 @@
 #include "ShaderParser.hpp"
+#include "emscripten_include.h"
 
 using namespace Bones::Loaders;
 

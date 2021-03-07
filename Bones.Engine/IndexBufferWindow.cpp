@@ -149,7 +149,7 @@ void Bones::UI::Windows::IndexBufferWindow::ShowIndicesTableSection()
 			ImGui::TableNextRow();
 
 			ImGui::TableNextColumn();
-			ImGui::Text("%d.", index++);
+			ImGui::Text("%llu.", index++);
 
 			for (U64 c = 0; c < structSize; c++)
 			{

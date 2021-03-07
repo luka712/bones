@@ -224,7 +224,7 @@ EMSCRIPTEN_BINDINGS(Scene_JS)
 {
 	class_<Scene>("Scene")
 		.function("GetPostProcessPipeline", optional_override([](Scene& scene) { return scene.m_postProcessPipeline; }), allow_raw_pointers())
-		.function("UseDefaultSkybox", &Scene::UseDefaultSkybox)
+		//.function("UseDefaultSkybox", &Scene::UseDefaultSkybox)
 		.function("UseCupertinSkybox", &Scene::UseCupertinSkybox)
 		.function("DisableSkybox", &Scene::DisableSkybox);
 

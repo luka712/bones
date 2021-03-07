@@ -178,7 +178,7 @@ void Bones::UI::Windows::InterleavedBufferWindow::ShowVerticesTableSection()
 		{
 			ImGui::TableNextRow();
 			ImGui::TableNextColumn();
-			ImGui::Text("%d.", index++);
+			ImGui::Text("%llu.", index++);
 
 			// C is outside due to pass of all attribs
 			U64 c = 0;

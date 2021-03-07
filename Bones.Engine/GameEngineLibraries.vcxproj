@@ -163,7 +163,6 @@
     <ClCompile Include="BaseCamera.cpp" />
     <ClCompile Include="BuffersManager.cpp" />
     <ClCompile Include="core_types.cpp" />
-    <ClCompile Include="EventHandler.cpp" />
     <ClCompile Include="EventQueue.cpp" />
     <ClCompile Include="ControlsComponent.cpp" />
     <ClCompile Include="DetectEdgeShader.cpp" />

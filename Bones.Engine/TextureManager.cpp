@@ -2,6 +2,7 @@
 #include "TextureLoader.hpp"
 #include "Texture2D.hpp"
 #include "CubeTexture.hpp"
+#include "TextureLoaderDataStructs.hpp"
 #include "DELETE_MACROS.h"
 
 using Bones::Managers::TextureManager;
@@ -48,7 +49,11 @@ CubeTexture* TextureManager::GetOrCreateCubeTexture(const string& right, const s
 	}
 
 	TextureLoader loader = TextureLoader();
+#if USE_THREADS 
 	CubeMapTextureData* data = loader.LoadFromFileAsync(right, left, top, bottom, front, back);
+#else 
+	CubeMapTextureData* data = loader.LoadFromFile(right, left, top, bottom, front, back);
+#endif 
 
 	CubeTexture* texture = new CubeTexture();
 	texture->m_cacheKey = combine;

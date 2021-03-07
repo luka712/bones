@@ -12,7 +12,7 @@ TextureData* TextureLoader::LoadFromFile(const std::string& filepath)
 {
 #if EMSCRIPTEN_RUNTIME 
 	// sometimes it might contain \n or \r for new line. Remove it. 
-	string path(filepath);
+	std::string path(filepath);
 	path.erase(std::remove(path.begin(), path.end(), '\r'), path.end());
 	path.erase(std::remove(path.begin(), path.end(), '\n'), path.end());
 	SDL_Surface* surface = IMG_Load(path.c_str());

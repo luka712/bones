@@ -9,12 +9,14 @@
 #define APP_MACROS_H
 
 // Should build for emscripten
-#define EMSCRIPTEN_RUNTIME 0
+#define EMSCRIPTEN_RUNTIME 1
 
 // Which target version
-#define TARGET_OPENGL_ES_3_0 0 // Default, when compiled with emscripten, targets WEBGL_2
-#define TARGET_OPENGL_4_6 1  // Newest OPENGL spec
+#define TARGET_OPENGL_ES_3_0 1 // Default, when compiled with emscripten, targets WEBGL_2
+#define TARGET_OPENGL_4_6 0  // Newest OPENGL spec
 #define TARGET_WEBGL_2_0 (EMSCRIPTEN_RUNTIME && TARGET_OPENGL_ES_3_0) // use in only very specific cases where EMSCRIPTEN_RUNTIME or TARGET_OPENGL_ES_3_0 are not sufficient. 
+
+#define USE_THREADS 0
 
 #define DEBUG 1
 
@@ -59,4 +61,4 @@
 #define UI_SELECTED_COLOR_B 235
 #define UI_SELECTED_COLOR_A 200
 
-#endif // !APP_MACROS_H
+#endif
