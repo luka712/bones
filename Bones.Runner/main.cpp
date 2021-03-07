@@ -39,7 +39,7 @@ using Bones::Shaders::PostProcess::BasePostProcessShader;
 
 Engine* engine;
 Scene* scene;
-Bones::UI::UIManager* uiManager;
+
 Uint32 start;
 const int FPS = 60;
 
@@ -75,15 +75,13 @@ void AddDebugLightsToScene()
 
 void OnEngineInitialized(const IEvent& evt)
 {
-	uiManager = new Bones::UI::UIManager(*engine);
-	uiManager->Load();
-	uiManager->Initialize();
-	engine->AddSDLEventListener(uiManager);
+
 }
 
 int main(int argc, char* argv[])
 {
 	engine = new Engine();
+	engine->UseUserInterface();
 	engine->m_onInitializedEvent += &OnEngineInitialized;
 
 
@@ -94,7 +92,7 @@ int main(int argc, char* argv[])
 	};
 	engine->m_updateEvent = [](Uint32 dt)
 	{
-		uiManager->Update(static_cast<F32>(dt));
+
 	};
 	engine->m_drawEvent = []() {};
 	engine->m_destroyEvent = []()
@@ -107,7 +105,7 @@ int main(int argc, char* argv[])
 
 	scene = SceneManager::CreateScene("main_scene");
 
-	//scene->UseDefaultSkybox();
+	scene->UseDefaultSkybox();
 
 
 	StandardMaterialOptions opts;
@@ -128,10 +126,10 @@ int main(int argc, char* argv[])
 
 	// add floor 
 	QuadGeometry* quadGeometry = GeometryManager::GetOrCreateQuadGeometry();
-	//SceneObject* floor = new SceneObject(scene, MeshManager::CreateStandardMaterialMesh(quadGeometry, floorMaterial), "floor");
-	//floor->GetTransform().SetPosition(vec3(0, -1, 0));
-	//floor->GetTransform().SetScale(vec3(50, 1, 50));
-	//scene->AddSceneObject(floor);
+	SceneObject* floor = new SceneObject(scene, MeshManager::CreateStandardMaterialMesh(quadGeometry, floorMaterial), "floor");
+	floor->GetTransform().SetPosition(vec3(0, -1, 0));
+	floor->GetTransform().SetScale(vec3(50, 1, 50));
+	scene->AddSceneObject(floor);
 
 	opts.useSpecularMap = true;
 	StandardMaterial* boxWithSpecularMat = MaterialManager::CreateStandardMaterial("boxWithSpec", opts);
@@ -240,8 +238,8 @@ int main(int argc, char* argv[])
 	//scene->AddSceneObject(window2);
 
 	SceneObjectLoader scnObjLoader;
-	auto sceneObjs = scnObjLoader.LoadFromGltfFile(*scene, "resources/models/non-working.gltf");
-	sceneObjs[0]->GetTransform().SetScale(0.2f, 0.2f, 0.2f);
+	/*auto sceneObjs = scnObjLoader.LoadFromGltfFile(*scene, "resources/models/non-working.gltf");
+	sceneObjs[0]->GetTransform().SetScale(0.2f, 0.2f, 0.2f);*/
 	//auto sceneObjs2 = scnObjLoader.LoadFromGltfFile(*scene, "resources/models/working.gltf");
 	//sceneObjs2[0]->GetTransform().SetScale(0.2f, 0.2f, 0.2f);
 	//auto rayman = scnObjLoader.LoadFromObjFile(*scene, "resources/models/rayman/rayman_3.obj");
@@ -262,7 +260,6 @@ int main(int argc, char* argv[])
 	emscripten_set_main_loop_timing(1, 1);
 #else 
 	engine->Run();
-	delete uiManager;
 	delete engine;
 #endif 
 

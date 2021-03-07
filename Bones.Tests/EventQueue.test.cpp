@@ -1,6 +1,3 @@
-
-#define UNIT_TEST true 
-
 #include "pch.h"
 #include "CppUnitTest.h"
 #include <string>

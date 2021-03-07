@@ -7,7 +7,6 @@
 #define TARGET_WEBGL_2_0 (EMSCRIPTEN_RUNTIME && TARGET_OPENGL_ES_3_0) // use in only very specific cases where EMSCRIPTEN_RUNTIME or TARGET_OPENGL_ES_3_0 are not sufficient. 
 
 #define DEBUG 1
-#define UNIT_TEST 0
 
 #if TARGET_OPENGL_4_6
 #define SHADER_SUFFIX "_v460.shader"

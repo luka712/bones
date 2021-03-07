@@ -10,6 +10,15 @@ using namespace Bones::Renderer;
 
 namespace Bones
 {
+	namespace UI
+	{
+		class UIManager;
+		class BuffersManager;
+	}
+}
+
+namespace Bones
+{
 	typedef void(*LoadCallback)();
 
 	// values from SDL_GetTicks()
@@ -28,6 +37,10 @@ namespace Bones
 	class Engine final
 	{
 	private:
+		// the user interface component.
+		Bones::UI::UIManager* m_uiManager = nullptr;
+
+
 		std::vector<Bones::IOnSDLEvent*> m_onSDLEvents;
 
 		// used for SDL GetTicks(). Used only in desktop mode.
@@ -38,7 +51,9 @@ namespace Bones
 		void BeforeUpdate();
 		void Update();
 		void AfterUpdate();
-		void Draw()  const;
+		void BeforeRender();
+		void Render()  const;
+		void AfterRender();
 	public:
 		
 
@@ -53,6 +68,8 @@ namespace Bones
 
 		Engine();
 		~Engine();
+
+		Engine& UseUserInterface();
 
 #pragma region Getters 
 		BaseRenderer* GetRenderer() { return m_renderer; }

@@ -31,17 +31,55 @@ namespace Bones
 		}
 	};
 
-	class IOnBeforeRenderFrame
+	// -- Render
+	// engine.OnBeforeRender
+	// engine.Render 
+	// engine.OnAfterRender
+
+	/// <summary>
+	/// OnBeforeFrameRender interface.
+	/// </summary>
+	class IOnBeforeRender
 	{
 	public:
-		virtual void OnBeforeFrameRender() = 0;
+		virtual void OnBeforeRender() = 0;
 	};
 
+	/// <summary>
+	/// BaseOnBeforeRender
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
 	template<typename T>
-	class BaseOnBeforeRenderFrame
+	class BaseOnBeforeRender : public IOnBeforeRender
 	{
-		// TODO:
-		gkkdgk
+	public:
+		void OnBeforeRender()
+		{
+			static_cast<T*>(this)->OnBeforeRender_impl();
+		}
+	};
+
+	/// <summary>
+	/// IOnAfterRender interface,
+	/// </summary>
+	class IOnAfterRender
+	{
+	public:
+		virtual void OnAfterRender() = 0;
+	};
+
+	/// <summary>
+	/// BaseOnAfterRender interface.
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	template<typename T>
+	class BaseOnAfterRender : public IOnAfterRender
+	{
+	public:
+		void OnAfterRender()
+		{
+			static_cast<T*>(this)->OnAfterRender_impl();
+		}
 	};
 }
 

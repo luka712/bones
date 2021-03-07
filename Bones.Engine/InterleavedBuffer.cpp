@@ -1,23 +1,36 @@
 #include "InterleavedBuffer.hpp"
 #include "core_types.h"
 #include "sdl_include.h"
+#include "utils.h"
 
 using namespace Bones::Buffers;
 
 InterleavedBuffer::InterleavedBuffer(const F32* data, const I32 count, vector<BufferAttribute> attributes)
-	: m_data(data), m_attributes(attributes)
+	:  m_attributes(attributes)
 {
 	LOG_CONSTRUCTOR();
 	m_name = "Interleaved Buffer";
 	m_count = count;
+
+	Bones::Utils::ArrayPtrToVectorData(data, count, m_data);
+
+	m_length = m_data.size();
 }
+
+
+Bones::Buffers::InterleavedBuffer::InterleavedBuffer()
+{
+	LOG_CONSTRUCTOR();
+}
+
 
 void InterleavedBuffer::Initialize()
 {
 	LOG_INITIALIZE();
 	glGenBuffers(1, &m_buffer);
 	glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(F32) * m_count, m_data, GL_STATIC_DRAW);
+	//							  - m_length is total buffers size, as in count of elements * sizeof(element)
+	glBufferData(GL_ARRAY_BUFFER, m_length, m_data.data(), GL_STATIC_DRAW);
 
 	// if not debug, clear data from memory.
 #if DEBUG == 0
@@ -27,6 +40,13 @@ void InterleavedBuffer::Initialize()
 	m_state = State::Initialized;
 
 	m_onInitializedEventHandler.Invoke(IEvent( m_initializeEventName, EventCategory::AttributeBufferEvent, CreateEventData() ));
+
+	for (auto& attrib : m_attributes)
+	{
+		m_strideLength += attrib.StructLength();
+		m_strideComponentsSize += attrib.m_structSize;
+	}
+
 
 	Bind();
 }
@@ -65,24 +85,20 @@ void InterleavedBuffer::Initialize(const U32 program)
 
 void InterleavedBuffer::Bind()
 {
-	int sumSize = 0;
-	for (size_t i = 0; i < m_attributes.size(); i++)
-	{
-		sumSize += m_attributes[i].m_size;
-	}
-
 	for (size_t i = 0; i < m_attributes.size(); i++)
 	{
 		BufferAttribute attrib = m_attributes[i];
-		glEnableVertexAttribArray(attrib.m_attributeLocation);
-		glVertexAttribPointer(attrib.m_attributeLocation, attrib.m_size, GL_FLOAT, GL_FALSE, sumSize * sizeof(F32), (void*)(attrib.m_offset * sizeof(F32)));
+		glEnableVertexAttribArray(attrib.m_attributeLocation); 
+		glVertexAttribPointer(attrib.m_attributeLocation, attrib.m_structSize, GL_FLOAT, GL_FALSE, m_strideLength, (void*)(attrib.m_offsetLength));
 	}
 }
 
 void InterleavedBuffer::Destroy()
 {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	delete[] m_data;
+#if DEBUG == 0
+	m_data.clear();
+#endif 
 	DeleteBuffer();
 	m_state = Bones::State::Destroyed;
 

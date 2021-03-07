@@ -24,7 +24,11 @@ namespace Bones
 
 			// count of elements in array. To not be confused with length.
 			// For example length might be 8 for indices of unsigned shorts ( 2 bytes per elemt ). Therefore count is 4.
-			I32 m_count = 0;
+			U32 m_count = 0;
+
+			// total length of buffer. To not be confused with count.
+			// For example count might be 4 for indices of unsigned shorts. But length will be 8 since count * sizeof(unsigned short) is 8.
+			U32 m_length = 0;
 
 			/// <summary>
 			/// The load. In case of buffer attributes, actually does nothing.

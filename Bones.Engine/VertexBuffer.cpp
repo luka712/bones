@@ -1,26 +1,43 @@
 #include "VertexBuffer.hpp"
 #include "core_types.h"
 #include "sdl_include.h"
+#include "utils.h"
 #include "PRINT_LOG_MACROS.h"
 
 using namespace Bones::Buffers;
 
 VertexBuffer::VertexBuffer(const std::string& layoutName, const I32 size, const F32* data, const U64 count)
-	: m_layoutName(layoutName), m_size(size), m_data(data)
+	: m_layoutName(layoutName), m_structSize(size)
 {
 	LOG_CONSTRUCTOR();
 	m_name = "Vertex Buffer";
 	m_count = count;
+	m_length = count  * sizeof(F32);
+	m_structComponentLength = sizeof(F32);
+	m_structLength = m_structComponentLength * m_structSize;
+	m_countOfStructs = m_count / m_structSize;
+
+	Bones::Utils::ArrayPtrToVectorData(data, count, m_data);
 }
 
 VertexBuffer::VertexBuffer(const I32 attributeLocation, const I32 size, const F32* data, const U64 count)
-	:m_attributeLocation(attributeLocation), m_size(size), m_data(data)
+	:m_attributeLocation(attributeLocation), m_structSize(size)
 {
 	LOG_CONSTRUCTOR();
 	m_name = "Vertex Buffer";
 	m_count = count;
+	m_length = count * sizeof(F32);
+	m_structComponentLength = sizeof(F32);
+	m_structLength = m_structComponentLength * m_structSize;
+	m_countOfStructs = m_count / m_structSize;
+
+	Bones::Utils::ArrayPtrToVectorData(data, count, m_data);
 }
 
+Bones::Buffers::VertexBuffer::VertexBuffer()
+{
+	LOG_CONSTRUCTOR();
+}
 
 void VertexBuffer::Initialize()
 {
@@ -30,10 +47,12 @@ void VertexBuffer::Initialize()
 		return;
 	}
 
+#if UNIT_TEST == 0
 	glGenBuffers(1, &m_buffer);
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(F32) * m_count, m_data, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, m_length, m_data.data(), GL_STATIC_DRAW);
+#endif 
 
 	// if not debug, clear data from memory.
 #if DEBUG == 0
@@ -82,15 +101,18 @@ void VertexBuffer::Bind()
 {
 	glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
 	glEnableVertexAttribArray(m_attributeLocation);
-	glVertexAttribPointer(m_attributeLocation, m_size, GL_FLOAT, GL_FALSE, 0, 0);
+	glVertexAttribPointer(m_attributeLocation, m_structSize, GL_FLOAT, GL_FALSE, 0, 0);
 }
 
 void VertexBuffer::Destroy()
 {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	delete[] m_data;
+#if DEBUG == 0
+	m_data.clear();
+#endif 
 	DeleteBuffer();
 	m_state = Bones::State::Destroyed;
 
 	m_onDestroyEventHandler.Invoke({ m_destroyEventName, EventCategory::AttributeBufferEvent, CreateEventData() });
 }
+

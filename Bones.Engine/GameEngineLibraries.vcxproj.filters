@@ -307,6 +307,21 @@
     <Filter Include="Header Files\UI">
       <UniqueIdentifier>{4cbd2b64-d33c-48a9-ad5d-17f47559772b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\UI\Windows">
+      <UniqueIdentifier>{69eba47a-9033-42fc-9809-ab8d87f05aa4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI">
+      <UniqueIdentifier>{78e4afc8-739c-4b81-ba7a-c0b0734b08b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI\Windows">
+      <UniqueIdentifier>{81a58a06-dfe1-4c30-866a-96a05578391d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\UI\Windows\Buffers">
+      <UniqueIdentifier>{445d2a6e-e83a-4a99-9ba8-e978c7fdf6d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI\Windows\Buffers">
+      <UniqueIdentifier>{458fd50d-e92c-4d19-9ccd-fbf480da57a0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FileLoader.cpp">
@@ -525,9 +540,6 @@
     <ClCompile Include="EventHandler.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="EventQueue.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="imgui.cpp">
       <Filter>Source Files\Vendor\UI\ImGui</Filter>
     </ClCompile>
@@ -547,7 +559,25 @@
       <Filter>Source Files\Vendor\UI\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="UIManager.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="EventQueue.cpp">
+      <Filter>Source Files\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="HierarchyWindow.cpp">
+      <Filter>Source Files\UI\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="IndexBufferWindow.cpp">
+      <Filter>Source Files\UI\Windows\Buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexBufferWindow.cpp">
+      <Filter>Source Files\UI\Windows\Buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="utils.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="InterleavedBufferWindow.cpp">
+      <Filter>Source Files\UI\Windows\Buffers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -902,6 +932,18 @@
     <ClInclude Include="IEngineEvents.hpp">
       <Filter>Header Files\Events</Filter>
     </ClInclude>
+    <ClInclude Include="HierarchyWindow.hpp">
+      <Filter>Header Files\UI\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="IndexBufferWindow.hpp">
+      <Filter>Header Files\UI\Windows\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexBufferWindow.hpp">
+      <Filter>Header Files\UI\Windows\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="InterleavedBufferWindow.hpp">
+      <Filter>Header Files\UI\Windows\Buffers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="readme.md" />
@@ -1010,6 +1052,9 @@
       <Filter>Diagrams</Filter>
     </None>
     <None Include="EventHandler.cd">
+      <Filter>Diagrams</Filter>
+    </None>
+    <None Include="Utils.cd">
       <Filter>Diagrams</Filter>
     </None>
   </ItemGroup>

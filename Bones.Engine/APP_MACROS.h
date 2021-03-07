@@ -18,6 +18,8 @@
 
 #define DEBUG 1
 
+#define UNIT_TEST 0
+
 #if TARGET_OPENGL_4_6
 #define SHADER_SUFFIX "_v460.shader"
 #else 

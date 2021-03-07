@@ -1,6 +1,7 @@
 #include "IndexBuffer.hpp"
 #include "core_types.h"
 #include "sdl_include.h"
+#include "utils.h"
 
 using namespace Bones::Buffers;
 
@@ -12,19 +13,10 @@ IndexBuffer::IndexBuffer(const U32* data, const I32 count)
 
 	m_name = "Index Buffer";
 	m_count = count;
-	m_length = count * sizeof(U32);
-	m_byteSize = Bones::IndicesByteSize::UNSIGNED_INT;
+	m_structComponentLength = Bones::IndicesByteSize::UNSIGNED_INT;
 
-	// convert unsigned integers to byte data.
-	for (size_t i = 0; i < m_length; i += 4)
-	{
-		unsigned char ucBuffer[4];
-		memcpy(&ucBuffer, (U8*)&data[i / 4], sizeof(U32));
-		m_data.push_back(ucBuffer[0]);
-		m_data.push_back(ucBuffer[1]);
-		m_data.push_back(ucBuffer[2]);
-		m_data.push_back(ucBuffer[3]);
-	}
+	Bones::Utils::ArrayPtrToVectorData(data, count, m_data);
+	m_length = m_data.size();
 }
 
 // takes byte data.
@@ -41,22 +33,27 @@ IndexBuffer::IndexBuffer(const U8* data, const I32 length, const Bones::IndicesB
 		m_data.push_back(data[i]);
 	}
 	m_length = length;
-	m_byteSize = byteSize;
+	m_structComponentLength = byteSize;
 
 	// Set correct count
 	m_count = m_length;
 	m_glType = GL_UNSIGNED_BYTE;
-	if (m_byteSize == Bones::IndicesByteSize::UNSIGNED_SHORT)
+	if (m_structComponentLength == Bones::IndicesByteSize::UNSIGNED_SHORT)
 	{
 		m_count /= 2;
 		m_glType = GL_UNSIGNED_SHORT;
 	}
 
-	if (m_byteSize == Bones::IndicesByteSize::UNSIGNED_INT)
+	if (m_structComponentLength == Bones::IndicesByteSize::UNSIGNED_INT)
 	{
 		m_count /= 4;
 		m_glType = GL_UNSIGNED_INT;
 	}
+}
+
+Bones::Buffers::IndexBuffer::IndexBuffer()
+{
+	LOG_CONSTRUCTOR();
 }
 
 void IndexBuffer::Initialize()
@@ -126,6 +123,8 @@ IndexBuffer::~IndexBuffer()
 	LOG_DESTRUCTOR();
 }
 
+
+
 void IndexBuffer::GetDataAsU16(std::vector<U16>& ref)
 {
 	// convert unsigned integers to byte data.
@@ -138,6 +137,24 @@ void IndexBuffer::GetDataAsU16(std::vector<U16>& ref)
 		m_data.push_back(ucBuffer[2]);
 		m_data.push_back(ucBuffer[3]);
 	}
+}
+
+const char* Bones::Buffers::IndexBuffer::IndexTypeAsChar()
+{
+	if (m_glType == GL_UNSIGNED_BYTE)
+	{
+		return "unsigned byte";
+	}
+	else if (m_glType == GL_UNSIGNED_SHORT)
+	{
+		return "unsigned short";
+	}
+	else if (m_glType == GL_UNSIGNED_INT)
+	{
+		return "unsigned int";
+	}
+
+	return "type missing";
 }
 
 

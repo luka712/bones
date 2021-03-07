@@ -8,6 +8,7 @@
 #include "MeshManager.hpp"
 #include "SceneManager.hpp"
 #include "EventQueue.hpp"
+#include "UIManager.hpp"
 
 using namespace Bones;
 
@@ -30,8 +31,19 @@ Engine::~Engine()
 	Destroy();
 }
 
+Engine& Bones::Engine::UseUserInterface()
+{
+	if (m_uiManager == nullptr)
+	{
+		m_uiManager = new Bones::UI::UIManager(*this);
+	}
+	return *this;
+}
+
+
 void Engine::Load(LoadCallback)
 {
+	m_uiManager->Load();
 	if (SceneManager::m_currentScene)
 		SceneManager::m_currentScene->Load();
 
@@ -40,8 +52,9 @@ void Engine::Load(LoadCallback)
 
 
 void Engine::Initialize()
-{
+{	
 	m_renderer->Initialize();
+	m_uiManager->Initialize();
 	if (SceneManager::m_currentScene)
 		SceneManager::m_currentScene->Initialize();
 
@@ -68,7 +81,10 @@ void Engine::Run()
 			Update();
 			AfterUpdate();
 
-			Draw();
+			BeforeRender();
+			Render();
+			AfterRender();
+			m_renderer->SwapWindow();
 		}
 
 		// End core calls
@@ -90,6 +106,8 @@ void Engine::Destroy()
 
 	delete m_renderer;
 	m_renderer = nullptr;
+
+	m_uiManager->Destroy();
 
 	BuffersManager::Destroy();
 	FramebufferManager::Delete();
@@ -125,6 +143,8 @@ void Engine::Update()
 	SDL_Event event;
 	while (SDL_PollEvent(&event)) {
 
+		m_uiManager->OnSDLEvent(event);
+
 		// notify outside clients with poll events.
 		for (auto& entry : m_onSDLEvents)
 			entry->OnSDLEvent(event);
@@ -150,6 +170,8 @@ void Engine::Update()
 			}
 		}
 	};
+
+	m_uiManager->Update(m_timeData.m_deltaTime);
 
 	auto& camera = SceneManager::m_currentScene->GetActiveCamera();
 	camera.Update();
@@ -184,11 +206,20 @@ void Engine::AfterUpdate()
 	}
 }
 
-void Engine::Draw() const
+void Bones::Engine::BeforeRender()
+{
+	m_uiManager->OnBeforeRender();
+}
+
+void Engine::Render() const
 {
 	m_renderer->Render(*SceneManager::m_currentScene);
 	m_drawEvent();
-	m_renderer->SwapWindow();
+}
+
+void Engine::AfterRender()
+{
+	m_uiManager->OnAfterRender();
 }
 
 

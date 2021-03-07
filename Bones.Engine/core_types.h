@@ -41,6 +41,17 @@ namespace Bones
 
 	typedef float F32;
 
+	union F32_U32 
+	{
+		F32_U32(F32 v)
+		{
+			m_asF32 = v;
+		}
+
+		F32 m_asF32;
+		U32 m_asU32;
+	};
+
 	/// <summary>
 	/// The variant struct, which can represent many different types.
 	/// </summary>
@@ -279,7 +290,8 @@ namespace Bones
 	class ILifeCycle
 	{
 	public:
-		Bones::State m_state;
+		Bones::State m_state = State::New;
+		bool m_active = true;
 		void Load()
 		{
 			LOG_LOAD();
@@ -293,7 +305,6 @@ namespace Bones
 			static_cast<T*>(this)->Initialize_impl();
 			m_state = State::Loaded;
 		}
-
 
 		void Update(F32 dt)
 		{

@@ -47,6 +47,14 @@ namespace Bones
 		class BuffersManager final
 		{
 		public:
+			// the index buffers cache.
+			static std::vector<std::unique_ptr<IndexBuffer>> m_indexBufferCache;
+
+			// the vertex buffer cache.
+			static std::vector<std::unique_ptr<VertexBuffer>> m_vertexBufferCache;
+
+			// the interleaved buffers cache.
+			static std::vector<std::unique_ptr<InterleavedBuffer>> m_interleavedBufferCache;
 
 			static EventHandler<> m_onIndexBufferCreated;
 			static EventHandler<> m_onVertexBufferCreated;
@@ -143,17 +151,6 @@ namespace Bones
 			/// </summary>
 			static void Destroy();
 		private:
-
-
-			// the index buffers cache.
-			static std::vector<std::unique_ptr<IndexBuffer>> m_indexBufferCache;
-
-			// the vertex buffer cache.
-			static std::vector<std::unique_ptr<VertexBuffer>> m_vertexBufferCache;
-
-			// the interleaved buffers cache.
-			static std::vector<std::unique_ptr<InterleavedBuffer>> m_interleavedBufferCache;
-
 			static void GenerateIndexBufferName(IndexBuffer* ptr);
 			static void GenerateVertexBufferName(VertexBuffer* ptr);
 			static void GenerateInterleavedBufferName(InterleavedBuffer* ptr);

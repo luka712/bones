@@ -7869,7 +7869,7 @@ namespace Bones
 			struct CacheMap
 			{
 				int m_indicesIndex = -1;
-				Bones::IndicesByteSize m_byteSize;
+				Bones::IndicesByteSize m_structComponentLength;
 				Indices m_indicesData;
 			};
 

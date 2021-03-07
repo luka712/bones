@@ -17,10 +17,6 @@ namespace Bones
 		class IndexBuffer : public BaseBuffer
 		{
 		public:
-			// Length of data in array. To not be confused with count. If there is index buffer with 
-			// 4 elements of unsigned shorts ( 2 bytes ) length is 8.
-			I32 m_length;
-
 			// Default gl type, which is used when passing data to gpu.
 			U32 m_glType = GL_UNSIGNED_INT;
 
@@ -28,7 +24,7 @@ namespace Bones
 			std::vector<U8> m_data;
 
 			// size of bytes, used when loading to GPU
-			Bones::IndicesByteSize m_byteSize;
+			Bones::IndicesByteSize m_structComponentLength = Bones::IndicesByteSize::NONE;
 
 			IndexBuffer(const U32* data, const I32 count);
 			IndexBuffer(const U8* data, const I32 length, const Bones::IndicesByteSize byteSize);
@@ -44,10 +40,14 @@ namespace Bones
 
 			void GetDataAsU16(std::vector<U16>& ref);
 
+			const char* IndexTypeAsChar();
+
 			~IndexBuffer();
 		protected:
 			const std::string m_initializeEventName = "index_buffer.initialized";
 			const std::string m_destroyEventName = "index_buffer.destroyed";
+
+			IndexBuffer();
 		};
 
 	}

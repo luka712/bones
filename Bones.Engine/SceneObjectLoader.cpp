@@ -75,10 +75,12 @@ vector<SceneObject*> SceneObjectLoader::LoadFromObjFile(Scene& scene, const stri
 	for (int i = 0; i < modelData.meshes.size(); i++)
 	{
 		MeshData& aMesh = modelData.meshes[i];
-		BaseGeometry* geometry = new BaseGeometry(new VertexBuffer(0, 3, aMesh.vertices.data(), aMesh.vertices.size()),
-			new VertexBuffer(1, 2, aMesh.texCoords.data(), aMesh.texCoords.size()),
-			new VertexBuffer(2, 3, aMesh.normals.data(), aMesh.normals.size()),
-			BuffersManager::CreateIndexBuffer(aMesh.indices.data(), static_cast<int>(aMesh.indices.size())));
+		VertexBuffer* vBuffer = BuffersManager::CreateVertexBuffer(0, 3, aMesh.vertices.data(), aMesh.vertices.size());
+		VertexBuffer* tBuffer = BuffersManager::CreateVertexBuffer(1, 2, aMesh.texCoords.data(), aMesh.texCoords.size());
+		VertexBuffer* nBuffer = BuffersManager::CreateVertexBuffer(2, 3, aMesh.normals.data(), aMesh.normals.size());
+		IndexBuffer* iBuffer = BuffersManager::CreateIndexBuffer(aMesh.indices.data(), static_cast<int>(aMesh.indices.size()));
+
+		BaseGeometry* geometry = new BaseGeometry(vBuffer, tBuffer, nBuffer, iBuffer);
 
 		StandardMaterial* material = nullptr;
 		if (materials.size() > 0)

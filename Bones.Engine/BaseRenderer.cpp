@@ -301,7 +301,7 @@ void BaseRenderer::StencilPass()
 
 void BaseRenderer::Render(Scene& scene)
 {
-	ImGui::Render();
+
 
 	// start of frame. Prepare arrays
 	m_opaqueRenderPassObjects.clear();
@@ -367,9 +367,6 @@ void BaseRenderer::Render(Scene& scene)
 	StencilPass();
 
 	scene.m_postProcessPipeline->Draw();
-
-	// disabled cached shader check 
-	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
 void BaseRenderer::SwapWindow()

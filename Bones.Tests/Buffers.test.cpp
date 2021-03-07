@@ -1,5 +1,3 @@
-#define UNIT_TEST true 
-
 #include "pch.h"
 #include "CppUnitTest.h"
 #include <string>
@@ -20,6 +18,8 @@ namespace BonesTests
 	TEST_CLASS(BuffersManagerClass)
 	{
 	public:
+	
+
 		TEST_METHOD(create_index_buffer)
 		{
 			unsigned int data[5] = { 1,2,3,4,5 };

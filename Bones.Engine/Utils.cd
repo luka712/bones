@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="namespace Bones::Utils contains helper functions for various systems.&#xD;&#xA;&#xD;&#xA;// -- Generate Name&#xD;&#xA;static void GenerateName(const std::string&amp; original, const std::vector&lt;std::unique_ptr&lt;T&gt;&gt;&amp; entities, T&amp; entity)&#xD;&#xA;&#xD;&#xA;GenerateName will generate unique name by appending ({n}), where {n} must be unique between all the game entities.&#xD;&#xA;Name is generated for std::string::m_name  member of whatever is passed in as T.&#xD;&#xA;&#xD;&#xA;// -- Convert{TSourceBytes}To{TDestBytes}&#xD;&#xA;void Convert{TSourcyBytes}To{TDestBytes}(...)&#xD;&#xA;&#xD;&#xA;Convert primitive type of defined bytes to other primitive type.&#xD;&#xA;For example ConvertB8ToB16 is used to convert byte to short.&#xD;&#xA;&#xD;&#xA;// -- Convert ConvertVectorData (array)&#xD;&#xA;static void ConvertVectorData(const std::vector&lt;TSourceType&gt;&amp; sourceData, std::vector&lt;TDestinationType&gt;&amp; destination)&#xD;&#xA;&#xD;&#xA;Used to convert from one vector of primitives to other vector of primitives. Same is true for array.&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;">
+    <Position X="3.906" Y="2.526" Height="6.312" Width="3.94" />
+  </Comment>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

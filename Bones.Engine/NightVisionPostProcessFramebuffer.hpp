@@ -38,7 +38,7 @@ namespace Bones
 			/// <summary>
 			/// The night vision post process framebuffer.
 			/// </summary>
-			class NightVisionPostProcessFramebuffer final : public PostProcessFramebuffer
+			class NightVisionPostProcessFramebuffer : public PostProcessFramebuffer
 			{
 			private:
 				// simple timer, used to pass time to shader.

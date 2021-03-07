@@ -34,7 +34,7 @@ int TinyGltfLoader::FindIndicesBufferIndex(std::vector<TinyGltfLoader::CacheMap>
 	for (; index < cache.size(); index++)
 	{
 		auto& cacheEntry = cache.at(index);
-		if (cacheEntry.m_indicesIndex == primitive.indices && cacheEntry.m_byteSize == byteSize)
+		if (cacheEntry.m_indicesIndex == primitive.indices && cacheEntry.m_structComponentLength == byteSize)
 			return index;
 	}
 

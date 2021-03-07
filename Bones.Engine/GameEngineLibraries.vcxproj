@@ -178,6 +178,7 @@
     <ClCompile Include="GeometryManager.cpp" />
     <ClCompile Include="GrayScaleOrderedDitheringShader.cpp" />
     <ClCompile Include="GrayScaleShader.cpp" />
+    <ClCompile Include="HierarchyWindow.cpp" />
     <ClCompile Include="imgui.cpp" />
     <ClCompile Include="imgui_draw.cpp" />
     <ClCompile Include="imgui_impl_opengl3.cpp" />
@@ -186,7 +187,9 @@
     <ClCompile Include="imgui_widgets.cpp" />
     <ClCompile Include="IndexBuffer.cpp" />
     <ClCompile Include="BaseLight.cpp" />
+    <ClCompile Include="IndexBufferWindow.cpp" />
     <ClCompile Include="InterleavedBuffer.cpp" />
+    <ClCompile Include="InterleavedBufferWindow.cpp" />
     <ClCompile Include="InvertColorShader.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MaterialManager.cpp" />
@@ -226,12 +229,14 @@
     <ClCompile Include="TinyObjLoader.cpp" />
     <ClCompile Include="TransformComponent.cpp" />
     <ClCompile Include="UIManager.cpp" />
+    <ClCompile Include="utils.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
     <ClCompile Include="Common.cpp" />
     <ClCompile Include="FileLoader.cpp" />
     <ClCompile Include="BaseRenderer.cpp" />
     <ClCompile Include="BaseShader.cpp" />
     <ClCompile Include="ShaderParser.cpp" />
+    <ClCompile Include="VertexBufferWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="APP_MACROS.h" />
@@ -252,6 +257,7 @@
     <ClInclude Include="core_types.h" />
     <ClInclude Include="DELETE_MACROS.h" />
     <ClInclude Include="emscripten_include.h" />
+    <ClInclude Include="HierarchyWindow.hpp" />
     <ClInclude Include="IEngineEvents.hpp" />
     <ClInclude Include="EventHandler.hpp" />
     <ClInclude Include="EventQueue.hpp" />
@@ -265,6 +271,8 @@
     <ClInclude Include="imstb_rectpack.h" />
     <ClInclude Include="imstb_textedit.h" />
     <ClInclude Include="imstb_truetype.h" />
+    <ClInclude Include="IndexBufferWindow.hpp" />
+    <ClInclude Include="InterleavedBufferWindow.hpp" />
     <ClInclude Include="PRINT_LOG_MACROS.h" />
     <ClInclude Include="sdl_include.h" />
     <ClInclude Include="ControlsComponent.hpp" />
@@ -351,6 +359,7 @@
     <ClInclude Include="BaseRenderer.hpp" />
     <ClInclude Include="BaseShader.hpp" />
     <ClInclude Include="ShaderParser.hpp" />
+    <ClInclude Include="VertexBufferWindow.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="readme.md" />
@@ -359,6 +368,7 @@
     <None Include="Buffers.cd" />
     <None Include="EventHandler.cd" />
     <None Include="PostProcessFramebuffer.cd" />
+    <None Include="Utils.cd" />
     <None Include="_buildProd.bat" />
     <None Include="resources\shaders\debug\DebugLight_v300es.shader" />
     <None Include="resources\shaders\debug\DebugLight_v460.shader">
