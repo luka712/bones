@@ -23,6 +23,7 @@ namespace Bones
 			class IndexBufferWindow;
 			class VertexBufferWindow;
 			class InterleavedBufferWindow;
+			class PostProcessFramebufferWindow;
 		}
 
 		/// <summary>
@@ -47,12 +48,14 @@ namespace Bones
 			void OnSDLEvent_impl(const SDL_Event& evt);
 			void OnBeforeRender_impl();
 			void OnAfterRender_impl();
+
 		private:
 			Bones::Engine& m_engine;
 			Bones::UI::Windows::HierarchyWindow* m_hierarchyWindow;
 			Bones::UI::Windows::IndexBufferWindow* m_indexBufferWindow;
 			Bones::UI::Windows::VertexBufferWindow* m_vertexBufferWindow;
 			Bones::UI::Windows::InterleavedBufferWindow* m_interleavedBufferWindow;
+			Bones::UI::Windows::PostProcessFramebufferWindow* m_postProcessFramebufferWindow;
 		};
 	}
 }

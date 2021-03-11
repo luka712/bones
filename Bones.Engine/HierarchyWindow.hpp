@@ -24,6 +24,7 @@ namespace Bones
 				EventHandler<> m_onIndexBufferSelected;
 				EventHandler<> m_onVertexBufferSelected;
 				EventHandler<> m_onInterleavedBufferSelected;
+				EventHandler<> m_onPostProcessFramebufferSelected;
 
 				HierarchyWindow(Bones::Engine& engine);
 
@@ -39,6 +40,13 @@ namespace Bones
 					bool m_vertices;
 					bool m_interleaved;
 				} m_showBuffers;
+
+				struct {
+					bool m_postProcess;
+				} m_showFramebuffers;
+
+				void BuffersTree();
+				void FramebufferTree();
 			};
 		}
 	}

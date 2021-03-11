@@ -1,11 +1,13 @@
 #pragma once
 
-#include "BaseFramebuffer.hpp"
-
 #ifndef POSTPROCESS_FRAMEBUFFER_H
 
 #define POSTPROCESS_FRAMEBUFFER_H
 
+#include <vector>
+#include <functional>
+#include <unordered_map>
+#include "BaseFramebuffer.hpp"
 #include "core_types.h"
 
 namespace Bones
@@ -39,26 +41,38 @@ namespace Bones
 			/// Post process framebuffer. 
 			/// Represents framebuffer which is to be used when creating various post processing effects.
 			/// </summary>
-			class PostProcessFramebuffer : public BaseFramebuffer
-			{
-			private:
-				// id generator. To be increased on creation of new instance.
-				static unsigned int m_genId;
-
-				// the id, texture id ( reference to texture to which effect is to be applied, usually texture which represents whatever 
-				// is to be drawn to screen. 
-				unsigned int m_id = 0,m_textureId = 0;
-
-				// The geometry for quad. Contains vertices for quad rendering ( screen ) 
-				QuadScreenGeometry* m_quadScreenGeometry;
-
-				
+			class PostProcessFramebuffer : public BaseFramebuffer<PostProcessFramebuffer>
+			{			
 			public:
+
+				enum class ValueType
+				{
+					TEXTURE,
+					FLOAT,
+					INT,
+					VEC2,
+					VEC3 
+				};
+
+				struct PostProcessFramebufferValue
+				{
+					ValueType m_type;
+					I32 m_locationId;
+					Bones::Variant m_value;
+				};
+
 				// GL Render Buffer Object. https://www.khronos.org/opengl/wiki/Renderbuffer_Object
-				unsigned int m_renderBufferObject = 0;
+				U32 m_renderBufferObject = 0;
+
+				// texture id ( reference to texture to which effect is to be applied, usually texture which represents whatever 
+				// is to be drawn to screen. 
+				U32 m_textureId = 0;
 
 				// Reference to shader. Stuff like blur shader, edge shader , night vision shader etc... 
-				BasePostProcessShader* m_postProcessShader;
+				BasePostProcessShader* m_postProcessShader = nullptr;
+
+				// All the value exposed by post process framebuffer
+				std::unordered_map<std::string, PostProcessFramebufferValue> m_values;
 
 				/// <summary>
 				/// Constructor. Takes pointer to base post process shader.
@@ -68,37 +82,54 @@ namespace Bones
 
 				~PostProcessFramebuffer();
 
-
 				/// <summary>
 				/// Preinitalize step. Implement is something is to be loaded before buffer is initialized.
 				/// </summary>
-				void Load() override;
+				void Load_impl();
+
+				/// <summary>
+				/// Binds all the uniforms to shader.
+				/// </summary>
+				void BindUniforms_impl();
 
 				/// <summary>
 				/// Initialize. Create frame buffer, render buffer and texture.
 				/// </summary>
-				void Initialize() override;
+				void Initialize_impl();
 
 				/// <summary>
 				/// Destroy the framebuffer and associated resources.
 				/// </summary>
-				void Destroy() override;
+				void Destroy_impl();
 
 				/// <summary>
-				/// Sends uniforms to GPU.
+				/// Render the actual framebuffer. This actually binds to framebuffer 0.
 				/// </summary>
-				virtual void BindUniforms();
+				void Render_impl();
 
 				/// <summary>
-				/// Draws the actual framebuffer. This actually binds to framebuffer 0.
+				/// Renders the actual framebuffer. 
 				/// </summary>
-				virtual void Draw();
+				/// <param name="renderBufferObject">To which render buffer object to render to. 0 is default.</param>
+				void Render(U32 renderBufferObject);
+
+			protected:
+				// -- INTERNAL EVENTS
+				std::function<void()> m_onLoad;
+				std::function<void()> m_onInitialized;
+				std::function<void()> m_onBindUniforms;
 
 				/// <summary>
-				/// Binds the framebuffer.
+				/// Adds value to values
 				/// </summary>
-				/// <param name="renderBufferObject"></param>
-				virtual void Draw(unsigned int renderBufferObject);
+				/// <param name="prop">Name of property as defined in shader. Acts as key if keyName is not provided</param>
+				/// <param name="val">Value</param>
+				/// <param name="type">The type of value as defined in ValueType.</param>
+				/// <param name="keyName">Name to refer to in property is to be fetched.</param>
+				void AddValue(const std::string& prop, Bones::Variant val, ValueType type, const std::string& keyName = "");
+			private:
+				// The geometry for quad. Contains vertices for quad rendering ( screen ) 
+				QuadScreenGeometry* m_quadScreenGeometry;
 			};
 		}
 	}

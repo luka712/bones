@@ -5,7 +5,7 @@
 #define BASEFRAMEBUFFER_H
 
 #include "core_types.h"
-#include "core_types.h"
+#include "sdl_include.h"
 
 namespace Bones
 {
@@ -15,42 +15,51 @@ namespace Bones
 		/// The base abstract framebuffer class. 
 		/// Any framebuffer to be created for various stuff, such as postprocess is to inherit from this class.
 		/// </summary>
-		class BaseFramebuffer
+		template<typename T>
+		class BaseFramebuffer : public ILifeCycle<T>
 		{
-		protected:
-			// GLFramebuffer id.
-			unsigned int m_fbo = 0;
-
-			BaseFramebuffer& operator=(const BaseFramebuffer&) = delete;
 		public:
-			// The state
-			Bones::State m_state = Bones::State::New;
-			~BaseFramebuffer();
+			// GLFramebuffer id as link to OpenGL.
+			U32 m_fbo = 0;
 
-			/// <summary>
-			/// The load. First method to be called after creation of instance.
-			/// </summary>
-			virtual void Load() = 0;
-			/// <summary>
-			/// The initialize. Called after Load. Creation of GLFramebuffer
-			/// alongside other GL/Vulkan/WebGPU stuff should be done in this method
-			/// </summary>
-			virtual void Initialize() = 0;
+			~BaseFramebuffer()
+			{
+				LOG_DESTRUCTOR();
+				DeleteFramebuffer();
+			}
 
 			/// <summary>
 			/// Binds the framebuffer so that it can be drawn to.
 			/// </summary>
-			void Bind() const;
+			void Bind() const
+			{
+				glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
+			}
+
+
+			/// <summary>
+			/// Sends uniforms to GPU.
+			/// </summary>
+			void BindUniforms()
+			{
+				static_cast<T*>(this)->BindUniforms_impl();
+			}
 
 			/// <summary>
 			/// Unbinds the framebuffer.
 			/// </summary>
-			void Unbind() const;
+			void Unbind() const
+			{
+				glBindFramebuffer(GL_FRAMEBUFFER, 0);
+			}
 
 			/// <summary>
-			/// Destroy the framebuffer and associated resources.
+			/// Delete the Framebuffer in GPU.
 			/// </summary>
-			virtual void Destroy() = 0;  
+			void DeleteFramebuffer()
+			{
+				glDeleteBuffers(1, &m_fbo);
+			}
 		};
 	}
 }

@@ -17,7 +17,7 @@ namespace Bones
 			class NightVisionShader final : public BasePostProcessShader
 			{
 			public:
-				int m_scaleLocation = -1, m_distortionLocation = -1, m_scanLineTileAmountLocation = -1,
+				I32 m_scaleLocation = -1, m_distortionLocation = -1, m_scanLineTileAmountLocation = -1,
 					m_randomLocation = -1, m_timeLocation = -1,
 					m_vignetteTextureLocation = -1, m_scanLineTextureLocation = -1, m_noiseTextureLocation = -1,
 					m_brightnessLocation = -1, m_contrastLocation = -1,

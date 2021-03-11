@@ -29,9 +29,6 @@ namespace Bones
 	{
 		class BasePostProcessPipeline
 		{
-		private:
-			void AddEffectToArray(PostProcessFramebuffer* ptr);
-
 		public:
 			vector<PostProcessFramebuffer*> m_postProcessFramebuffers;
 
@@ -47,6 +44,9 @@ namespace Bones
 
 			void Bind() const;
 			void Draw() const;
+		private:
+			void AddEffectToArray(PostProcessFramebuffer* ptr);
+
 		};
 	}
 }

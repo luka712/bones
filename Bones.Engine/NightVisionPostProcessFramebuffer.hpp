@@ -40,19 +40,10 @@ namespace Bones
 			/// </summary>
 			class NightVisionPostProcessFramebuffer : public PostProcessFramebuffer
 			{
-			private:
-				// simple timer, used to pass time to shader.
-				float m_timer;
 			public:
 				// various night vision options
-				float m_scale = 0.8f,
-					m_distortion = 0.2f,
-					m_scanLineTileAmount = 4.0f,
-					m_contrast = 3.0f,
-					m_brightness = 0.1f,
-					m_vignetteIntensity = 1.0f,
-					m_noiseIntensity = 1.0f,
-					m_scanLineInensity = 1.0f;
+				F32 m_scale = 0.8f,
+					m_distortion = 0.2f;
 
 				// ref to shader
 				NightVisionShader* m_postProcessShader = nullptr;
@@ -73,16 +64,6 @@ namespace Bones
 				NightVisionPostProcessFramebuffer(NightVisionShader* shader);
 
 				/// <summary>
-				/// Loading of textures.
-				/// </summary>
-				void Load() override;
-
-				/// <summary>
-				/// Bind uniforms.
-				/// </summary>
-				void BindUniforms() override;
-
-				/// <summary>
 				/// The noisy preset.
 				/// </summary>
 				void NoisyPreset();
@@ -101,6 +82,9 @@ namespace Bones
 				/// Less noisy preset without vignette effect.
 				/// </summary>
 				void LightNoVignettePreset();
+			private:
+				// simple timer, used to pass time to shader.
+				F32 m_timer;
 			};
 		}
 	}

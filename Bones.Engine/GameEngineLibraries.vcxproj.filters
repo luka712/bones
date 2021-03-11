@@ -322,6 +322,12 @@
     <Filter Include="Source Files\UI\Windows\Buffers">
       <UniqueIdentifier>{458fd50d-e92c-4d19-9ccd-fbf480da57a0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\UI\Windows\Framebuffers">
+      <UniqueIdentifier>{095b46bb-3a25-4488-a39c-c5128bc092ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\UI\Windows\Framebuffers">
+      <UniqueIdentifier>{cf2fa48f-0352-4690-8261-f868239df108}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FileLoader.cpp">
@@ -435,9 +441,6 @@
     <ClCompile Include="InterleavedBuffer.cpp">
       <Filter>Source Files\Buffers</Filter>
     </ClCompile>
-    <ClCompile Include="BaseBuffer.cpp">
-      <Filter>Source Files\Buffers</Filter>
-    </ClCompile>
     <ClCompile Include="OrbitCamera.cpp">
       <Filter>Source Files\Camera</Filter>
     </ClCompile>
@@ -452,9 +455,6 @@
     </ClCompile>
     <ClCompile Include="StencilOutlineShader.cpp">
       <Filter>Source Files\Shaders\Stencil</Filter>
-    </ClCompile>
-    <ClCompile Include="BaseFramebuffer.cpp">
-      <Filter>Source Files\Framebuffers</Filter>
     </ClCompile>
     <ClCompile Include="GeometryManager.cpp">
       <Filter>Source Files\Managers</Filter>
@@ -575,6 +575,9 @@
     </ClCompile>
     <ClCompile Include="InterleavedBufferWindow.cpp">
       <Filter>Source Files\UI\Windows\Buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="PostProcessFramebufferWindow.cpp">
+      <Filter>Source Files\UI\Windows\Framebuffers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -941,6 +944,9 @@
     <ClInclude Include="InterleavedBufferWindow.hpp">
       <Filter>Header Files\UI\Windows\Buffers</Filter>
     </ClInclude>
+    <ClInclude Include="PostProcessFramebufferWindow.hpp">
+      <Filter>Header Files\UI\Windows\Framebuffers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="readme.md" />
@@ -1052,6 +1058,9 @@
       <Filter>Diagrams</Filter>
     </None>
     <None Include="Utils.cd">
+      <Filter>Diagrams</Filter>
+    </None>
+    <None Include="Framebuffers.cd">
       <Filter>Diagrams</Filter>
     </None>
   </ItemGroup>

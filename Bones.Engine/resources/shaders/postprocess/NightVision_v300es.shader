@@ -31,7 +31,7 @@ uniform float u_random;
 uniform float u_time;
 uniform float u_brightness;
 uniform float u_contrast;
-uniform float u_vignetteIntesity;
+uniform float u_vignetteIntensity;
 uniform float u_noiseIntensity;
 uniform float u_scanLineIntensity;
 
@@ -64,9 +64,9 @@ void main()
 vec4 vignetteEffect()
 {
 	vec4 color = texture(u_vignetteTexture, v_texCoords);
-	color.r = clamp(color.r + (1.0 - u_vignetteIntesity), 0.0, 1.0);
-	color.g = clamp(color.g + (1.0 - u_vignetteIntesity), 0.0, 1.0);
-	color.b = clamp(color.b + (1.0 - u_vignetteIntesity), 0.0, 1.0);
+	color.r = clamp(color.r + (1.0 - u_vignetteIntensity), 0.0, 1.0);
+	color.g = clamp(color.g + (1.0 - u_vignetteIntensity), 0.0, 1.0);
+	color.b = clamp(color.b + (1.0 - u_vignetteIntensity), 0.0, 1.0);
 	return color;
 }
 

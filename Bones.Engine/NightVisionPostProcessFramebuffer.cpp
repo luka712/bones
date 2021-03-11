@@ -8,92 +8,115 @@ using Bones::Framebuffers::PostProcess::NightVisionPostProcessFramebuffer;
 using Bones::Managers::TextureManager;
 
 NightVisionPostProcessFramebuffer::NightVisionPostProcessFramebuffer(NightVisionShader* shader)
-	:PostProcessFramebuffer(shader)
+	:m_postProcessShader(shader), PostProcessFramebuffer(shader)
 {
-	m_postProcessShader = shader;
-	LightNoVignettePreset();
-}
+	m_onLoad = [&]() -> void
+	{
+		// TODO Make it async
+		m_vignetteTexture = TextureManager::GetOrCreateTexture2D("resources/textures/postprocess/vignette.png");
+		m_noiseTexture = TextureManager::GetOrCreateTexture2D("resources/textures/postprocess/noise.png");
+		m_scanLineTexture = TextureManager::GetOrCreateTexture2D("resources/textures/postprocess/scanline.png");
+	};
 
-void NightVisionPostProcessFramebuffer::Load()
-{
-	m_vignetteTexture = TextureManager::GetOrCreateTexture2D("resources/textures/postprocess/vignette.png");
-	m_noiseTexture = TextureManager::GetOrCreateTexture2D("resources/textures/postprocess/noise.png");
-	m_scanLineTexture = TextureManager::GetOrCreateTexture2D("resources/textures/postprocess/scanline.png");
-}
+	m_onInitialized = [&]() -> void
+	{
+		// barrel effect
+		AddValue("u_distortion", 0.2f, ValueType::FLOAT, "distortion");
+		AddValue("u_scale", 0.8f, ValueType::FLOAT, "scale");
 
-void NightVisionPostProcessFramebuffer::BindUniforms()
-{
-	// TODO : to update
-	m_timer += 0.001f;
+		// contrast, brightness 
+		AddValue("u_brightness", 0.1f, ValueType::FLOAT, "brightness");
+		AddValue("u_contrast", 3.0f, ValueType::FLOAT, "contrast");
 
-	// textures
-	m_postProcessShader->SetTexture(m_postProcessShader->m_vignetteTextureLocation, 1);
-	m_postProcessShader->SetTexture(m_postProcessShader->m_scanLineTextureLocation, 2);
-    m_postProcessShader->SetTexture(m_postProcessShader->m_noiseTextureLocation, 3);
+		// scanlines size
+		AddValue("u_scanLineTileAmount", 4.0f, ValueType::FLOAT, "scanline tiles amount");
 
-	// barrel effect
-	m_postProcessShader->SetFloat(m_postProcessShader->m_distortionLocation, m_distortion);
-	m_postProcessShader->SetFloat(m_postProcessShader->m_scaleLocation, m_scale);
+		// intensities
+		AddValue("u_vignetteIntensity", 1.0f, ValueType::FLOAT, "vignette intensity");
+		AddValue("u_noiseIntensity", 1.0f, ValueType::FLOAT, "noise intensity");
+		AddValue("u_scanLineIntensity", 1.0f, ValueType::FLOAT, "scanline intensity");
 
-	// scanlines size
-	m_postProcessShader->SetFloat(m_postProcessShader->m_scanLineTileAmountLocation, m_scanLineTileAmount);
+		AddValue("u_noiseSpeed", (1.0f, 1.0f), ValueType::VEC2, "noise speed");
 
-	// contrast, brightness
-	m_postProcessShader->SetFloat(m_postProcessShader->m_brightnessLocation, m_brightness);
-	m_postProcessShader->SetFloat(m_postProcessShader->m_contrastLocation, m_contrast);
+		LightNoVignettePreset();
+	};
 
-	// intensities
-	m_postProcessShader->SetFloat(m_postProcessShader->m_vignetteIntesity, m_vignetteIntensity);
-	m_postProcessShader->SetFloat(m_postProcessShader->m_noiseIntensity, m_noiseIntensity);
-	m_postProcessShader->SetFloat(m_postProcessShader->m_scanLineIntensity, m_scanLineInensity);
+	m_onBindUniforms = [&]() -> void
+	{
+		// TODO : to update
+		m_timer += 0.001f;
+
+		auto& shader = *m_postProcessShader;
+
+		// textures
+		shader.SetTexture(shader.m_vignetteTextureLocation, 1);
+		shader.SetTexture(shader.m_scanLineTextureLocation, 2);
+		shader.SetTexture(shader.m_noiseTextureLocation, 3);
+
+
+		
 
 #if EMSCRIPTEN_RUNTIME
-	m_postProcessShader->SetFloat(m_postProcessShader->m_randomLocation, (emscripten_random() - 0.5f) * 2.0f);
+		shader.SetFloat(shader.m_randomLocation, (emscripten_random() - 0.5f) * 2.0f);
 #else 
-	m_postProcessShader->SetFloat(m_postProcessShader->m_randomLocation, (rand() - 0.5f) * 2.0f);
+		shader.SetFloat(shader.m_randomLocation, (rand() - 0.5f) * 2.0f);
 #endif 
-	m_postProcessShader->SetFloat(m_postProcessShader->m_timeLocation, m_timer);
+		shader.SetFloat(shader.m_timeLocation, m_timer);
 
-	m_postProcessShader->SetFloat2(m_postProcessShader->m_noiseSpeedLocation, m_noiseSpeed);
-	m_postProcessShader->SetFloat3(m_postProcessShader->m_nightVisionColorLocation, m_nightVisionColor);
 
-	// bind textures
-	m_vignetteTexture->BindTexture(1);
-	m_scanLineTexture->BindTexture(2);
-	m_noiseTexture->BindTexture(3);
-	
+		shader.SetFloat3(shader.m_nightVisionColorLocation, m_nightVisionColor);
+
+		for (auto& pair : m_values)
+		{
+			PostProcessFramebufferValue& val = pair.second;
+			if (val.m_type == ValueType::FLOAT)
+			{
+				shader.SetFloat(val.m_locationId, val.m_value.m_asFloat);
+			}
+			else if (val.m_type == ValueType::VEC2)
+			{
+				shader.SetFloat2(val.m_locationId, val.m_value.m_asFloat2[0], val.m_value.m_asFloat2[1]);
+			}
+		}
+
+		// bind textures
+		m_vignetteTexture->BindTexture(1);
+		m_scanLineTexture->BindTexture(2);
+		m_noiseTexture->BindTexture(3);
+	};
 }
+
 
 void NightVisionPostProcessFramebuffer::NoisyPreset()
 {
-	m_contrast = 3.0f;
-	m_brightness = 0.125f;
-	m_vignetteIntensity = 0.975f;
-	m_noiseIntensity = 1.0f;
-	m_scanLineInensity = 1.0f;
+	m_values.at("contrast").m_value.m_asFloat = 3.0f;
+	m_values.at("brightness").m_value.m_asFloat  = 0.125f;
+	m_values.at("vignette intensity").m_value.m_asFloat = 0.975f;
+	m_values.at("noise intensity").m_value.m_asFloat = 1.0f;
+	m_values.at("scanline intensity").m_value.m_asFloat = 1.0f;
 }
 
 void NightVisionPostProcessFramebuffer::LightNoisePreset()
 {
-	m_contrast = 1;
-	m_brightness = 0.1f;
-	m_vignetteIntensity = 0.9f;
-	m_noiseIntensity = 0.4f;
-	m_scanLineInensity = 0.4f;
+	m_values.at("contrast").m_value.m_asFloat = 1.0f;
+	m_values.at("brightness").m_value.m_asFloat = 0.1f;
+	m_values.at("vignette intensity").m_value.m_asFloat = 0.9f;
+	m_values.at("noise intensity").m_value.m_asFloat = 0.4f;
+	m_values.at("scanline intensity").m_value.m_asFloat = 0.4f;
 }
 
 void NightVisionPostProcessFramebuffer::NoiseNoVignettePreset()
 {
 	NoisyPreset();
-	m_vignetteIntensity = 0.0f;
+	m_values.at("vignette intensity").m_value.m_asFloat = 0.0f;
 }
 void NightVisionPostProcessFramebuffer::LightNoVignettePreset()
 {
-	m_contrast = 0.5f;
-	m_brightness = 0.1f;
-	m_noiseIntensity = 0.1f;
-	m_scanLineInensity = 0.1f;
-	m_vignetteIntensity = 0.0f;
+	m_values.at("contrast").m_value.m_asFloat = 0.5f;
+	m_values.at("brightness").m_value.m_asFloat = 0.1f;
+	m_values.at("noise intensity").m_value.m_asFloat = 0.1f;
+	m_values.at("scanline intensity").m_value.m_asFloat = 0.1f;
+	m_values.at("vignette intensity").m_value.m_asFloat = 0.0f;
 }
 
 

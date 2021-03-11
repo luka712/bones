@@ -4,7 +4,8 @@
 
 #define BASE_BUFFER_H
 
-#include "IEntity.hpp"
+#include "core_types.h"
+#include "EventHandler.hpp"
 
 namespace Bones
 {
@@ -14,13 +15,19 @@ namespace Bones
 		/// Base abstract representation of buffer, from which all others inherit from.
 		/// IndexBuffer, InterleavedBuffer and VertexBuffer inherit from BaseBuffer.
 		/// </summary>
-		class BaseBuffer : public IEntity
+		template<typename T>
+		class BaseBuffer : public ILifeCycle<T>
 		{
 		public:
 			/// <summary>
-			/// Constructor.
+			/// Event handler that fired on initialization.
 			/// </summary>
-			BaseBuffer();
+			EventHandler<> m_onInitializedEventHandler;
+
+			/// <summary>
+			/// Event handler which is fired when instance is destroyed.
+			/// </summary>
+			EventHandler<> m_onDestroyEventHandler;
 
 			// count of elements in array. To not be confused with length.
 			// For example length might be 8 for indices of unsigned shorts ( 2 bytes per elemt ). Therefore count is 4.
@@ -28,41 +35,51 @@ namespace Bones
 
 			// total length of buffer. To not be confused with count.
 			// For example count might be 4 for indices of unsigned shorts. But length will be 8 since count * sizeof(unsigned short) is 8.
-			U32 m_length = 0;
+			U64 m_length = 0;
 
 			/// <summary>
-			/// The load. In case of buffer attributes, actually does nothing.
+			/// The initialize method.
 			/// </summary>
-			void Load() override;
+			void Initialize()
+			{
+				static_cast<T*>(this)->Initialize_impl();
+			}
 
 			/// <summary>
 			/// The initialize method, which creates buffer instance loads data to memory for specific program.
 			/// </summary>
-			virtual void Initialize(const U32 program) = 0;
+			void Initialize(const U32 program)
+			{
+				static_cast<T*>(this)->Initialize_impl(program);
+			}
 
 			/// <summary>
 			/// Binds the buffer to be used by GPU.
 			/// </summary>
-			virtual void Bind() = 0;
+			void Bind()
+			{
+				static_cast<T*>(this)->Bind_impl();
+			}
 
 			/// <summary>
 			/// Unbinds the buffer.
 			/// </summary>
-			virtual void Unbind();
+			void Unbind()
+			{
+				static_cast<T*>(this)->Unbind_impl();
+			}
 
 			/// <summary>
 			/// Deletes the buffer from GPU memory.
 			/// </summary>
-			virtual void DeleteBuffer();
+			void DeleteBuffer()
+			{
+				static_cast<T*>(this)->DeleteBuffer_impl();
+			}
 
 		protected:
 			// The address of buffer in GPU.
 			U32 m_buffer = 0;
-
-			/// <summary>
-			/// Creates base data representation for events.
-			/// </summary>
-			virtual std::unordered_map<std::string, Bones::Variant> CreateEventData();
 		};
 	}
 }

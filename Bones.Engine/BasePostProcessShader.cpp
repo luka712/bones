@@ -8,7 +8,7 @@ BasePostProcessShader::BasePostProcessShader()
 	m_textureLocation = 0;
 }
 
-BasePostProcessShader::BasePostProcessShader(string vertexSource, string fragmentSource)
+BasePostProcessShader::BasePostProcessShader(const string& vertexSource, const string& fragmentSource)
 	:BasePostProcessShader()
 {
 	m_vertexSource = vertexSource;

@@ -15,6 +15,10 @@ void NightVisionShader::Initialize()
 {
 	BasePostProcessShader::Initialize();
 
+	// TODO: every shader can use this constant if define by default.
+	m_timeLocation = GetUniformLocation("u_time");
+	m_randomLocation = GetUniformLocation("u_random");
+
 	m_vignetteTextureLocation = GetUniformLocation("u_vignetteTexture");
 	m_scanLineTextureLocation = GetUniformLocation("u_scanLineTexture");
 	m_noiseTextureLocation = GetUniformLocation("u_noiseTexture");
@@ -22,11 +26,9 @@ void NightVisionShader::Initialize()
 	m_scaleLocation = GetUniformLocation("u_scale");
 	m_distortionLocation = GetUniformLocation("u_distortion");
 	m_scanLineTileAmountLocation = GetUniformLocation("u_scanLineTileAmount");
-	m_timeLocation = GetUniformLocation("u_time");
-	m_randomLocation = GetUniformLocation("u_random");
 	m_contrastLocation = GetUniformLocation("u_contrast");
 	m_brightnessLocation = GetUniformLocation("u_brightness");
-	m_vignetteIntesity = GetUniformLocation("u_vignetteIntesity");
+	m_vignetteIntesity = GetUniformLocation("u_vignetteIntensity");
 	m_noiseIntensity = GetUniformLocation("u_noiseIntensity");
 	m_scanLineIntensity = GetUniformLocation("u_scanLineIntensity");
 

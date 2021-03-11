@@ -12,7 +12,7 @@ VertexBuffer::VertexBuffer(const std::string& layoutName, const I32 size, const 
 	LOG_CONSTRUCTOR();
 	m_name = "Vertex Buffer";
 	m_count = count;
-	m_length = count  * sizeof(F32);
+	m_length = count * sizeof(F32);
 	m_structComponentLength = sizeof(F32);
 	m_structLength = m_structComponentLength * m_structSize;
 	m_countOfStructs = m_count / m_structSize;
@@ -39,9 +39,9 @@ Bones::Buffers::VertexBuffer::VertexBuffer()
 	LOG_CONSTRUCTOR();
 }
 
-void VertexBuffer::Initialize()
+void VertexBuffer::Initialize_impl()
 {
-	if (m_state >= Bones::State::Initialized) 
+	if (m_state >= Bones::State::Initialized)
 	{
 		LOG_FORMAT("Vertex buffer already initialized %d.", m_attributeLocation);
 		return;
@@ -61,12 +61,16 @@ void VertexBuffer::Initialize()
 
 	m_state = State::Initialized;
 
-	m_onInitializedEventHandler.Invoke(IEvent{ m_initializeEventName, EventCategory::AttributeBufferEvent, CreateEventData() });
+	m_onInitializedEventHandler.Invoke(IEvent{ m_initializeEventName, EventCategory::AttributeBufferEvent,
+		{
+			{ "source", Bones::Variant(this) }
+		}
+		});
 
-	Bind();
+	Bind_impl();
 }
 
-void VertexBuffer::Initialize(const U32 program)
+void VertexBuffer::Initialize_impl(const U32 program)
 {
 	if (m_state >= State::Initialized)
 	{
@@ -94,25 +98,41 @@ void VertexBuffer::Initialize(const U32 program)
 		}
 	}
 
-	Initialize();
+	Initialize_impl();
 }
 
-void VertexBuffer::Bind()
+void VertexBuffer::Bind_impl()
 {
 	glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
 	glEnableVertexAttribArray(m_attributeLocation);
 	glVertexAttribPointer(m_attributeLocation, m_structSize, GL_FLOAT, GL_FALSE, 0, 0);
 }
 
-void VertexBuffer::Destroy()
+void VertexBuffer::Destroy_impl()
 {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 #if DEBUG == 0
 	m_data.clear();
 #endif 
-	DeleteBuffer();
+	DeleteBuffer_impl();
 	m_state = Bones::State::Destroyed;
 
-	m_onDestroyEventHandler.Invoke({ m_destroyEventName, EventCategory::AttributeBufferEvent, CreateEventData() });
+	m_onDestroyEventHandler.Invoke({ m_destroyEventName, EventCategory::AttributeBufferEvent, 
+		{
+			{ "source", Bones::Variant(this) }
+		}
+	});
+
+	m_onInitializedEventHandler.Clear();
+	m_onDestroyEventHandler.Clear();
 }
 
+void Bones::Buffers::VertexBuffer::Unbind_impl()
+{
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
+void Bones::Buffers::VertexBuffer::DeleteBuffer_impl()
+{
+	glDeleteBuffers(1, &m_buffer);
+}

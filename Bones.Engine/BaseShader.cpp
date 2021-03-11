@@ -3,19 +3,19 @@
 
 using Bones::Shaders::BaseShader;
 
-BaseShader::BaseShader()
-	: m_program(0), m_vertexShader(0), m_fragmentShader(0), m_geometryShader(0), m_initialized(false)
+BaseShader::BaseShader(U64 shaderFlag)
+	: m_program(0), m_vertexShader(0), m_fragmentShader(0), m_geometryShader(0), m_initialized(false), m_shaderFlags(shaderFlag)
 {}
 
-BaseShader::BaseShader(string vertexSource, string fragmentSource)
-	: BaseShader()
+BaseShader::BaseShader(string vertexSource, string fragmentSource, U64 shaderFlag)
+	: BaseShader(shaderFlag)
 {
 	m_vertexSource = vertexSource;
 	m_fragmentSource = fragmentSource;
 }
 
-BaseShader::BaseShader(string vertexSource, string geometrySource, string fragmentSource)
-	:BaseShader(vertexSource, fragmentSource)
+BaseShader::BaseShader(string vertexSource, string geometrySource, string fragmentSource, U64 shaderFlag)
+	:BaseShader(vertexSource, fragmentSource, shaderFlag)
 {
 	m_geometrySource = geometrySource;
 }
@@ -95,8 +95,22 @@ void BaseShader::Initialize()
 
 	Validate();
 
+	SetupUniforms();
+
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
+}
+
+void Bones::Shaders::BaseShader::SetupUniforms()
+{
+	if (m_shaderFlags && ShaderFlags::UsesRandomValue)
+	{
+		GetUniformLocation("u_random");
+	}
+	if (m_shaderFlags && ShaderFlags::UsesTimeValue)
+	{
+		GetUniformLocation("u_time");
+	}
 }
 
 void BaseShader::Load()
@@ -138,12 +152,14 @@ void BaseShader::SetFloat(const int& location, float value)
 	}
 }
 
-void BaseShader::SetFloat2(const int& location, const glm::vec2& v)
+void BaseShader::SetFloat2(const I32 location, const F32 x, const F32 y)
 {
-	if (location >= 0)
-	{
-		glUniform2f(location, v.x, v.y);
-	}
+	glUniform2f(location, x, y);
+}
+
+void BaseShader::SetFloat2(const I32 location, const glm::vec2& v)
+{
+	glUniform2f(location, v.x, v.y);
 }
 
 void BaseShader::SetFloat3(const int& location, const glm::vec3& v)
@@ -237,12 +253,16 @@ void BaseShader::SetMatrix(const int& location, const glm::mat4& matrix)
 }
 
 
-int BaseShader::GetUniformLocation(const string& uniform)
+Bones::I32 BaseShader::GetUniformLocation(const string& uniform)
 {
-	int loc = glGetUniformLocation(m_program, uniform.c_str());
+	I32 loc = glGetUniformLocation(m_program, uniform.c_str());
 	if (loc < 0)
 	{
 		cout << "Cannot find location for uniform: " << uniform << endl;
+	}
+	else
+	{
+		m_locationsMap.emplace(uniform, loc);
 	}
 	return loc;
 }

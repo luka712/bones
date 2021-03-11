@@ -43,7 +43,7 @@ namespace Bones
 		/// Interleaved buffer represents "Structure of arrays" https://en.wikipedia.org/wiki/AoS_and_SoA
 		/// For example 
 		/// </summary>
-		class InterleavedBuffer : public BaseBuffer
+		class InterleavedBuffer : public BaseBuffer<InterleavedBuffer>
 		{		
 		public:
 			// Size of stride, which is sum of attributes struct lengths.
@@ -62,16 +62,18 @@ namespace Bones
 			/// <param name="attributes">Description of layout attributes, such as positions, texuture coordinates etc...</param>
 			InterleavedBuffer(const F32 *data, const I32 length, vector<BufferAttribute> attributes);
 
-			void Initialize();
+			void Initialize_impl();
 
 			/// <summary>
 			/// Initialize for certain program.
 			/// Program being collection of shaders.
 			/// </summary>
 			/// <param name="program">The shader program id.</param>
-			void Initialize(const U32 program);
-			void Bind();
-			void Destroy();
+			void Initialize_impl(const U32 program);
+			void Bind_impl();
+			void Unbind_impl();
+			void DeleteBuffer_impl();
+			void Destroy_impl();
 
 			inline const std::string Type() const noexcept { return "interleaved_buffer"; }
 		protected:

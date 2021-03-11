@@ -6,7 +6,7 @@
 using namespace Bones::Buffers;
 
 InterleavedBuffer::InterleavedBuffer(const F32* data, const I32 count, vector<BufferAttribute> attributes)
-	:  m_attributes(attributes)
+	: m_attributes(attributes)
 {
 	LOG_CONSTRUCTOR();
 	m_name = "Interleaved Buffer";
@@ -23,8 +23,18 @@ Bones::Buffers::InterleavedBuffer::InterleavedBuffer()
 	LOG_CONSTRUCTOR();
 }
 
+void Bones::Buffers::InterleavedBuffer::Unbind_impl()
+{
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
 
-void InterleavedBuffer::Initialize()
+void Bones::Buffers::InterleavedBuffer::DeleteBuffer_impl()
+{
+	glDeleteBuffers(1, &m_buffer);
+}
+
+
+void InterleavedBuffer::Initialize_impl()
 {
 	LOG_INITIALIZE();
 	glGenBuffers(1, &m_buffer);
@@ -39,7 +49,10 @@ void InterleavedBuffer::Initialize()
 
 	m_state = State::Initialized;
 
-	m_onInitializedEventHandler.Invoke(IEvent( m_initializeEventName, EventCategory::AttributeBufferEvent, CreateEventData() ));
+	m_onInitializedEventHandler.Invoke(IEvent(m_initializeEventName, EventCategory::AttributeBufferEvent,
+		{
+			{ "source", Bones::Variant(this) }
+		}));
 
 	for (auto& attrib : m_attributes)
 	{
@@ -48,10 +61,10 @@ void InterleavedBuffer::Initialize()
 	}
 
 
-	Bind();
+	Bind_impl();
 }
 
-void InterleavedBuffer::Initialize(const U32 program)
+void InterleavedBuffer::Initialize_impl(const U32 program)
 {
 	for (size_t i = 0; i < m_attributes.size(); i++)
 	{
@@ -79,21 +92,21 @@ void InterleavedBuffer::Initialize(const U32 program)
 		}
 	}
 
-	Initialize();
+	Initialize_impl();
 }
 
 
-void InterleavedBuffer::Bind()
+void InterleavedBuffer::Bind_impl()
 {
 	for (size_t i = 0; i < m_attributes.size(); i++)
 	{
 		BufferAttribute attrib = m_attributes[i];
-		glEnableVertexAttribArray(attrib.m_attributeLocation); 
+		glEnableVertexAttribArray(attrib.m_attributeLocation);
 		glVertexAttribPointer(attrib.m_attributeLocation, attrib.m_structSize, GL_FLOAT, GL_FALSE, m_strideLength, (void*)(attrib.m_offsetLength));
 	}
 }
 
-void InterleavedBuffer::Destroy()
+void InterleavedBuffer::Destroy_impl()
 {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 #if DEBUG == 0
@@ -102,5 +115,11 @@ void InterleavedBuffer::Destroy()
 	DeleteBuffer();
 	m_state = Bones::State::Destroyed;
 
-	m_onDestroyEventHandler.Invoke(IEvent(m_destroyEventName, EventCategory::AttributeBufferEvent, CreateEventData() ));
+	m_onDestroyEventHandler.Invoke(IEvent(m_destroyEventName, EventCategory::AttributeBufferEvent,
+		{
+			{ "source", Bones::Variant(this) }
+		}));
+
+	m_onInitializedEventHandler.Clear();
+	m_onDestroyEventHandler.Clear();
 }

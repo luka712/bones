@@ -43,37 +43,37 @@ void FramebufferManager::Initialize()
 
 PostProcessFramebuffer* FramebufferManager::GetOrCreateGrayScaleFramebuffer()
 {
-	return GetOrCreatePostProcessFramebuffer(ShaderManager::GetOrCreateGrayScaleShader());
+	return GetOrCreatePostProcessFramebuffer(ShaderManager::GetOrCreateGrayScaleShader(), "Gray Scale Framebuffer");
 }
 
 PostProcessFramebuffer* FramebufferManager::GetOrCreateInvertColorFramebuffer()
 {
-	return GetOrCreatePostProcessFramebuffer(ShaderManager::GetOrCreateInvertColorShader());
+	return GetOrCreatePostProcessFramebuffer(ShaderManager::GetOrCreateInvertColorShader(), "Invert Color Framebuffer");
 }
 
 PostProcessFramebuffer* FramebufferManager::GetOrCreateSharpenFramebuffer()
 {
-	return GetOrCreatePostProcessFramebuffer(ShaderManager::GetOrCreateSharpenShader());
+	return GetOrCreatePostProcessFramebuffer(ShaderManager::GetOrCreateSharpenShader(), "Sharpen Framebuffer");
 }
 
 PostProcessFramebuffer* FramebufferManager::GetOrCreateDetectEdgeFramebuffer()
 {
-	return GetOrCreatePostProcessFramebuffer(ShaderManager::GetOrCreateDetectEdgeShader());
+	return GetOrCreatePostProcessFramebuffer(ShaderManager::GetOrCreateDetectEdgeShader(), "Detect Edge Framebuffer");
 }
 
 PostProcessFramebuffer* FramebufferManager::GetOrCreateBlurFramebuffer()
 {
-	return GetOrCreatePostProcessFramebuffer(ShaderManager::GetOrCreateBlurShader());
+	return GetOrCreatePostProcessFramebuffer(ShaderManager::GetOrCreateBlurShader(), "Blur Framebuffer");
 }
 
 PostProcessFramebuffer* FramebufferManager::GetOrCreateGrayScaleOrderedDitheringFramebuffer()
 {
-	return GetOrCreatePostProcessFramebuffer(ShaderManager::GetOrCreateGrayScaleOrderedDitheringShader());
+	return GetOrCreatePostProcessFramebuffer(ShaderManager::GetOrCreateGrayScaleOrderedDitheringShader(), "Gray Scale Ordered Dither Framebuffer");
 }
 
 NightVisionPostProcessFramebuffer* FramebufferManager::GetOrCreateNightVisionFramebuffer()
 {
-	return GetOrCreatePostProcessFramebuffer<NightVisionPostProcessFramebuffer, NightVisionShader>(ShaderManager::GetOrCreateNightVisionShader());
+	return GetOrCreatePostProcessFramebuffer<NightVisionPostProcessFramebuffer, NightVisionShader>(ShaderManager::GetOrCreateNightVisionShader(), "Night vision shader");
 }
 
 void FramebufferManager::Delete()

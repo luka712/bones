@@ -5,11 +5,11 @@
 #define  BASE_POST_PROCESS_SHADER_H
 
 #include <string>
+#include "core_types.h"
 #include "BaseShader.hpp"
 
 
 using Bones::Shaders::BaseShader;
-using std::string;
 
 namespace Bones
 {
@@ -20,9 +20,10 @@ namespace Bones
 			class BasePostProcessShader : public BaseShader
 			{
 			public:
-				int m_textureLocation = 0;
+				I32 m_textureLocation = 0;
+
 				BasePostProcessShader();
-				BasePostProcessShader(string vertexSource, string fragmentSource);
+				BasePostProcessShader(const std::string& vertexSource, const std::string& fragmentSource);
 
 				void Initialize() override;
 			};

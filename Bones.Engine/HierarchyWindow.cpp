@@ -1,6 +1,7 @@
 #include "HierarchyWindow.hpp"
 #include "Engine.hpp"
 #include "BuffersManager.hpp"
+#include "FramebufferManager.hpp"
 #include "imgui.h"
 
 
@@ -29,14 +30,58 @@ void Bones::UI::Windows::HierarchyWindow::Update_impl(F32)
 			ImGui::Checkbox("Show Vertices Buffers", &m_showBuffers.m_vertices);
 			ImGui::Checkbox("Show Interleaved Buffers", &m_showBuffers.m_interleaved);
 			ImGui::Separator();
+			ImGui::Checkbox("Show Post Process Framebuffers", &m_showFramebuffers.m_postProcess);
 			ImGui::EndMenu();
 		}
 		// -- END SHOW
+		if (ImGui::BeginMenu("Create"))
+		{
+			if (ImGui::BeginMenu("Post Process Framebuffer"))
+			{
+				ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
+				if (ImGui::Button("Blur Framebuffer"))
+					Bones::Managers::FramebufferManager::GetOrCreateBlurFramebuffer();
+				if (ImGui::Button("Detect Edge Framebuffer"))
+					Bones::Managers::FramebufferManager::GetOrCreateDetectEdgeFramebuffer();
+				if (ImGui::Button("Gray Scale Framebuffer"))
+					Bones::Managers::FramebufferManager::GetOrCreateGrayScaleFramebuffer();
+				if (ImGui::Button("Gray Scale Ordered Dithering Framebuffer"))
+					Bones::Managers::FramebufferManager::GetOrCreateGrayScaleOrderedDitheringFramebuffer();
+				if (ImGui::Button("Invert Color Framebuffer"))
+					Bones::Managers::FramebufferManager::GetOrCreateInvertColorFramebuffer();
+				if (ImGui::Button("Night Shader Post Process Framebuffer"))
+					Bones::Managers::FramebufferManager::GetOrCreateNightVisionFramebuffer();
+				if (ImGui::Button("Gray Scale Ordered Dithering Framebuffer"))
+					Bones::Managers::FramebufferManager::GetOrCreateInvertColorFramebuffer();
+
+				ImGui::PopStyleColor(1);
+				ImGui::EndMenu();
+			}
+			ImGui::EndMenu();
+		}
 
 		ImGui::EndMenuBar();
 	}
 	// -- END MENU BAR
 
+	BuffersTree();
+	FramebufferTree();
+
+
+	ImGui::End();
+}
+
+void Bones::UI::Windows::HierarchyWindow::Render_impl()
+{
+
+}
+
+void Bones::UI::Windows::HierarchyWindow::Destroy_impl()
+{
+}
+
+void Bones::UI::Windows::HierarchyWindow::BuffersTree()
+{
 	// -- BUFFERS TREE VIEW
 	if (ImGui::TreeNode("Buffers"))
 	{
@@ -109,14 +154,36 @@ void Bones::UI::Windows::HierarchyWindow::Update_impl(F32)
 		ImGui::TreePop();
 	}
 	// -- END BUFFERS TREE VIEW
-
-	ImGui::End();
 }
 
-void Bones::UI::Windows::HierarchyWindow::Render_impl()
+void Bones::UI::Windows::HierarchyWindow::FramebufferTree()
 {
-}
+	// -- FRAMEBUFFERS TREE VIEW
+	if (ImGui::TreeNode("Framebuffers"))
+	{
+		if (ImGui::TreeNode("Postprocess Framebuffers"))
+		{
+			static I32 selectedPostProcessFramebuf = -1;
+			for (I32 i = 0; i < Bones::Managers::FramebufferManager::m_postProcessFramebuffers.size(); i++)
+			{
+				auto& ppFramebuffer = Bones::Managers::FramebufferManager::m_postProcessFramebuffers[i];
 
-void Bones::UI::Windows::HierarchyWindow::Destroy_impl()
-{
+				if (ImGui::Selectable(ppFramebuffer->m_name.c_str(), selectedPostProcessFramebuf == i))
+				{
+					selectedPostProcessFramebuf = i;
+					m_onPostProcessFramebufferSelected.Invoke(Bones::IEvent("ui.post_process_framebuffer_selected",
+						{
+							{"source", Variant(this)},
+							{"post_process_framebuffer", Variant(&*ppFramebuffer)},
+							{"index", Variant(selectedPostProcessFramebuf)}
+						}));
+				}
+			}
+
+			ImGui::TreePop();
+		}
+
+		ImGui::TreePop();
+	}
+	// END
 }

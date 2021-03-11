@@ -11,9 +11,9 @@ using Bones::Managers::GeometryManager;
 PostProcessFramebuffer::PostProcessFramebuffer(BasePostProcessShader* basePostProcessShader)
 {
 	LOG_CONSTRUCTOR();
+	m_postProcessShader = basePostProcessShader;
 	m_renderBufferObject = 0;
 	m_textureId = 0;
-	m_postProcessShader = basePostProcessShader;
 	m_quadScreenGeometry = GeometryManager::GetOrCreateQuadScreenGeometry();
 }
 
@@ -23,16 +23,17 @@ PostProcessFramebuffer::~PostProcessFramebuffer()
 	Destroy();
 }
 
-void PostProcessFramebuffer::Load()
+void PostProcessFramebuffer::Load_impl()
 {
-	m_state = Bones::State::Loaded;
+	m_onLoad();
 }
 
-void PostProcessFramebuffer::BindUniforms()
+void PostProcessFramebuffer::BindUniforms_impl()
 {
+	m_onBindUniforms();
 }
 
-void PostProcessFramebuffer::Initialize()
+void PostProcessFramebuffer::Initialize_impl()
 {
 #if DEBUG
 	// just throw debug message.
@@ -43,8 +44,6 @@ void PostProcessFramebuffer::Initialize()
 #endif 
 
 	if (m_state >= State::Initialized) return;
-
-	m_state = State::Initialized;
 
 	glGenFramebuffers(1, &m_fbo);
 	glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
@@ -72,22 +71,23 @@ void PostProcessFramebuffer::Initialize()
 		cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << endl;
 	}
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	m_onInitialized();
 }
 
-void PostProcessFramebuffer::Destroy()
+void PostProcessFramebuffer::Destroy_impl()
 {
-	m_state = Bones::State::Destroyed;
 	glDeleteTextures(1, &m_textureId);
 	glDeleteRenderbuffers(1, &m_renderBufferObject);
 	glDeleteFramebuffers(1, &m_fbo);
 }
 
-void PostProcessFramebuffer::Draw()
+void PostProcessFramebuffer::Render_impl()
 {
-	Draw(0);
+	Render(0);
 }
 
-void PostProcessFramebuffer::Draw(unsigned int renderBufferObject)
+void PostProcessFramebuffer::Render(U32 renderBufferObject)
 {
 	// which framebuffer to bind to.
 	glBindFramebuffer(GL_FRAMEBUFFER, renderBufferObject);
@@ -110,6 +110,21 @@ void PostProcessFramebuffer::Draw(unsigned int renderBufferObject)
 	BindUniforms();
 
 	m_quadScreenGeometry->Draw();
+}
+
+void Bones::Framebuffers::PostProcess::PostProcessFramebuffer::AddValue(const std::string& prop, Bones::Variant val, ValueType type, const std::string& name)
+{
+	PostProcessFramebufferValue v =
+	{
+		type,
+		m_postProcessShader->m_locationsMap[prop],
+		val
+	};
+
+	if(name == "")
+		m_values.emplace(std::make_pair(prop, v));
+	else 
+		m_values.emplace(std::make_pair(name, v));
 }
 
 

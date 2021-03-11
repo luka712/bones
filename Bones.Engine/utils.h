@@ -257,19 +257,9 @@ namespace Bones
 				{
 					U32 val = (F32_U32(sourceData[i])).m_asU32;
 
-					if (nSourceBytes == 2)
+					if (nDestinationBytes == 1)
 					{
-						TDestinationType a = 0;
-						TDestinationType b = 0;
 
-						ConvertB16ToB8<TDestinationType, U32>(val, &a, &b);
-
-						destination.push_back(a);
-						destination.push_back(b);
-					}
-					else if (nSourceBytes == 4 && nDestinationBytes == 1)
-					{
-				
 						TDestinationType a = 0;
 						TDestinationType b = 0;
 						TDestinationType c = 0;
@@ -282,7 +272,7 @@ namespace Bones
 						destination.push_back(c);
 						destination.push_back(d);
 					}
-					else if (nSourceBytes == 4 && nDestinationBytes == 2)
+					else if (nDestinationBytes == 2)
 					{
 						TDestinationType a = 0;
 						TDestinationType b = 0;
@@ -308,26 +298,11 @@ namespace Bones
 				{
 					U32 val = 0;
 
-					if (nDestinationBytes == 2 && nSourceBytes == 1)
-					{
-						val = ConvertB8ToB16<TDestinationType, U32>(sourceData[i], sourceData[i + 1]);
-					}
-					else if (nDestinationBytes == 4 && nSourceBytes == 1)
-					{
-						val = ConvertB8ToB32<TDestinationType, U32>(sourceData[i], sourceData[i + 1], sourceData[i + 2], sourceData[i + 3]);
-					}
-					else if (nDestinationBytes == 4 && nSourceBytes == 2)
-					{
-						val = ConvertB16ToB32<TDestinationType, U32>(sourceData[i], sourceData[i + 1]);
-					}
-					else
-					{
 #if EMSCRIPTEN_RUNTIME == 0
 						throw std::exception("not implemented");
 #endif 
-					}
 
-					destination.push_back(F32_U32(val).m_asF32);
+					//destination.push_back(F32_U32(val).m_asF32);
 				}
 			}
 		}
@@ -380,7 +355,7 @@ namespace Bones
 						destination.push_back(c);
 						destination.push_back(d);
 					}
-					else if(nSourceBytes == 4 && nDestinationBytes == 2)
+					else if (nSourceBytes == 4 && nDestinationBytes == 2)
 					{
 						TDestinationType a = 0;
 						TDestinationType b = 0;
@@ -390,7 +365,7 @@ namespace Bones
 						destination.push_back(a);
 						destination.push_back(b);
 					}
-					else 
+					else
 					{
 #if EMSCRIPTEN_RUNTIME == 0
 						throw std::exception("not implemented");
@@ -412,7 +387,7 @@ namespace Bones
 					}
 					else if (nDestinationBytes == 4 && nSourceBytes == 1)
 					{
-						val = ConvertB8ToB32<TDestinationType, TSourceType>(sourceData[i], sourceData[i + 1], sourceData[i+2], sourceData[i+3]);
+						val = ConvertB8ToB32<TDestinationType, TSourceType>(sourceData[i], sourceData[i + 1], sourceData[i + 2], sourceData[i + 3]);
 					}
 					else if (nDestinationBytes == 4 && nSourceBytes == 2)
 					{

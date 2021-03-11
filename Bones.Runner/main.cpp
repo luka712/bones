@@ -248,10 +248,10 @@ int main(int argc, char* argv[])
 
 	AddDebugLightsToScene();
 
-	scene->m_postProcessPipeline->AddSharpenEffect();
+	//scene->m_postProcessPipeline->AddSharpenEffect();
 	//scene->m_postProcessPipeline->AddGrayScaleOrderedDitheringEffect();
 	// scene->m_postProcessPipeline->AddDetectEdgeEffect();
-	// scene->m_postProcessPipeline->AddNightVisionEffect()->LightNoisePreset();
+	 scene->m_postProcessPipeline->AddNightVisionEffect()->LightNoisePreset();
 
 
 #if EMSCRIPTEN_RUNTIME 

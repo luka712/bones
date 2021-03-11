@@ -153,8 +153,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AmbientLight.cpp" />
-    <ClCompile Include="BaseBuffer.cpp" />
-    <ClCompile Include="BaseFramebuffer.cpp" />
     <ClCompile Include="BaseMaterial.cpp" />
     <ClCompile Include="BaseModelLoader.cpp" />
     <ClCompile Include="BasePostProcessShader.cpp" />
@@ -202,6 +200,7 @@
     <ClCompile Include="OrbitCamera.cpp" />
     <ClCompile Include="PostProcessFramebuffer.cpp" />
     <ClCompile Include="BasePostProcessPipeline.cpp" />
+    <ClCompile Include="PostProcessFramebufferWindow.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SceneObjectLoader.cpp" />
     <ClCompile Include="ShaderManager.cpp" />
@@ -272,6 +271,7 @@
     <ClInclude Include="imstb_truetype.h" />
     <ClInclude Include="IndexBufferWindow.hpp" />
     <ClInclude Include="InterleavedBufferWindow.hpp" />
+    <ClInclude Include="PostProcessFramebufferWindow.hpp" />
     <ClInclude Include="PRINT_LOG_MACROS.h" />
     <ClInclude Include="sdl_include.h" />
     <ClInclude Include="ControlsComponent.hpp" />
@@ -366,6 +366,7 @@
   <ItemGroup>
     <None Include="Buffers.cd" />
     <None Include="EventHandler.cd" />
+    <None Include="Framebuffers.cd" />
     <None Include="PostProcessFramebuffer.cd" />
     <None Include="Utils.cd" />
     <None Include="_buildProd.bat" />

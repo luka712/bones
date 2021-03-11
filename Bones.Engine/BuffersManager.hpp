@@ -44,7 +44,7 @@ namespace Bones
 		/// Class responsible for creation of buffers ( gpu memory of vertices, normals, texture coordinates ... ) 
 		/// Uses GetOrCreate methods, which either return instance of buffer if one already exists or create and return instance.
 		/// </summary>
-		class BuffersManager final
+		class BuffersManager
 		{
 		public:
 			// the index buffers cache.

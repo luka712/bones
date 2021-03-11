@@ -62,6 +62,8 @@ namespace Bones
 			TYPE_POINTER,
 			TYPE_INTEGER,
 			TYPE_FLOAT,
+			TYPE_FLOAT_2,
+			TYPE_FLOAT_3,
 			TYPE_BOOL,
 			TYPE_STRING,
 			TYPE_COUNT // number of unique types 
@@ -75,6 +77,9 @@ namespace Bones
 			void* m_asPointer;
 			I32 m_asInt;
 			F32 m_asFloat;
+			F32 m_asFloat2[2];
+			F32 m_asFloat3[3];
+			F32 m_asFloat4[4];
 			bool m_asBool;
 		};
 
@@ -95,6 +100,13 @@ namespace Bones
 			m_type = Type::TYPE_FLOAT;
 			m_asFloat = val;
 		}
+
+		Variant(F32 x, F32 y)
+		{
+			m_type = Type::TYPE_FLOAT_2;
+			m_asFloat2[0] = x;
+			m_asFloat2[1] = y;
+ 		}
 
 		Variant(bool val)
 		{
@@ -287,8 +299,21 @@ namespace Bones
 	class ILifeCycle
 	{
 	public:
+		
+		// -- properties
+
+		// The unique id of a resource
+		const Guid m_id;
+
+		// The name of a resource
+		std::string m_name;
+
+		// The state.
 		Bones::State m_state = State::New;
+
+		// Is it active.
 		bool m_active = true;
+
 		void Load()
 		{
 			static_cast<T*>(this)->Load_impl();

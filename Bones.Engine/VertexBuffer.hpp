@@ -14,7 +14,7 @@ namespace Bones
 		/// which are sent to GPU. Opposed to interleaved buffer, this buffer only represent single piece of data
 		/// for layout attribute. It could be only positions, or only texture, or only normals etc...
 		/// </summary>
-		class VertexBuffer : public BaseBuffer
+		class VertexBuffer : public BaseBuffer<VertexBuffer>
 		{
 
 		public:
@@ -55,18 +55,17 @@ namespace Bones
 			VertexBuffer(const I32 attributeLocation, const I32 size, const F32* data, const U64 countOfElements);
 
 
-			void Initialize() override;
+			void Initialize_impl();
 
 			/// <summary>
 			/// The initialize method.
 			/// </summary>
 			/// <param name="program">The id of glProgram.</param>
-			void Initialize(const U32 program) override;
-			void Bind() override ;
-
-			void Destroy();
-
-			inline const std::string Type() const noexcept { return "vertex_bufer"; }
+			void Initialize_impl(const U32 program);
+			void Bind_impl() ;
+			void Unbind_impl();
+			void DeleteBuffer_impl();
+			void Destroy_impl();
 
 		protected:
 			const std::string m_initializeEventName = "vertex_bufer.initialized";

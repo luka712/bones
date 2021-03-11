@@ -56,7 +56,7 @@ Bones::Buffers::IndexBuffer::IndexBuffer()
 	LOG_CONSTRUCTOR();
 }
 
-void IndexBuffer::Initialize()
+void IndexBuffer::Initialize_impl()
 {
 	if (m_state >= State::Initialized)
 	{
@@ -76,25 +76,33 @@ void IndexBuffer::Initialize()
 
 	m_state = State::Initialized;
 
-	m_onInitializedEventHandler.Invoke(IEvent(m_initializeEventName, Bones::EventCategory::AttributeBufferEvent, CreateEventData()));
+	m_onInitializedEventHandler.Invoke(IEvent(m_initializeEventName, Bones::EventCategory::AttributeBufferEvent,
+		{
+			{ "source" , Bones::Variant(this) }
+		}));
 }
 
-void IndexBuffer::Initialize(const U32 program)
+void IndexBuffer::Initialize_impl(const U32 program)
 {
-	Initialize();
+	Initialize_impl();
 }
 
-void IndexBuffer::Bind()
-{
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_buffer);
-}
-
-void IndexBuffer::Unbind()
+void IndexBuffer::Bind_impl()
 {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_buffer);
 }
 
-void IndexBuffer::Destroy()
+void IndexBuffer::Unbind_impl()
+{
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_buffer);
+}
+
+void Bones::Buffers::IndexBuffer::DeleteBuffer_impl()
+{
+	glDeleteBuffers(1, &m_buffer);
+}
+
+void IndexBuffer::Destroy_impl()
 {
 	LOG_DESTROY();
 
@@ -114,8 +122,14 @@ void IndexBuffer::Destroy()
 	m_data.clear();
 	m_state = Bones::State::Destroyed;
 
-	IEvent evt = IEvent(m_destroyEventName, Bones::EventCategory::AttributeBufferEvent, CreateEventData());
+	IEvent evt = IEvent(m_destroyEventName, Bones::EventCategory::AttributeBufferEvent,
+		{
+			{ "source", Bones::Variant(this) }
+		});
 	m_onDestroyEventHandler.Invoke(evt);
+
+	m_onInitializedEventHandler.Clear();
+	m_onDestroyEventHandler.Clear();
 }
 
 IndexBuffer::~IndexBuffer()
@@ -124,22 +138,7 @@ IndexBuffer::~IndexBuffer()
 }
 
 
-
-void IndexBuffer::GetDataAsU16(std::vector<U16>& ref)
-{
-	// convert unsigned integers to byte data.
-	for (size_t i = 0; i < m_length; i += 4)
-	{
-		unsigned char ucBuffer[4];
-		memcpy(&ucBuffer, (U8*)&m_data[i / 4], sizeof(U32));
-		m_data.push_back(ucBuffer[0]);
-		m_data.push_back(ucBuffer[1]);
-		m_data.push_back(ucBuffer[2]);
-		m_data.push_back(ucBuffer[3]);
-	}
-}
-
-const char* Bones::Buffers::IndexBuffer::IndexTypeAsChar()
+const char* Bones::Buffers::IndexBuffer::IndicesTypeAsChar()
 {
 	if (m_glType == GL_UNSIGNED_BYTE)
 	{

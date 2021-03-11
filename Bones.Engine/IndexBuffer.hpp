@@ -14,7 +14,7 @@ namespace Bones
 		/// <summary>
 		/// The index buffer.
 		/// </summary>
-		class IndexBuffer : public BaseBuffer
+		class IndexBuffer : public BaseBuffer<IndexBuffer>
 		{
 		public:
 			// Default gl type, which is used when passing data to gpu.
@@ -30,17 +30,14 @@ namespace Bones
 			IndexBuffer(const U8* data, const I32 length, const Bones::IndicesByteSize byteSize);
 
 			// -- interace methods
-			void Initialize();
-			void Initialize(const U32 program);
-			void Bind()  override;
-			void Unbind()  override;
-			inline const std::string Type() const noexcept { return "index_buffer"; }
+			void Initialize_impl();
+			void Initialize_impl(const U32 program);
+			void Bind_impl();
+			void Unbind_impl();
+			void DeleteBuffer_impl();
+			void Destroy_impl();
 
-			void Destroy();
-
-			void GetDataAsU16(std::vector<U16>& ref);
-
-			const char* IndexTypeAsChar();
+			const char* IndicesTypeAsChar();
 
 			~IndexBuffer();
 		protected:

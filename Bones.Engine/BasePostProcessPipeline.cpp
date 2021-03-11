@@ -103,13 +103,13 @@ void BasePostProcessPipeline::Draw() const
 		}
 
 		//m_postProcessFramebuffers.at(0)->Draw(m_postProcessFramebuffers.at(1)->m_renderBufferObject);
-		m_postProcessFramebuffers.at(0)->Draw();
+		m_postProcessFramebuffers.at(0)->Render(0);
 
 		for (size_t i = 1; i < m_postProcessFramebuffers.size(); i++)
 		{
 			PostProcessFramebuffer& fb = *m_postProcessFramebuffers.at(i);
 
-			fb.Draw();
+			fb.Render(0);
 		}
 	}
 }

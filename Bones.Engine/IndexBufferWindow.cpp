@@ -64,7 +64,7 @@ void Bones::UI::Windows::IndexBufferWindow::ShowPropertiesTableSection()
 
 		ImGui::TableNextRow();
 		ImGui::TableNextColumn();
-		ImGui::Text(m_indexBuffer->IndexTypeAsChar());
+		ImGui::Text(m_indexBuffer->IndicesTypeAsChar());
 		ImGui::TableNextColumn();
 		ImGui::Text("%d_b", m_indexBuffer->m_structComponentLength);
 		ImGui::TableNextColumn();
